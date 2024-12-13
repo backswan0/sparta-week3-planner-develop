@@ -6,6 +6,17 @@ import com.example.plan.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 생성 완료
+ * 전체 조회 완료
+ *
+ *
+ *
+ */
+
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
@@ -33,5 +44,18 @@ public class PlanServiceImpl implements PlanService {
                 savedPlan.getCreatedAt(),
                 savedPlan.getUpdatedAt()
         );
+    }
+
+    @Override
+    public List<PlanResponseDto> findAll() {
+
+        List<PlanResponseDto> allPlans = new ArrayList<>();
+
+        allPlans = planRepository.findAll()
+                .stream()
+                .map(PlanResponseDto::toDto)
+                .toList();
+
+        return allPlans;
     }
 }

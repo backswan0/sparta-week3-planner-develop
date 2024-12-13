@@ -3,6 +3,14 @@ package com.example.plan.plan.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ * 생성 완료
+ * 전체 조회 완료
+ *
+ *
+ *
+ */
+
 @Getter
 @Entity
 @Table(name = "plans")

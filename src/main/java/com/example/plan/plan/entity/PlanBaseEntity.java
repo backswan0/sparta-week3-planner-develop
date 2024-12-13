@@ -8,6 +8,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+/**
+ * 생성 완료
+ * 전체 조회 완료
+ *
+ *
+ *
+ */
+
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class) // 작성일, 수정일 필드는 JPA Auditing을 활용한다.

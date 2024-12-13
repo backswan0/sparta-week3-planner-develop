@@ -6,10 +6,17 @@ import com.example.plan.plan.service.PlanServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * 생성 완료
+ * 전체 조회 완료
+ *
+ *
+ *
+ */
 
 @RestController
 @RequestMapping("/plans")
@@ -27,5 +34,12 @@ public class PlanController {
                 requestDto.getTask()
         );
         return new ResponseEntity<>(savedPlan, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PlanResponseDto>> findAll() {
+        List<PlanResponseDto> allPlans = planService.findAll();
+
+        return new ResponseEntity<>(allPlans, HttpStatus.OK);
     }
 }

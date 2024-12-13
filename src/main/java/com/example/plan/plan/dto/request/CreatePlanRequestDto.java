@@ -2,6 +2,14 @@ package com.example.plan.plan.dto.request;
 
 import lombok.Getter;
 
+/**
+ * 생성 완료
+ * 전체 조회 완료
+ *
+ *
+ *
+ */
+
 @Getter
 public class CreatePlanRequestDto {
     private final String username; // 작성 유저명

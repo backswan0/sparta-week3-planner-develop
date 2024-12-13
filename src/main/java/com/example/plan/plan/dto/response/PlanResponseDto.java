@@ -1,8 +1,17 @@
 package com.example.plan.plan.dto.response;
 
+import com.example.plan.plan.entity.Plan;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+
+/**
+ * 생성 완료
+ * 전체 조회 완료
+ *
+ *
+ *
+ */
 
 @Getter
 public class PlanResponseDto {
@@ -26,5 +35,16 @@ public class PlanResponseDto {
         this.task = task;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public static PlanResponseDto toDto(Plan plan) {
+        return new PlanResponseDto(
+                plan.getPlanId(),
+                plan.getUsername(),
+                plan.getTitle(),
+                plan.getTask(),
+                plan.getCreatedAt(),
+                plan.getUpdatedAt()
+        );
     }
 }
