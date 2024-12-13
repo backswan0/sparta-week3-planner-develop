@@ -10,14 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 생성 완료
- * 전체 조회 완료
- * 단건 조회 완료
- * 일정 수정 리팩토링 완료 (작성일, 수정일을 제외한다는 가정하에, transactional annotation 사용)
- * 삭제 완료
- */
-
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
