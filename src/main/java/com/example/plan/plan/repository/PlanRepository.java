@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  * 생성 완료
  * 전체 조회 완료
  * 단건 조회 완료
- *
+ * 일정 수정 완료 (작성일, 수정일까지 응답으로 보낸다는 가정하에)
  *
  */
 

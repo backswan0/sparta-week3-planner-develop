@@ -1,6 +1,7 @@
 package com.example.plan.plan.controller;
 
 import com.example.plan.plan.dto.request.CreatePlanRequestDto;
+import com.example.plan.plan.dto.request.UpdatePlanRequestDto;
 import com.example.plan.plan.dto.response.PlanResponseDto;
 import com.example.plan.plan.service.PlanServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
  * 생성 완료
  * 전체 조회 완료
  * 단건 조회 완료
- *
+ * 일정 수정 완료 (작성일, 수정일까지 응답으로 보낸다는 가정하에)
  *
  */
 
@@ -44,11 +45,23 @@ public class PlanController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlanResponseDto> findById(
-            @PathVariable Long id
-    ) {
+    public ResponseEntity<PlanResponseDto> findById(@PathVariable Long id) {
         PlanResponseDto responseDto = planService.findById(id);
 
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PlanResponseDto> updatePlan(
+            @PathVariable Long id,
+            @RequestBody UpdatePlanRequestDto requestDto
+    ) {
+        PlanResponseDto responseDto = planService.updatePlan(
+                id,
+                requestDto.getNewUsername(),
+                requestDto.getNewTitle(),
+                requestDto.getNewTask()
+        );
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }
