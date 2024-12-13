@@ -15,7 +15,7 @@ import java.util.List;
  * 전체 조회 완료
  * 단건 조회 완료
  * 일정 수정 리팩토링 완료 (작성일, 수정일을 제외한다는 가정하에, transactional annotation 사용)
- *
+ * 삭제 완료
  */
 
 @Service
@@ -74,8 +74,8 @@ public class PlanServiceImpl implements PlanService {
     @Transactional
     @Override
     public PlanResponseDto updatePlan(
-            Long id,
-            String newUsername
+            Long id
+            , String newUsername
             , String newTitle
             , String newTask
     ) {
@@ -93,5 +93,12 @@ public class PlanServiceImpl implements PlanService {
                 , planToUpdate.getTitle()
                 , planToUpdate.getTask()
         );
+    }
+
+    @Override
+    public void delete(Long id) {
+        Plan foundPlan = planRepository.findByIdOrElseThrow(id);
+
+        planRepository.delete(foundPlan);
     }
 }
