@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 /**
  * 생성 완료
  * 전체 조회 완료
- *
+ * 단건 조회 완료
  *
  *
  */

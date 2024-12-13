@@ -5,6 +5,7 @@ import com.example.plan.plan.entity.Plan;
 import com.example.plan.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.events.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * 생성 완료
  * 전체 조회 완료
- *
+ * 단건 조회 완료
  *
  *
  */
@@ -37,7 +38,7 @@ public class PlanServiceImpl implements PlanService {
         Plan savedPlan = planRepository.save(planToSave);
 
         return new PlanResponseDto(
-                savedPlan.getPlanId(),
+                savedPlan.getId(),
                 savedPlan.getUsername(),
                 savedPlan.getTitle(),
                 savedPlan.getTask(),
@@ -57,5 +58,20 @@ public class PlanServiceImpl implements PlanService {
                 .toList();
 
         return allPlans;
+    }
+
+    @Override
+    public PlanResponseDto findById(Long id) {
+
+        Plan foundPlan = planRepository.findByIdOrElseThrow(id);
+
+        return new PlanResponseDto(
+                foundPlan.getId(),
+                foundPlan.getUsername(),
+                foundPlan.getTitle(),
+                foundPlan.getTask(),
+                foundPlan.getCreatedAt(),
+                foundPlan.getUpdatedAt()
+        );
     }
 }

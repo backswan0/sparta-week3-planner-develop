@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 생성 완료
  * 전체 조회 완료
- *
+ * 단건 조회 완료
  *
  *
  */
@@ -41,5 +41,14 @@ public class PlanController {
         List<PlanResponseDto> allPlans = planService.findAll();
 
         return new ResponseEntity<>(allPlans, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PlanResponseDto> findById(
+            @PathVariable Long id
+    ) {
+        PlanResponseDto responseDto = planService.findById(id);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

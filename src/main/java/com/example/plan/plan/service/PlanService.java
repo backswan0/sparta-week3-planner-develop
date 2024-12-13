@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 생성 완료
  * 전체 조회 완료
- *
+ * 단건 조회 완료
  *
  *
  */
@@ -21,4 +21,6 @@ public interface PlanService {
     );
 
     public List<PlanResponseDto> findAll();
+
+    public PlanResponseDto findById(Long id);
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 생성 완료
  * 전체 조회 완료
- *
+ * 단건 조회 완료
  *
  *
  */
@@ -17,7 +17,7 @@ import lombok.Getter;
 public class Plan extends PlanBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long planId;
+    private Long id;
 
     @Column(nullable = false)
     private String username; // 작성 유저명
