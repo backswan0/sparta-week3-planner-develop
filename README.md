@@ -117,7 +117,6 @@ erDiagram
 ### Error Response Code
 | HTTP Status | Description              | Message Example                  |
 |-------------|--------------------------|----------------------------------|
-| 400         | Bad Request              | "Password does not match"        |
 | 404         | Not Found                | "Id does not exist"              |
 | 500         | Internal Server Error    | "Internal Server Error occurred" |
 
