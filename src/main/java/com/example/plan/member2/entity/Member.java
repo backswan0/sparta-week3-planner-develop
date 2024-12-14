@@ -7,7 +7,7 @@ import lombok.Getter;
  * 유저 생성 완료
  * 유저 전체 조회 완료
  * 유저 단건 조회 완료
- *
+ * 유저 전체 수정 완료
  *
  */
 
@@ -29,6 +29,14 @@ public class Member extends MemberBaseEntity {
     }
 
     public Member(
+            String username
+            , String email
+    ) {
+        this.username = username;
+        this.email = email;
+    }
+
+    public void update(
             String username
             , String email
     ) {

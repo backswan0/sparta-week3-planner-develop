@@ -11,16 +11,14 @@ import lombok.Getter;
  */
 
 @Getter
-public class CreateMemberRequestDto {
+public class UpdateMemberRequestDto {
+    private String username;
+    private String email;
 
-    private final String username;
-
-    private final String email;
-
-    public CreateMemberRequestDto(
+    public UpdateMemberRequestDto (
             String username
             , String email
-    ) {
+    ){
         this.username = username;
         this.email = email;
     }

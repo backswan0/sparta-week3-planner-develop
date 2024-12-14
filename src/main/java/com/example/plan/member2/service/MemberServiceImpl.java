@@ -5,6 +5,7 @@ import com.example.plan.member2.entity.Member;
 import com.example.plan.member2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * 유저 생성 완료
  * 유저 전체 조회 완료
  * 유저 단건 조회 완료
- *
+ * 유저 전체 수정 완료
  *
  */
 
@@ -60,6 +61,24 @@ public class MemberServiceImpl implements MemberService {
                 foundMember.getId()
                 , foundMember.getUsername()
                 , foundMember.getEmail()
+        );
+    }
+
+    @Transactional
+    @Override
+    public MemberResponseDto updateMember(
+            Long id
+            , String username
+            , String email
+    ) {
+        Member memberToUpdate = memberRepository.findByIdOrElseThrow(id);
+
+        memberToUpdate.update(username, email);
+
+        return new MemberResponseDto(
+                memberToUpdate.getId()
+                , memberToUpdate.getUsername()
+                , memberToUpdate.getEmail()
         );
     }
 }

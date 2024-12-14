@@ -1,6 +1,7 @@
 package com.example.plan.member2.controller;
 
 import com.example.plan.member2.dto.request.CreateMemberRequestDto;
+import com.example.plan.member2.dto.request.UpdateMemberRequestDto;
 import com.example.plan.member2.dto.response.MemberResponseDto;
 import com.example.plan.member2.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
  * 유저 생성 완료
  * 유저 전체 조회 완료
  * 유저 단건 조회 완료
- *
+ * 유저 전체 수정 완료
  *
  */
 
@@ -49,5 +50,19 @@ public class MemberController {
         MemberResponseDto memberResponseDto = memberService.findById(id);
 
         return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> updateMemberById(
+            @PathVariable Long id,
+            @RequestBody UpdateMemberRequestDto requestDto
+    ) {
+        MemberResponseDto responseDto = memberService.updateMember(
+                id
+                , requestDto.getUsername()
+                , requestDto.getEmail()
+        );
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }
