@@ -17,7 +17,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
         return findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND
-                        , "Id does not exist =" + id
+                        , "Id does not exist. Input id = " + id
                 )
         );
     }

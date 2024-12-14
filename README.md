@@ -117,7 +117,7 @@ erDiagram
 ### Error Response Code
 | HTTP Status | Description              | Message Example                  |
 |-------------|--------------------------|----------------------------------|
-| 404         | Not Found                | "Id does not exist"              |
+| 404         | Not Found                | "Id does not exist. Input id = " |
 | 500         | Internal Server Error    | "Internal Server Error occurred" |
 
 ### Request Body Description
