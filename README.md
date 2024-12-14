@@ -59,14 +59,24 @@ erDiagram
 2. **`PATCH` Update Plan**
     ```json
     {
-        "newUsername" : "작성자 이름",
-        "newTitle" : "일정 제목",
-        "newTask" : "일정 내용"
+        "newUsername" : "수정하려는 작성자 이름",
+        "newTitle" : "수정하려는 일정 제목",
+        "newTask" : "수정하려는 일정 내용"
     }
     ```
 
 #### Response Body Details
-1. **`GET` Read All Plans**
+1. **`CREATE` Create Plan**
+    ```json
+    {
+        "id" : 1,
+        "username" : "작성자 이름",
+        "title" : "일정 제목",
+        "task" : "일정 내용"
+    }
+    ```
+
+2. **`GET` Read All Plans**
     ```json
     [
         {
@@ -77,20 +87,30 @@ erDiagram
         },
         {
             "id" : 2,
-            "name" : "작성자 이름2",
+            "username" : "작성자 이름2",
             "title" : "일정 제목2",
             "task" : "일정 내용2"
         }
     ]
     ```
 
-2. **`GET` Read Specific Plan**
+3. **`GET` Read Specific Plan**
     ```json
     {
         "id" : 1,
-        "name" : "작성자 이름",
+        "username" : "작성자 이름",
         "title" : "일정 제목",
         "task" : "일정 내용"
+    }
+    ```
+
+4. **`PATCH` Update Plan**
+    ```json
+    {
+        "id" : 1,
+        "username" : "수정된 작성자 이름",
+        "title" : "수정된 일정 제목",
+        "task" : "수정된 일정 내용"
     }
     ```
 
@@ -103,12 +123,12 @@ erDiagram
 
 ### Request Body Description
 #### Field Information
-| Field Name  | Data Type  | Mandatory Status | Description                                                                                                     |
-|-------------|------------|------------------|-----------------------------------------------------------------------------------------------------------------|
-| id          | Long       | Optional         | Identifier for each plan  <br/> Needed for **GET**, **PATCH**, or **DELETE** requests to manage a specific plan |
-| username    | String     | Mandatory        | User's name <br/> must be less than 4 characters                                                                |
-| title       | String     | Mandatory        | Title of the plan <br/> must be less than 10 characters                                                         |
-| task        | String     | Optional         | Detailed description of the plan  <br/> Should be an empty String(`""`) when the value is null                  |
+| Field Name  | Data Type  | Mandatory Status | Description                                                                                     |
+|-------------|------------|------------------|-------------------------------------------------------------------------------------------------|
+| id          | Long       | Optional         | Identifier for each plan  <br/> Required for **GET**, **PATCH**, or **DELETE** requests         |
+| username    | String     | Mandatory        | User's name <br/> must be less than 4 characters                                                |
+| title       | String     | Mandatory        | Title of the plan <br/> must be less than 10 characters                                         |
+| task        | String     | Optional         | Detailed description of the plan  <br/> Should be an empty String(`""`) when the value is null  |
 
 ## 📊 Database Schema
 ```sql

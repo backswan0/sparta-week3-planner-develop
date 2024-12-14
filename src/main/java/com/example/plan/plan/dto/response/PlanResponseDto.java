@@ -3,15 +3,26 @@ package com.example.plan.plan.dto.response;
 import com.example.plan.plan.entity.Plan;
 import lombok.Getter;
 
+// 클라이언트에게 응답으로 전달하는 response DTO
 @Getter
 public class PlanResponseDto {
-    private final Long id; // 할일 식별자
-    private final String username; // 작성 유저명
-    private final String title; // 할일 제목
-    private final String task; // 할일 내용
+    // 속성
+    private final Long id;
+    private final String username;
+    private final String title;
+    private final String task;
 
-    public PlanResponseDto(Long id,
-                           String username
+    /**
+     * 생성자
+     *
+     * @param id       : 일정 식별자
+     * @param username : 작성자 이름
+     * @param title    : 일정 제목
+     * @param task     : 일정 내용
+     */
+    public PlanResponseDto(
+            Long id
+            , String username
             , String title
             , String task
     ) {
@@ -21,6 +32,13 @@ public class PlanResponseDto {
         this.task = task;
     }
 
+    /**
+     * 기능
+     * 일정 엔티티를 response DTO로 변환하는 메서드
+     *
+     * @param plan : 일정 엔티티
+     * @return PlanResponseDto
+     */
     public static PlanResponseDto toDto(Plan plan) {
         return new PlanResponseDto(
                 plan.getId()
