@@ -6,6 +6,17 @@ import com.example.plan.member2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 유저 생성 완료
+ * 유저 전체 조회 완료
+ *
+ *
+ *
+ */
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
@@ -25,5 +36,18 @@ public class MemberServiceImpl implements MemberService{
                 , savedMember.getUsername()
                 , savedMember.getEmail()
         );
+    }
+
+    @Override
+    public List<MemberResponseDto> findAll() {
+
+        List<MemberResponseDto> allMembers = new ArrayList<>();
+
+        allMembers = memberRepository.findAll()
+                .stream()
+                .map(MemberResponseDto::toDto)
+                .toList();
+
+        return allMembers;
     }
 }

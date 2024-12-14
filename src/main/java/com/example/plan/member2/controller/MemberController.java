@@ -1,16 +1,22 @@
 package com.example.plan.member2.controller;
 
-
 import com.example.plan.member2.dto.request.CreateMemberRequestDto;
 import com.example.plan.member2.dto.response.MemberResponseDto;
 import com.example.plan.member2.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * 유저 생성 완료
+ * 유저 전체 조회 완료
+ *
+ *
+ *
+ */
 
 @RestController
 @RequestMapping("/members")
@@ -29,5 +35,12 @@ public class MemberController {
         );
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MemberResponseDto>> findAll() {
+        List<MemberResponseDto> allMembers = memberService.findAll();
+
+        return new ResponseEntity<>(allMembers, HttpStatus.OK);
     }
 }

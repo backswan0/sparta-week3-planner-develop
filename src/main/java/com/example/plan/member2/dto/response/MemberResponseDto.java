@@ -1,6 +1,15 @@
 package com.example.plan.member2.dto.response;
 
+import com.example.plan.member2.entity.Member;
 import lombok.Getter;
+
+/**
+ * 유저 생성 완료
+ * 유저 전체 조회 완료
+ *
+ *
+ *
+ */
 
 @Getter
 public class MemberResponseDto {
@@ -19,5 +28,13 @@ public class MemberResponseDto {
         this.id = id;
         this.username = username;
         this.email = email;
+    }
+
+    public static MemberResponseDto toDto(Member member) {
+        return new MemberResponseDto(
+                member.getId()
+                , member.getUsername()
+                , member.getEmail()
+        );
     }
 }

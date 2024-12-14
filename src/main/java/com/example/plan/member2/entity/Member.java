@@ -3,6 +3,14 @@ package com.example.plan.member2.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ * 유저 생성 완료
+ * 유저 전체 조회 완료
+ *
+ *
+ *
+ */
+
 @Getter
 @Entity
 @Table(name = "members2")
@@ -28,5 +36,3 @@ public class Member extends MemberBaseEntity {
         this.email = email;
     }
 }
-
-

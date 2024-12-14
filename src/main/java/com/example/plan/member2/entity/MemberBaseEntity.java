@@ -1,12 +1,19 @@
 package com.example.plan.member2.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+
+/**
+ * 유저 생성 완료
+ * 유저 전체 조회 완료
+ *
+ *
+ *
+ */
 
 @Getter
 @MappedSuperclass
