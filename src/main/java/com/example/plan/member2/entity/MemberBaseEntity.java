@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 /**
  * 유저 생성 완료
  * 유저 전체 조회 완료
- *
+ * 유저 단건 조회 완료
  *
  *
  */

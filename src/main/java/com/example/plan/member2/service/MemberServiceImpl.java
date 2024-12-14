@@ -12,14 +12,14 @@ import java.util.List;
 /**
  * 유저 생성 완료
  * 유저 전체 조회 완료
- *
+ * 유저 단건 조회 완료
  *
  *
  */
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
@@ -49,5 +49,17 @@ public class MemberServiceImpl implements MemberService{
                 .toList();
 
         return allMembers;
+    }
+
+    @Override
+    public MemberResponseDto findById(Long id) {
+
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+
+        return new MemberResponseDto(
+                foundMember.getId()
+                , foundMember.getUsername()
+                , foundMember.getEmail()
+        );
     }
 }

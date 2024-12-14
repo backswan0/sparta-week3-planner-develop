@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 유저 생성 완료
  * 유저 전체 조회 완료
- *
+ * 유저 단건 조회 완료
  *
  *
  */
@@ -42,5 +42,12 @@ public class MemberController {
         List<MemberResponseDto> allMembers = memberService.findAll();
 
         return new ResponseEntity<>(allMembers, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
+        MemberResponseDto memberResponseDto = memberService.findById(id);
+
+        return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
     }
 }
