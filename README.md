@@ -40,7 +40,7 @@ erDiagram
 | Method | URI         | Description        | Request Parameters        | Response Code |
 |--------|-------------|--------------------|---------------------------|---------------|
 | POST   | /plans      | Create plan        | username, title, task     | 201           |
-| GET    | /plans      | Read all plans     | username                  | 200           |
+| GET    | /plans      | Read all plans     |                           | 200           |
 | GET    | /plans/{id} | Read specific plan | id                        | 200           |
 | PATCH  | /plans/{id} | Update plan        | id, username, title, task | 200           |
 | DELETE | /plans/{id} | Delete plan        | id                        | 200           |
