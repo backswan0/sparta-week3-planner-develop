@@ -30,6 +30,9 @@ erDiagram
     }
 ```
 
+### ERD Note
+- The SQL database table name of `PLANS` is `plans`.
+
 ## 📜 API Specification
 ### Basic Information
 - Base URL: /plans
