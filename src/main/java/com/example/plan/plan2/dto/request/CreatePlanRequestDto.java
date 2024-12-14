@@ -1,4 +1,4 @@
-package com.example.plan.plan.dto.request;
+package com.example.plan.plan2.dto.request;
 
 import lombok.Getter;
 

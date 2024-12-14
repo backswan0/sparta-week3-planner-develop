@@ -1,5 +1,6 @@
-package com.example.plan.plan.dto.response;
+package com.example.plan.plan2.dto.response;
 
+import com.example.plan.plan2.entity.Plan;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -10,21 +11,24 @@ public class PlanResponseDto {
     private final String username; // 작성 유저명
     private final String title; // 할일 제목
     private final String task; // 할일 내용
-    private final LocalDateTime createdAt; // 작성일
-    private final LocalDateTime updatedAt; // 수정일
 
     public PlanResponseDto(Long planId,
                            String username,
                            String title,
-                           String task,
-                           LocalDateTime createdAt,
-                           LocalDateTime updatedAt
+                           String task
     ) {
         this.planId = planId;
         this.username = username;
         this.title = title;
         this.task = task;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    }
+
+    public static PlanResponseDto toDto(Plan plan) {
+        return new PlanResponseDto(
+                plan.getId()
+                , plan.getUsername()
+                , plan.getTitle()
+                , plan.getTask()
+        );
     }
 }
