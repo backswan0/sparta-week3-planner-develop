@@ -1,5 +1,7 @@
 package com.example.plan.plan2.service;
 
+import com.example.plan.member2.entity.Member;
+import com.example.plan.member2.repository.MemberRepository;
 import com.example.plan.plan2.dto.response.PlanResponseDto;
 import com.example.plan.plan2.entity.Plan;
 import com.example.plan.plan2.repository.PlanRepository;
@@ -10,7 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-// update patch에서 사용자 이름 제외 리팩토링 완료
+/**
+ * 유저 생성 완료
+ * 유저 전체 조회 완료
+ * 유저 단건 조회 완료
+ * 유저 전체 수정 완료
+ * 유저 단건 삭제 완료
+ * 유저 이름으로 many to one 설정 완료
+ */
 
 // [2/3 layers] 일정의 service. PlanService 인터페이스를 오버라이딩했다.
 @Service
@@ -18,33 +27,36 @@ import java.util.List;
 public class PlanServiceImpl implements PlanService {
     // 속성
     private final PlanRepository planRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * 기능
      * [1/5] 일정 저장
      *
-     * @param username : 작성자 이름
-     * @param title    : 일정 제목
-     * @param task     : 일정 내용
+     * @param title : 일정 제목
+     * @param task  : 일정 내용
      * @return PlanResponseDto
      */
     @Override
     public PlanResponseDto save(
-            String username
-            , String title
+            String title
             , String task
+            , String username
     ) {
+        Member foundMember = memberRepository
+                .findMemberByUsernameOrElseThrow(username);
+
         Plan planToSave = new Plan(
-                username
-                , title
+                title
                 , task
         );
+
+        planToSave.setMember(foundMember);
 
         Plan savedPlan = planRepository.save(planToSave);
 
         return new PlanResponseDto(
                 savedPlan.getId()
-                , savedPlan.getUsername()
                 , savedPlan.getTitle()
                 , savedPlan.getTask()
         );
@@ -83,7 +95,6 @@ public class PlanServiceImpl implements PlanService {
 
         return new PlanResponseDto(
                 foundPlan.getId()
-                , foundPlan.getUsername()
                 , foundPlan.getTitle()
                 , foundPlan.getTask()
         );
@@ -114,7 +125,6 @@ public class PlanServiceImpl implements PlanService {
 
         return new PlanResponseDto(
                 planToUpdate.getId()
-                , planToUpdate.getUsername()
                 , planToUpdate.getTitle()
                 , planToUpdate.getTask()
         );

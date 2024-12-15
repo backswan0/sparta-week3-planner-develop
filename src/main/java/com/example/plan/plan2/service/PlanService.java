@@ -4,7 +4,14 @@ import com.example.plan.plan2.dto.response.PlanResponseDto;
 
 import java.util.List;
 
-// update patch에서 사용자 이름 제외 리팩토링 완료
+/**
+ * 유저 생성 완료
+ * 유저 전체 조회 완료
+ * 유저 단건 조회 완료
+ * 유저 전체 수정 완료
+ * 유저 단건 삭제 완료
+ * 유저 이름으로 many to one 설정 완료
+ */
 
 // 일정 service layer의 인터페이스
 public interface PlanService {
@@ -13,15 +20,14 @@ public interface PlanService {
      * 기능
      * [1/5] 일정 저장
      *
-     * @param username : 작성자 이름
      * @param title    : 일정 제목
      * @param task     : 일정 내용
      * @return PlanResponseDto
      */
     PlanResponseDto save(
-            String username
-            , String title
+            String title
             , String task
+            , String username
     );
 
     /**
