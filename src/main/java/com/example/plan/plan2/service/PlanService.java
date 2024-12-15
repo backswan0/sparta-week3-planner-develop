@@ -4,6 +4,8 @@ import com.example.plan.plan2.dto.response.PlanResponseDto;
 
 import java.util.List;
 
+// update patch에서 사용자 이름 제외 리팩토링 완료
+
 // 일정 service layer의 인터페이스
 public interface PlanService {
 
@@ -43,17 +45,15 @@ public interface PlanService {
      * 기능
      * [4/5] 일정 단건 수정
      *
-     * @param id          : 수정하려는 일정의 식별자
-     * @param newUsername : 수정하려는 작성자 이름
-     * @param newTitle    : 수정하려는 일정 제목
-     * @param newTask     : 수정하려는 일정 내용
+     * @param id    : 수정하려는 일정의 식별자
+     * @param title : 수정하려는 일정 제목
+     * @param task  : 수정하려는 일정 내용
      * @return PlanResponseDto
      */
     PlanResponseDto updatePlan(
             Long id
-            , String newUsername
-            , String newTitle
-            , String newTask
+            , String title
+            , String task
     );
 
     /**

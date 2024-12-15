@@ -3,6 +3,8 @@ package com.example.plan.plan2.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+// update patch에서 사용자 이름 제외 리팩토링 완료
+
 // 일정 엔티티. PlanBaseEntity를 상속했다.
 @Getter
 @Entity
@@ -46,18 +48,15 @@ public class Plan extends PlanBaseEntity {
 
     /**
      * 기능
-     * 일정 단건 수정 (UPDATE - PATCH)
+     * 일정 단건 수정에 해당하는 메서드 (UPDATE - PATCH)
      *
-     * @param newUsername : 수정하려는 작성자 이름
      * @param newTitle    : 수정하려는 일정 제목
      * @param newTask     : 수정하려는 일정 내용
      */
     public void update(
-            String newUsername
-            , String newTitle
+            String newTitle
             , String newTask
     ) {
-        this.username = newUsername;
         this.title = newTitle;
         this.task = newTask;
     }

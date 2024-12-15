@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+// update patch에서 사용자 이름 제외 리팩토링 완료
+
 // [3/3 layers] 일정의 repository
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     /**

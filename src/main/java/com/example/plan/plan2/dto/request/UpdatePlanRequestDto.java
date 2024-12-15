@@ -2,29 +2,27 @@ package com.example.plan.plan2.dto.request;
 
 import lombok.Getter;
 
+// update patch에서 사용자 이름 제외 리팩토링 완료
+
 // 일정 수정 요청에 해당하는 request DTO
 @Getter
 public class UpdatePlanRequestDto {
     // 속성
-    private final String newUsername;
-    private final String newTitle;
-    private final String newTask;
+    private final String title;
+    private final String task;
 
     /**
      * 생성자
      *
-     * @param newUsername : 수정하려는 작성자 이름
-     * @param newTitle    : 수정하려는 일정 제목
-     * @param newTask     : 수정하려는 일정 내용
+     * @param title : 수정하려는 일정 제목
+     * @param task  : 수정하려는 일정 내용
      */
     public UpdatePlanRequestDto(
-            String newUsername
-            , String newTitle
-            , String newTask
+            String title
+            , String task
     ) {
-        this.newUsername = newUsername;
-        this.newTitle = newTitle;
-        this.newTask = newTask;
+        this.title = title;
+        this.task = task;
     }
 
     // 기능

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// update patch에서 사용자 이름 제외 리팩토링 완료
+
 // [1/3 layers] 일정의 controller
 @RestController
 @RequestMapping("/plans")
@@ -70,7 +72,7 @@ public class PlanController {
      * [4/5] UPDATE (PATCH) - 일정 수정
      *
      * @param id         : 수정하려는 일정의 식별자
-     * @param requestDto : UpdatePlanRequestDto. 작성자 이름과 일정 제목과 일정 내용 포함
+     * @param requestDto : UpdatePlanRequestDto. 일정 제목과 일정 내용 포함
      * @return PlanResponseDto, HttpStatus 200 OK
      */
     @PatchMapping("/{id}")
@@ -80,9 +82,8 @@ public class PlanController {
     ) {
         PlanResponseDto responseDto = planService.updatePlan(
                 id
-                , requestDto.getNewUsername()
-                , requestDto.getNewTitle()
-                , requestDto.getNewTask()
+                , requestDto.getTitle()
+                , requestDto.getTask()
         );
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
