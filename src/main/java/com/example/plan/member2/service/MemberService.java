@@ -9,7 +9,7 @@ import java.util.List;
  * 유저 전체 조회 완료
  * 유저 단건 조회 완료
  * 유저 전체 수정 완료
- *
+ * 유저 단건 삭제 완료
  */
 
 public interface MemberService {
@@ -28,4 +28,6 @@ public interface MemberService {
             , String username
             , String email
     );
+
+    void delete(Long id);
 }

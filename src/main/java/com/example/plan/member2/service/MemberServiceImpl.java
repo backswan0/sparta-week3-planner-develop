@@ -15,7 +15,7 @@ import java.util.List;
  * 유저 전체 조회 완료
  * 유저 단건 조회 완료
  * 유저 전체 수정 완료
- *
+ * 유저 단건 삭제 완료
  */
 
 @Service
@@ -80,5 +80,12 @@ public class MemberServiceImpl implements MemberService {
                 , memberToUpdate.getUsername()
                 , memberToUpdate.getEmail()
         );
+    }
+
+    @Override
+    public void delete(Long id) {
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+
+        memberRepository.delete(foundMember);
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
  * 유저 전체 조회 완료
  * 유저 단건 조회 완료
  * 유저 전체 수정 완료
- *
+ * 유저 단건 삭제 완료
  */
 
 @RestController
@@ -64,5 +64,12 @@ public class MemberController {
         );
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        memberService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
