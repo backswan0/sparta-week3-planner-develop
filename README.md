@@ -40,13 +40,13 @@ erDiagram
 - Character Encoding: UTF-8
 
 ### API List
-| Method | URI         | Description        | Request Parameters        | Response Code |
-|--------|-------------|--------------------|---------------------------|---------------|
-| POST   | /plans      | Create plan        | username, title, task     | 201           |
-| GET    | /plans      | Read all plans     |                           | 200           |
-| GET    | /plans/{id} | Read specific plan | id                        | 200           |
-| PATCH  | /plans/{id} | Update plan        | id, username, title, task | 200           |
-| DELETE | /plans/{id} | Delete plan        | id                        | 200           |
+| Method | URI         | Description        | Request Parameters    | Response Code |
+|--------|-------------|--------------------|-----------------------|---------------|
+| POST   | /plans      | Create plan        | username, title, task | 201           |
+| GET    | /plans      | Read all plans     |                       | 200           |
+| GET    | /plans/{id} | Read specific plan | id                    | 200           |
+| PATCH  | /plans/{id} | Update plan        | id, title, task       | 200           |
+| DELETE | /plans/{id} | Delete plan        | id                    | 200           |
 
 ### API Details
 #### Request Body Details
@@ -62,9 +62,8 @@ erDiagram
 2. **`PATCH` Update Plan**
     ```json
     {
-        "newUsername" : "수정하려는 작성자 이름",
-        "newTitle" : "수정하려는 일정 제목",
-        "newTask" : "수정하려는 일정 내용"
+        "title" : "수정하려는 일정 제목",
+        "task" : "수정하려는 일정 내용"
     }
     ```
 
@@ -111,7 +110,7 @@ erDiagram
     ```json
     {
         "id" : 1,
-        "username" : "수정된 작성자 이름",
+        "username" : "작성자 이름",
         "title" : "수정된 일정 제목",
         "task" : "수정된 일정 내용"
     }
@@ -125,12 +124,14 @@ erDiagram
 
 ### Request Body Description
 #### Field Information
-| Field Name  | Data Type  | Mandatory Status | Description                                                                                     |
-|-------------|------------|------------------|-------------------------------------------------------------------------------------------------|
-| id          | Long       | Optional         | Identifier for each plan  <br/> Required for **GET**, **PATCH**, or **DELETE** requests         |
-| username    | String     | Mandatory        | User's name <br/> must be less than 4 characters                                                |
-| title       | String     | Mandatory        | Title of the plan <br/> must be less than 10 characters                                         |
-| task        | String     | Optional         | Detailed description of the plan  <br/> Should be an empty String(`""`) when the value is null  |
+| Field Name | Data Type     | Mandatory Status | Description                                                                                               |
+|------------|---------------|------------------|-----------------------------------------------------------------------------------------------------------|
+| id         | Long          | Optional         | Identifier for each plan  <br/> Required for **GET**, **PATCH**, or **DELETE** requests                   |
+| username   | String        | Mandatory        | User's name <br/> must be less than 4 characters                                                          |
+| title      | String        | Mandatory        | Title of the plan <br/> must be less than 10 characters                                                   |
+| task       | String        | Optional         | Detailed description of the plan  <br/> Should be an empty String(`""`) when the value is null            |
+| createdAt  | LocalDateTime | Not Included     | The timestamp when the plan is created  <br/> Automatically stored in the database upon creation          |
+| updatedAt  | LocalDateTime | Not Included     | The timestamp when the plan is last updated  <br/> Automatically stored in the database upon modification |
 
 ## 📊 Database Schema
 ```sql
