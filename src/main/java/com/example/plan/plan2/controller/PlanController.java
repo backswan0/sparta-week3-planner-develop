@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// [1/3 layers] 일정의 controller
 @RestController
 @RequestMapping("/plans")
 @RequiredArgsConstructor

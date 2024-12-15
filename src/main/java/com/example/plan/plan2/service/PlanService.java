@@ -4,15 +4,15 @@ import com.example.plan.plan2.dto.response.PlanResponseDto;
 
 import java.util.List;
 
-// 일정 service layer의 인터페이스
 public interface PlanService {
 
     /**
      * 기능
      * [1/5] 일정 저장
      *
-     * @param title    : 일정 제목
-     * @param task     : 일정 내용
+     * @param title  : 일정 제목
+     * @param task   : 일정 내용
+     * @param userId : 해당 일정을 작성한 사용자의 식별자
      * @return PlanResponseDto
      */
     PlanResponseDto save(

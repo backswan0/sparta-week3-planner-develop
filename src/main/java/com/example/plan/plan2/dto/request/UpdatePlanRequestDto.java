@@ -2,7 +2,6 @@ package com.example.plan.plan2.dto.request;
 
 import lombok.Getter;
 
-// 일정 수정 요청에 해당하는 request DTO
 @Getter
 public class UpdatePlanRequestDto {
     // 속성
@@ -22,6 +21,5 @@ public class UpdatePlanRequestDto {
         this.title = title;
         this.task = task;
     }
-
     // 기능
 }

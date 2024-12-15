@@ -4,7 +4,6 @@ import com.example.plan.member2.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-// 일정 엔티티. PlanBaseEntity를 상속했다.
 @Getter
 @Entity
 @Table(name = "plans2")
@@ -12,7 +11,7 @@ public class Plan extends PlanBaseEntity {
     // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // 일정 식별자
 
     @Column(nullable = false)
     private String title; // 일정 제목
@@ -22,7 +21,7 @@ public class Plan extends PlanBaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "members2_id")
-    private Member member;
+    private Member member; // 외래 키
 
     // 기본 생성자
     public Plan () {

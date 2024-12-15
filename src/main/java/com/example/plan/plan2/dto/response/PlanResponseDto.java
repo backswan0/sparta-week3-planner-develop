@@ -3,7 +3,6 @@ package com.example.plan.plan2.dto.response;
 import com.example.plan.plan2.entity.Plan;
 import lombok.Getter;
 
-// 클라이언트에게 응답으로 전달하는 response DTO
 @Getter
 public class PlanResponseDto {
     // 속성

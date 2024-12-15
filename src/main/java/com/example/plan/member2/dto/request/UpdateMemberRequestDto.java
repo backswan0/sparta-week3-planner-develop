@@ -4,13 +4,20 @@ import lombok.Getter;
 
 @Getter
 public class UpdateMemberRequestDto {
+    // 속성
     private String username;
     private String email;
 
-    public UpdateMemberRequestDto (
+    /**
+     * 생성자
+     *
+     * @param username : 수정하려는 사용자의 이름
+     * @param email    : 수정하려는 사용자의 이메일
+     */
+    public UpdateMemberRequestDto(
             String username
             , String email
-    ){
+    ) {
         this.username = username;
         this.email = email;
     }

@@ -13,8 +13,17 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+    // 속성
     private final MemberRepository memberRepository;
 
+    /**
+     * 기능
+     * [1/5] 사용자 저장
+     *
+     * @param username : 사용자의 이름
+     * @param email    : 사용자의 이메일
+     * @return MemberResponseDto
+     */
     @Override
     public MemberResponseDto signUp(
             String username
@@ -31,6 +40,12 @@ public class MemberServiceImpl implements MemberService {
         );
     }
 
+    /**
+     * 기능
+     * [2/5] 사용자 목록 찾기
+     *
+     * @return List<MemberResponseDto>
+     */
     @Override
     public List<MemberResponseDto> findAll() {
 
@@ -44,6 +59,13 @@ public class MemberServiceImpl implements MemberService {
         return allMembers;
     }
 
+    /**
+     * 기능
+     * [3/5] 사용자 단건 조회
+     *
+     * @param id : 조회하려는 사용자의 식별자
+     * @return MemberResponseDto
+     */
     @Override
     public MemberResponseDto findById(Long id) {
 
@@ -56,6 +78,15 @@ public class MemberServiceImpl implements MemberService {
         );
     }
 
+    /**
+     * 기능
+     * [4/5] 사용자 단건 수정
+     *
+     * @param id       : 수정하려는 사용자의 식별자
+     * @param username : 수정하려는 사용자의 이름
+     * @param email    : 수정하려는 사용자의 이메일
+     * @return MemberResponseDto
+     */
     @Transactional
     @Override
     public MemberResponseDto updateMember(
@@ -74,6 +105,12 @@ public class MemberServiceImpl implements MemberService {
         );
     }
 
+    /**
+     * 기능
+     * [5/5] 사용자 단건 삭제
+     *
+     * @param id : 삭제하려는 사용자의 식별자
+     */
     @Override
     public void delete(Long id) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);

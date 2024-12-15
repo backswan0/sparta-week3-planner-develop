@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-// [2/3 layers] 일정의 service. PlanService 인터페이스를 오버라이딩했다.
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
@@ -26,7 +25,7 @@ public class PlanServiceImpl implements PlanService {
      *
      * @param title  : 일정 제목
      * @param task   : 일정 내용
-     * @param userId : 작성자의 식별자
+     * @param userId : 해당 일정을 작성한 사용자의 식별자
      * @return PlanResponseDto
      */
     @Override
