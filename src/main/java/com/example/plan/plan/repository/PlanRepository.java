@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     /**
      * 기능
-     * 일정을 식별자로 조회
+     * 일정을 식별자로 조회하는 메서드
      * @param id : 일정의 식별자
      * @return Plan
      */

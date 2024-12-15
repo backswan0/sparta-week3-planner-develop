@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-// [요구 사항] 작성일, 수정일 필드는 JPA Auditing을 활용한다.
+// [요구 사항] 작성일, 수정일 필드는 JPA Auditing 활용하기
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

@@ -91,26 +91,23 @@ public class PlanServiceImpl implements PlanService {
      * 기능
      * [4/5] 일정 단건 수정
      *
-     * @param id          : 수정하려는 일정의 식별자
-     * @param newUsername : 수정하려는 작성자 이름
-     * @param newTitle    : 수정하려는 일정 제목
-     * @param newTask     : 수정하려는 일정 내용
+     * @param id    : 수정하려는 일정의 식별자
+     * @param title : 수정하려는 일정 제목
+     * @param task  : 수정하려는 일정 내용
      * @return PlanResponseDto
      */
     @Transactional
     @Override
     public PlanResponseDto updatePlan(
             Long id
-            , String newUsername
-            , String newTitle
-            , String newTask
+            , String title
+            , String task
     ) {
         Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
 
         planToUpdate.update(
-                newUsername
-                , newTitle
-                , newTask
+                title
+                , task
         );
 
         return new PlanResponseDto(

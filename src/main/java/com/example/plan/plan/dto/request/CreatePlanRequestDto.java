@@ -26,6 +26,5 @@ public class CreatePlanRequestDto {
         this.title = title;
         this.task = task;
     }
-
     // 기능
 }

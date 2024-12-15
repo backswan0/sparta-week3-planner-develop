@@ -45,19 +45,16 @@ public class Plan extends PlanBaseEntity {
 
     /**
      * 기능
-     * 일정 단건 수정 (UPDATE - PATCH)
+     * 일정 단건 수정에 해당하는 메서드 (UPDATE - PATCH: 작성자 이름은 수정에서 제외)
      *
-     * @param newUsername : 수정하려는 작성자 이름
-     * @param newTitle    : 수정하려는 일정 제목
-     * @param newTask     : 수정하려는 일정 내용
+     * @param title : 수정하려는 일정 제목
+     * @param task  : 수정하려는 일정 내용
      */
     public void update(
-            String newUsername
-            , String newTitle
-            , String newTask
+            String title
+            , String task
     ) {
-        this.username = newUsername;
-        this.title = newTitle;
-        this.task = newTask;
+        this.title = title;
+        this.task = task;
     }
 }

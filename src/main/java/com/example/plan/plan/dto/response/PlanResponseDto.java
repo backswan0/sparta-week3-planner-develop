@@ -34,9 +34,9 @@ public class PlanResponseDto {
 
     /**
      * 기능
-     * 일정 엔티티를 response DTO로 변환하는 메서드
+     * Plan 엔티티를 response DTO로 변환하는 메서드
      *
-     * @param plan : 일정 엔티티
+     * @param plan : Plan 엔티티
      * @return PlanResponseDto
      */
     public static PlanResponseDto toDto(Plan plan) {

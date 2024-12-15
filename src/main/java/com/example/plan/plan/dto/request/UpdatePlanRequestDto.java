@@ -6,26 +6,21 @@ import lombok.Getter;
 @Getter
 public class UpdatePlanRequestDto {
     // 속성
-    private final String newUsername;
-    private final String newTitle;
-    private final String newTask;
+    private final String title;
+    private final String task;
 
     /**
      * 생성자
      *
-     * @param newUsername : 수정하려는 작성자 이름
-     * @param newTitle    : 수정하려는 일정 제목
-     * @param newTask     : 수정하려는 일정 내용
+     * @param title : 수정하려는 일정 제목
+     * @param task  : 수정하려는 일정 내용
      */
     public UpdatePlanRequestDto(
-            String newUsername
-            , String newTitle
-            , String newTask
+            String title
+            , String task
     ) {
-        this.newUsername = newUsername;
-        this.newTitle = newTitle;
-        this.newTask = newTask;
+        this.title = title;
+        this.task = task;
     }
-
     // 기능
 }
