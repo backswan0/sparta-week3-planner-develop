@@ -4,15 +4,6 @@ import com.example.plan.plan2.dto.response.PlanResponseDto;
 
 import java.util.List;
 
-/**
- * 유저 생성 완료
- * 유저 전체 조회 완료
- * 유저 단건 조회 완료
- * 유저 전체 수정 완료
- * 유저 단건 삭제 완료
- * 유저 이름으로 many to one 설정 완료
- */
-
 // 일정 service layer의 인터페이스
 public interface PlanService {
 
@@ -27,7 +18,7 @@ public interface PlanService {
     PlanResponseDto save(
             String title
             , String task
-            , String username
+            , Long userId
     );
 
     /**

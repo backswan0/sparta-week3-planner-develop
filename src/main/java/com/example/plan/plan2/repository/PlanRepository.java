@@ -5,15 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * 유저 생성 완료
- * 유저 전체 조회 완료
- * 유저 단건 조회 완료
- * 유저 전체 수정 완료
- * 유저 단건 삭제 완료
- * 유저 이름으로 many to one 설정 완료
- */
-
 // [3/3 layers] 일정의 repository
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     /**

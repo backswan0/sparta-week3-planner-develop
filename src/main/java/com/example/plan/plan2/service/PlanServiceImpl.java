@@ -12,15 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 유저 생성 완료
- * 유저 전체 조회 완료
- * 유저 단건 조회 완료
- * 유저 전체 수정 완료
- * 유저 단건 삭제 완료
- * 유저 이름으로 many to one 설정 완료
- */
-
 // [2/3 layers] 일정의 service. PlanService 인터페이스를 오버라이딩했다.
 @Service
 @RequiredArgsConstructor
@@ -31,20 +22,21 @@ public class PlanServiceImpl implements PlanService {
 
     /**
      * 기능
-     * [1/5] 일정 저장
+     * [1/5] 일정 생성
      *
-     * @param title : 일정 제목
-     * @param task  : 일정 내용
+     * @param title  : 일정 제목
+     * @param task   : 일정 내용
+     * @param userId : 작성자의 식별자
      * @return PlanResponseDto
      */
     @Override
     public PlanResponseDto save(
             String title
             , String task
-            , String username
+            , Long userId
     ) {
         Member foundMember = memberRepository
-                .findMemberByUsernameOrElseThrow(username);
+                .findByIdOrElseThrow(userId);
 
         Plan planToSave = new Plan(
                 title
@@ -61,6 +53,7 @@ public class PlanServiceImpl implements PlanService {
                 , savedPlan.getTask()
         );
     }
+
 
     /**
      * 기능

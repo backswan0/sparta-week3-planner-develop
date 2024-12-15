@@ -11,15 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * 유저 생성 완료
- * 유저 전체 조회 완료
- * 유저 단건 조회 완료
- * 유저 전체 수정 완료
- * 유저 단건 삭제 완료
- * 유저 이름으로 many to one 설정 완료
- */
-
 // [1/3 layers] 일정의 controller
 @RestController
 @RequestMapping("/plans")
@@ -42,7 +33,7 @@ public class PlanController {
         PlanResponseDto savedPlan = planService.save(
                 requestDto.getTitle()
                 , requestDto.getTask()
-                , requestDto.getUsername()
+                , requestDto.getUserId()
         );
         return new ResponseEntity<>(savedPlan, HttpStatus.CREATED);
     }
