@@ -50,7 +50,7 @@ member_id bigint FK
 
 ### API List
 
-#### Member
+1. #### Member
 | Method | URI             | Description          | Request Parameters  | Response Code |
 |--------|-----------------|----------------------|---------------------|---------------|
 | POST   | /members/signup | Create member        | username, email     | 201           |
@@ -59,7 +59,7 @@ member_id bigint FK
 | PUT    | /members/{id}   | Update member        | id, username, email | 200           |
 | DELETE | /members/{id}   | Delete member        | id                  | 200           |
 
-#### Plan
+2. #### Plan
 | Method | URI           | Description           | Request Parameters  | Response Code |
 |--------|---------------|-----------------------|---------------------|---------------|
 | POST   | /plans        | Create plan           | title, task, userId | 201           |
@@ -69,8 +69,7 @@ member_id bigint FK
 | DELETE | /plans/{id}   | Delete plan           | id                  | 200           |
 
 ### API Details
-#### Request Body Details
-##### Member
+#### Request Body Details - Member
 1. **`POST` Create Member**
     ```json
     {
@@ -87,7 +86,7 @@ member_id bigint FK
     }
     ```
 
-###### Plan
+#### Request Body Details - Plan
 1. **`POST` Create Plan**
     ```json
     {
@@ -105,8 +104,7 @@ member_id bigint FK
     }
     ```
 
-#### Response Body Details
-##### Member
+#### Response Body Details - Member
 1. **`GET` Read All Members**
     ```json
     [
@@ -141,7 +139,7 @@ member_id bigint FK
     }
     ```
 
-##### Plan
+#### Response Body Details - Plan
 1. **`CREATE` Create Plan**
     ```json
     {
@@ -239,8 +237,7 @@ member_id bigint FK
 | 500         | Internal Server Error    | "Internal Server Error occurred" |
 
 ### Request Body Description
-#### Field Information
-##### Member
+#### Field Information - Member
 | Field Name | Data Type     | Mandatory Status | Description                                                                                               |
 |------------|---------------|------------------|-----------------------------------------------------------------------------------------------------------|
 | id         | Long          | Optional         | Identifier for each member  <br/> Required for **GET**, **PUT**, or **DELETE** requests                   |
@@ -249,7 +246,7 @@ member_id bigint FK
 | createdAt  | LocalDateTime | Not Included     | The timestamp when the plan is created  <br/> Automatically stored in the database upon creation          |
 | updatedAt  | LocalDateTime | Not Included     | The timestamp when the plan is last updated  <br/> Automatically stored in the database upon modification |
 
-##### Plan 
+#### Field Information - Plan
 | Field Name | Data Type     | Mandatory Status | Description                                                                                               |
 |------------|---------------|------------------|-----------------------------------------------------------------------------------------------------------|
 | id         | Long          | Optional         | Identifier for each plan  <br/> Required for **GET**, **PATCH**, or **DELETE** requests                   |
