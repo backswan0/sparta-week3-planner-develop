@@ -1,21 +1,29 @@
 package com.example.plan.member2.entity;
 
+import com.example.plan.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 @Getter
 @Entity
 @Table(name = "members2")
-public class Member extends MemberBaseEntity {
+public class Member extends BaseEntity {
     // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(
+            name = "username"
+            , nullable = false
+            , columnDefinition = "VARCHAR(16)"
+    )
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "email"
+            , nullable = false
+            , columnDefinition = "VARCHAR(128)"
+    )
     private String email;
 
     // 기본 생성자

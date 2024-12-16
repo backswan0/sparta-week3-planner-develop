@@ -11,8 +11,8 @@ public class CreateMemberRequestDto {
     /**
      * 생성자
      *
-     * @param username : 사용자의 이름
-     * @param email    : 사용자의 이메일
+     * @param username : 사용자 이름
+     * @param email    : 사용자 이메일
      */
     public CreateMemberRequestDto(
             String username

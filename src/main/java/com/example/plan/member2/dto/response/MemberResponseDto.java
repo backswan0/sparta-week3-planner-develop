@@ -29,7 +29,7 @@ public class MemberResponseDto {
 
     /**
      * 기능
-     * 엔티티를 response DTO로 변환
+     * 사용자 엔티티를 response DTO로 변환
      *
      * @param member : 사용자 엔티티
      * @return MemberResponseDto

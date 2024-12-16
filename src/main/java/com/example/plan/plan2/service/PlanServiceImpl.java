@@ -28,14 +28,14 @@ public class PlanServiceImpl implements PlanService {
      * @param userId : 해당 일정을 작성한 사용자의 식별자
      * @return PlanResponseDto
      */
+    @Transactional(readOnly = false)
     @Override
     public PlanResponseDto save(
             String title
             , String task
             , Long userId
     ) {
-        Member foundMember = memberRepository
-                .findByIdOrElseThrow(userId);
+        Member foundMember = memberRepository.findByIdOrElseThrow(userId);
 
         Plan planToSave = new Plan(
                 title
@@ -49,13 +49,13 @@ public class PlanServiceImpl implements PlanService {
         return PlanResponseDto.toDto(savedPlan);
     }
 
-
     /**
      * 기능
      * [2/5] 일정 목록 찾기
      *
      * @return List<PlanResponseDto>
      */
+    @Transactional(readOnly = true)
     @Override
     public List<PlanResponseDto> findAll() {
 
@@ -76,6 +76,7 @@ public class PlanServiceImpl implements PlanService {
      * @param id : 조회하려는 일정의 식별자
      * @return PlanResponseDto
      */
+    @Transactional(readOnly = true)
     @Override
     public PlanResponseDto findById(Long id) {
 
@@ -99,9 +100,14 @@ public class PlanServiceImpl implements PlanService {
             , String title
             , String task
     ) {
-        editPlan(id, title, task);
+        Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
 
-        Plan updatedPlan = planRepository.findByIdOrElseThrow(id);
+        planToUpdate.update(
+                title
+                , task
+        );
+
+        Plan updatedPlan = planRepository.save(planToUpdate);
 
         return PlanResponseDto.toDto(updatedPlan);
     }
@@ -117,21 +123,5 @@ public class PlanServiceImpl implements PlanService {
         Plan foundPlan = planRepository.findByIdOrElseThrow(id);
 
         planRepository.delete(foundPlan);
-    }
-
-    @Transactional
-    public void editPlan(
-            Long id
-            , String title
-            , String task
-    ) {
-        Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
-
-        planToUpdate.update(
-                title
-                , task
-        );
-
-        planRepository.save(planToUpdate);
     }
 }

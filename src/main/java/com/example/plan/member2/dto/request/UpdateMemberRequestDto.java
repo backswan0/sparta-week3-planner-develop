@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public class UpdateMemberRequestDto {
     // 속성
-    private String username;
-    private String email;
+    private final String username;
+    private final String email;
 
     /**
      * 생성자

@@ -11,8 +11,8 @@ public class UpdatePlanRequestDto {
     /**
      * 생성자
      *
-     * @param title : 수정하려는 일정 제목
-     * @param task  : 수정하려는 일정 내용
+     * @param title : 수정하려는 일정의 제목
+     * @param task  : 수정하려는 일정의 내용
      */
     public UpdatePlanRequestDto(
             String title
@@ -21,5 +21,4 @@ public class UpdatePlanRequestDto {
         this.title = title;
         this.task = task;
     }
-    // 기능
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,9 @@ public class PlanController {
      */
     @GetMapping
     public ResponseEntity<List<PlanResponseDto>> findAll() {
-        List<PlanResponseDto> allPlans = planService.findAll();
+        List<PlanResponseDto> allPlans = new ArrayList<>();
+
+        allPlans = planService.findAll();
 
         return new ResponseEntity<>(allPlans, HttpStatus.OK);
     }
@@ -69,7 +72,7 @@ public class PlanController {
      * [4/5] UPDATE (PATCH) - 일정 수정
      *
      * @param id         : 수정하려는 일정의 식별자
-     * @param requestDto : UpdatePlanRequestDto. 일정 제목과 일정 내용 포함
+     * @param requestDto : UpdatePlanRequestDto
      * @return PlanResponseDto, HttpStatus 200 OK
      */
     @PatchMapping("/{id}")

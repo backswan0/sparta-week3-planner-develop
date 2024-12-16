@@ -43,8 +43,8 @@ public interface PlanService {
      * [4/5] 일정 단건 수정
      *
      * @param id    : 수정하려는 일정의 식별자
-     * @param title : 수정하려는 일정 제목
-     * @param task  : 수정하려는 일정 내용
+     * @param title : 수정하려는 일정의 제목
+     * @param task  : 수정하려는 일정의 내용
      * @return PlanResponseDto
      */
     PlanResponseDto updatePlan(

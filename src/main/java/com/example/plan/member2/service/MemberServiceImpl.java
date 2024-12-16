@@ -24,6 +24,7 @@ public class MemberServiceImpl implements MemberService {
      * @param email    : 사용자의 이메일
      * @return MemberResponseDto
      */
+    @Transactional(readOnly = false) // 기본값이지만, 학습용으로 써둠
     @Override
     public MemberResponseDto signUp(
             String username
@@ -33,11 +34,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member savedMember = memberRepository.save(member);
 
-        return new MemberResponseDto(
-                savedMember.getId()
-                , savedMember.getUsername()
-                , savedMember.getEmail()
-        );
+        return MemberResponseDto.toDto(savedMember);
     }
 
     /**
@@ -46,6 +43,10 @@ public class MemberServiceImpl implements MemberService {
      *
      * @return List<MemberResponseDto>
      */
+    @Transactional(readOnly = true)
+    // 불필요한 스냅샷을 찍지 않으려고
+    // (스냅샷: 변경 확인하려고, 근데 조회할 땐 변경할 사항이 있는지 확인할 이유가 없으니까)
+    // 외부에서 변경이 이루어져도 디비에서 이루어지지 않음
     @Override
     public List<MemberResponseDto> findAll() {
 
@@ -66,16 +67,13 @@ public class MemberServiceImpl implements MemberService {
      * @param id : 조회하려는 사용자의 식별자
      * @return MemberResponseDto
      */
+    @Transactional(readOnly = true)
     @Override
     public MemberResponseDto findById(Long id) {
 
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
-        return new MemberResponseDto(
-                foundMember.getId()
-                , foundMember.getUsername()
-                , foundMember.getEmail()
-        );
+        return MemberResponseDto.toDto(foundMember);
     }
 
     /**
@@ -98,11 +96,7 @@ public class MemberServiceImpl implements MemberService {
 
         memberToUpdate.update(username, email);
 
-        return new MemberResponseDto(
-                memberToUpdate.getId()
-                , memberToUpdate.getUsername()
-                , memberToUpdate.getEmail()
-        );
+        return MemberResponseDto.toDto(memberToUpdate);
     }
 
     /**
@@ -111,6 +105,7 @@ public class MemberServiceImpl implements MemberService {
      *
      * @param id : 삭제하려는 사용자의 식별자
      */
+    @Transactional(readOnly = false)
     @Override
     public void delete(Long id) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);

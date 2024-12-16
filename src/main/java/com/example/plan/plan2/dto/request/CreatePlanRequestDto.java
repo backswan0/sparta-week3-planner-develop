@@ -12,8 +12,8 @@ public class CreatePlanRequestDto {
     /**
      * 생성자
      *
-     * @param title  : 일정 제목
-     * @param task   : 일정 내용
+     * @param title  : 생성하려는 일정의 제목
+     * @param task   : 생성하려는 일정의 내용
      * @param userId : 해당 일정을 작성한 사용자의 식별자
      */
     public CreatePlanRequestDto(
@@ -26,5 +26,4 @@ public class CreatePlanRequestDto {
         this.task = task;
         this.userId = userId;
     }
-    // 기능
 }

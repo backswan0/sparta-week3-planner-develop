@@ -21,7 +21,7 @@ public interface MemberService {
 
     /**
      * 기능
-     * [2/5] 사용자 목록 찾기
+     * [2/5] 사용자 목록 조회
      *
      * @return List<MemberResponseDto>
      */
@@ -29,7 +29,7 @@ public interface MemberService {
 
     /**
      * 기능
-     * [3/5] 사용자 단건을 id로 찾기
+     * [3/5] 식별자로 사용자 단건 조회
      *
      * @param id : 조회하려는 사용자의 식별자
      * @return MemberResponseDto

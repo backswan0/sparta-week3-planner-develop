@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,9 @@ public class MemberController {
      */
     @GetMapping
     public ResponseEntity<List<MemberResponseDto>> findAll() {
-        List<MemberResponseDto> allMembers = memberService.findAll();
+        List<MemberResponseDto> allMembers = new ArrayList<>();
+
+        allMembers = memberService.findAll();
 
         return new ResponseEntity<>(allMembers, HttpStatus.OK);
     }
@@ -68,7 +71,7 @@ public class MemberController {
      * [4/5] UPDATE (PUT) - 사용자 수정
      *
      * @param id         : 수정하려는 사용자의 식별자
-     * @param requestDto : UpdateMemberRequestDto, 사용자 이름과 이메일 포함
+     * @param requestDto : UpdateMemberRequestDto
      * @return MemberResponseDto
      */
     @PutMapping("/{id}")
