@@ -46,11 +46,7 @@ public class PlanServiceImpl implements PlanService {
 
         Plan savedPlan = planRepository.save(planToSave);
 
-        return new PlanResponseDto(
-                savedPlan.getId()
-                , savedPlan.getTitle()
-                , savedPlan.getTask()
-        );
+        return PlanResponseDto.toDto(savedPlan);
     }
 
 
@@ -85,11 +81,7 @@ public class PlanServiceImpl implements PlanService {
 
         Plan foundPlan = planRepository.findByIdOrElseThrow(id);
 
-        return new PlanResponseDto(
-                foundPlan.getId()
-                , foundPlan.getTitle()
-                , foundPlan.getTask()
-        );
+        return PlanResponseDto.toDto(foundPlan);
     }
 
     /**
@@ -101,25 +93,17 @@ public class PlanServiceImpl implements PlanService {
      * @param task  : 수정하려는 일정 내용
      * @return PlanResponseDto
      */
-    @Transactional
     @Override
     public PlanResponseDto updatePlan(
             Long id
             , String title
             , String task
     ) {
-        Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
+        editPlan(id, title, task);
 
-        planToUpdate.update(
-                title
-                , task
-        );
+        Plan updatedPlan = planRepository.findByIdOrElseThrow(id);
 
-        return new PlanResponseDto(
-                planToUpdate.getId()
-                , planToUpdate.getTitle()
-                , planToUpdate.getTask()
-        );
+        return PlanResponseDto.toDto(updatedPlan);
     }
 
     /**
@@ -133,5 +117,21 @@ public class PlanServiceImpl implements PlanService {
         Plan foundPlan = planRepository.findByIdOrElseThrow(id);
 
         planRepository.delete(foundPlan);
+    }
+
+    @Transactional
+    public void editPlan(
+            Long id
+            , String title
+            , String task
+    ) {
+        Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
+
+        planToUpdate.update(
+                title
+                , task
+        );
+
+        planRepository.save(planToUpdate);
     }
 }
