@@ -19,16 +19,16 @@ public abstract class BaseEntity {
             name = "created_at"
             , nullable = false
             , updatable = false
-            , columnDefinition = "TIMESTAMP"
+            , columnDefinition = "TIMESTAMP COMMENT '생성일'"
     )
-    private LocalDateTime createdAt; // 일정 작성일
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(
             name = "updated_at"
             , nullable = false
             , updatable = true
-            , columnDefinition = "TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+            , columnDefinition = "TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일'"
     )
-    private LocalDateTime updatedAt; // 일정 수정일
+    private LocalDateTime updatedAt;
 }

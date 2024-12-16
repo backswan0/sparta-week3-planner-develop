@@ -3,16 +3,20 @@ package com.example.plan.member2.entity;
 import com.example.plan.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity
 @Table(name = "members2")
 public class Member extends BaseEntity {
     // 속성
+    @Comment("사용자 식별자")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT")
     private Long id;
 
+    @Comment("사용자 이름")
     @Column(
             name = "username"
             , nullable = false
@@ -20,7 +24,9 @@ public class Member extends BaseEntity {
     )
     private String username;
 
-    @Column(name = "email"
+    @Comment("사용자 이메일")
+    @Column(
+            name = "email"
             , nullable = false
             , columnDefinition = "VARCHAR(128)"
     )
