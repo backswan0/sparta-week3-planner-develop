@@ -4,16 +4,24 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
 
-@Slf4j
 public class LoginFilter implements Filter {
-    // 인증을 하지 않아도 되는 URI: 회원가입과 로그인 (로그인하려고 또 로그인할 필요는 없으니까)
+    // 속성
     private static final String[] WHITE_LIST = {"/members/signup", "/members/signin"};
 
+    /**
+     * 기능
+     * 로그인 필터로, 회원가입 및 로그인 요청에서는 작동하지 않는다.
+     *
+     * @param request  :  ServletRequest
+     * @param response : ServletResponse
+     * @param chain    :    FilterChain
+     * @throws IOException      : 입력/출력 처리 중 발생할 수 있는 예외
+     * @throws ServletException : servlet 요청 처리 중 발생할 수 있는 예외
+     */
     @Override
     public void doFilter(
             ServletRequest request
@@ -23,23 +31,16 @@ public class LoginFilter implements Filter {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        // 실제 요청으로 들어온 URI를 requestURI 변수에 저장
         String requestURI = httpRequest.getRequestURI();
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        log.info("로그인 필터 로직 실행");
-
-        // login을 체크해야 하는 URL인지 검사해서 만약 체크해야 한다면 인증을 수행하는 로직
-        if(!isWhiteList(requestURI)) {
+        if (!isWhiteList(requestURI)) {
             HttpSession session = httpRequest.getSession(false);
 
-            if(session == null || session.getAttribute("sessionKey")==null) {
+            if (session == null || session.getAttribute("member") == null) {
                 throw new RuntimeException("로그인 해주세요.");
             }
-
-            // 로그인 성공 로직
-            log.info("로그인에 성공했습니다.");
         }
         chain.doFilter(request, response);
     }

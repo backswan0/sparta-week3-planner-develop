@@ -1,7 +1,5 @@
 package com.example.plan.member3.repository;
 
-import com.example.plan.member3.dto.response.LoginMemberResponseDto;
-import com.example.plan.member3.dto.response.MemberResponseDto;
 import com.example.plan.member3.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -38,23 +36,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             String email
             , String password
     );
-
-    /**
-     * 이메일과 비밀번호로 사용자 조회 및 예외 처리
-     *
-     * @param email    : 사용자의 이메일
-     * @param password : 사용자의 비밀번호
-     * @return Member
-     */
-    default Member findByEmailAndPasswordOrElseThrow(
-            String email
-            , String password
-    ) {
-        return findByEmailAndPassword(email, password).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND
-                        , "Email or Password does not match. Please try again."
-                )
-        );
-    }
 }

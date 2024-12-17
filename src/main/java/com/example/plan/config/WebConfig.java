@@ -1,6 +1,5 @@
 package com.example.plan.config;
 
-import com.example.plan.filter.CustomFilter;
 import com.example.plan.filter.LoginFilter;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -12,21 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean
-    public FilterRegistrationBean customFilter() {
-        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new CustomFilter());
-        filterRegistrationBean.setOrder(1);
-        filterRegistrationBean.addUrlPatterns("/*");
-
-        return filterRegistrationBean;
-    }
-
-    // 작성한 LoginFilter 등록하기
-    @Bean
-    public FilterRegistrationBean loginFilter() {
+    public FilterRegistrationBean<Filter> loginFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LoginFilter());
-        filterRegistrationBean.setOrder(2);
+        filterRegistrationBean.setOrder(1);
         filterRegistrationBean.addUrlPatterns("/*");
 
         return filterRegistrationBean;

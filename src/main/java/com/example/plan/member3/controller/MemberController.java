@@ -9,7 +9,6 @@ import com.example.plan.member3.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +23,9 @@ public class MemberController {
     // 속성
     private final MemberServiceImpl memberService;
 
-    // 회원 가입 - 나중에 따로 빼자
     /**
      * 기능
-     * [1/5] CREATE - 사용자 생성
+     * CREATE - 사용자 생성, 즉 회원가입
      *
      * @param requestDto : CreateMemberRequestDto
      * @return MemberResponseDto, HttpStatus 201 CREATED
@@ -44,15 +42,17 @@ public class MemberController {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-    // 인증 관련 - 나중에 따로 빼자
-    /*
-    쿠키와 세션 중에 세션을 선택한 이유: 보안 문제를 해결하고 싶어서
-    쿠키: 중요한 정보를 클라이언트가 갖고 있음
-    세션: 중요한 정보를 서버가 갖고 있음
+    /**
+     * 기능
+     * POST - 로그인 기능 구현
+     *
+     * @param requestDto : LoginMemberRequestDto
+     * @param request    : HttpServletRequest
+     * @return "로그인 성공!"
      */
     @PostMapping("/signin")
     public String login(
-            @ModelAttribute LoginMemberRequestDto requestDto
+            @RequestBody LoginMemberRequestDto requestDto
             , HttpServletRequest request
     ) {
         LoginMemberResponseDto responseDto = memberService.login(
@@ -68,12 +68,12 @@ public class MemberController {
 
         session.setAttribute("member", memberResponseDto);
 
-        return "redirect:/home";
+        return "로그인 성공!";
     }
 
     /**
      * 기능
-     * [2/5] READ - 사용자 목록 조회
+     * READ - 사용자 목록 조회
      *
      * @return List<MemberResponseDto>, HttpStatus 200 OK
      */
@@ -88,7 +88,7 @@ public class MemberController {
 
     /**
      * 기능
-     * [3/5] READ - 사용자 단건 조회
+     * READ - 사용자 단건 조회
      *
      * @param id : 조회하려는 작성자의 식별자
      * @return MemberResponseDto, HttpStatus 200 OK
@@ -102,7 +102,7 @@ public class MemberController {
 
     /**
      * 기능
-     * [4/5] UPDATE (PUT) - 사용자 수정
+     * UPDATE (PUT) - 사용자 수정
      *
      * @param id         : 수정하려는 사용자의 식별자
      * @param requestDto : UpdateMemberRequestDto
@@ -123,7 +123,7 @@ public class MemberController {
 
     /**
      * 기능
-     * [5/5] DELETE - 사용자 단건 삭제
+     * DELETE - 사용자 단건 삭제
      *
      * @param id : 삭제하려는 사용자의 식별자
      * @return HttpStatus 200 OK

@@ -5,8 +5,10 @@ import com.example.plan.member3.dto.response.MemberResponseDto;
 import com.example.plan.member3.entity.Member;
 import com.example.plan.member3.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +21,13 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 기능
-     * [1/5] 사용자 저장
+     * 사용자 저장
      *
      * @param username : 사용자의 이름
      * @param email    : 사용자의 이메일
      * @return MemberResponseDto
      */
-    @Transactional(readOnly = false) // 기본값이지만, 학습용으로 써둠
+    @Transactional(readOnly = false)
     @Override
     public MemberResponseDto signUp(
             String username
@@ -45,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 기능
-     * [2/5] 사용자 목록 찾기
+     * 사용자 목록 찾기
      *
      * @return List<MemberResponseDto>
      */
@@ -68,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 기능
-     * [3/5] 사용자 단건 조회
+     * 사용자 단건 조회
      *
      * @param id : 조회하려는 사용자의 식별자
      * @return MemberResponseDto
@@ -84,7 +86,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 기능
-     * [4/5] 사용자 단건 수정
+     * 사용자 단건 수정
      *
      * @param id       : 수정하려는 사용자의 식별자
      * @param username : 수정하려는 사용자의 이름
@@ -107,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 기능
-     * [5/5] 사용자 단건 삭제
+     * 사용자 단건 삭제
      *
      * @param id : 삭제하려는 사용자의 식별자
      */
@@ -119,20 +121,28 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.delete(foundMember);
     }
 
+    /**
+     * 기능
+     * 사용자 로그인 처리, 즉 이메일과 비밀번호의 일치 여부 검증
+     *
+     * @param email    : 사용자가 로그인하려고 입력한 이메일
+     * @param password : 사용자가 로그인하려고 입력한 비밀번호
+     * @return LoginMemberResponseDto
+     */
     @Override
     public LoginMemberResponseDto login(
             String email
             , String password
     ) {
-        Member foundMember = memberRepository.findByEmailAndPasswordOrElseThrow(
-                email
-                , password
-        );
-
-
-
-        Long id = foundMember.getId();
-
-        return new LoginMemberResponseDto(id);
+        Member foundMember = memberRepository.findByEmailAndPassword(
+                        email
+                        , password
+                )
+                .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.UNAUTHORIZED
+                                , "Email or Password is incorrect. Please try again."
+                        )
+                );
+        return new LoginMemberResponseDto(foundMember.getId());
     }
 }
