@@ -2,6 +2,8 @@ package com.example.plan.member5.dto.response;
 
 import lombok.Getter;
 
+// 6단계까지 완료
+
 @Getter
 public class LoginMemberResponseDto {
     // 속성

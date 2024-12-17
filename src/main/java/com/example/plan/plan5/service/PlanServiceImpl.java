@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+// 6단계까지 완료
+
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
@@ -21,7 +23,7 @@ public class PlanServiceImpl implements PlanService {
 
     /**
      * 기능
-     * [1/5] 일정 생성
+     * 일정 생성
      *
      * @param title  : 일정 제목
      * @param task   : 일정 내용
@@ -51,7 +53,7 @@ public class PlanServiceImpl implements PlanService {
 
     /**
      * 기능
-     * [2/5] 일정 목록 찾기
+     * 일정 목록 찾기
      *
      * @return List<PlanResponseDto>
      */
@@ -71,7 +73,7 @@ public class PlanServiceImpl implements PlanService {
 
     /**
      * 기능
-     * [3/5] 일정 단건을 id로 찾기
+     * 일정 단건을 id로 찾기
      *
      * @param id : 조회하려는 일정의 식별자
      * @return PlanResponseDto
@@ -87,7 +89,7 @@ public class PlanServiceImpl implements PlanService {
 
     /**
      * 기능
-     * [4/5] 일정 단건 수정 (UPDATE - PATCH: 작성자 이름을 제외했으므로 부분 수정)
+     * 일정 단건 수정 (UPDATE - PATCH: 작성자 이름을 제외했으므로 부분 수정)
      *
      * @param id    : 수정하려는 일정의 식별자
      * @param title : 수정하려는 일정 제목
@@ -114,7 +116,7 @@ public class PlanServiceImpl implements PlanService {
 
     /**
      * 기능
-     * [5/5] 일정 단건 삭제
+     * 일정 단건 삭제
      *
      * @param id : 삭제하려는 일정의 식별자
      */

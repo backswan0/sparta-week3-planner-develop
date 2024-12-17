@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
+// 6단계까지 완료
+
 @Getter
 @Entity
 @Table(name = "members5")
@@ -36,7 +38,7 @@ public class Member extends BaseEntity {
     @Column(
             name = "password"
             , nullable = false
-            , columnDefinition = "VARCHAR(32)"
+            , columnDefinition = "VARCHAR(255)"
     )
     private String password;
 
@@ -63,7 +65,7 @@ public class Member extends BaseEntity {
 
     /**
      * 기능
-     * 사용자 정보 수정 (UPDATE - PUT)
+     * 사용자의 이름과 이메일 수정 (UPDATE - PUT)
      *
      * @param username : 수정하려는 사용자의 이름
      * @param email    : 수정하려는 사용자의 이메일

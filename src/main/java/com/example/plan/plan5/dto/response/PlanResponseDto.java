@@ -8,6 +8,8 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+// 6단계까지 완료
+
 @Getter
 public class PlanResponseDto {
     // 속성

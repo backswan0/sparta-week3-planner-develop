@@ -4,14 +4,19 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import org.hibernate.validator.constraints.Length;
+
+// 6단계까지 완료
 
 @Getter
 public class CreatePlanRequestDto {
     // 속성
     @NotBlank(message = "일정의 제목 입력은 필수입니다.")
+    @Length (min = 1, max = 20)
     private final String title;
 
     @NotEmpty(message = "null과 빈값을 허용하지 않습니다. 공백으로 입력해 주세요.")
+    @Length(max = 200)
     private final String task;
 
     @NotNull(message = "사용자 id 입력은 필수입니다.")

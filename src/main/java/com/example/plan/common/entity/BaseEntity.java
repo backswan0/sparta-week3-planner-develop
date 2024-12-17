@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+// 6단계까지 완료
+
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

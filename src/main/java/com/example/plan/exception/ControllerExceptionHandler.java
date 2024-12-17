@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
+// 6단계까지 완료
+
 @RestControllerAdvice
 public class ControllerExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
+// 6단계까지 완료
+
 @Getter
 @Entity
 @Table(name = "plans5")
@@ -18,11 +20,6 @@ public class Plan extends BaseEntity {
     @Column(columnDefinition = "BIGINT")
     private Long id;
 
-    /*
-    [2의 배수로 작성한 이유 ex) 16, 512]
-    데이터베이스에 따라 byte로 적용될 수 있는데, byte 단위가 이진법이라서
-    즉, 호환성을 고려해서
-     */
     @Comment("일정 제목")
     @Column(
             name = "title"

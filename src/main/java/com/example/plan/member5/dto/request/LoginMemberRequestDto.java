@@ -3,6 +3,8 @@ package com.example.plan.member5.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
+// 6단계까지 완료
+
 @Getter
 public class LoginMemberRequestDto {
     // 속성

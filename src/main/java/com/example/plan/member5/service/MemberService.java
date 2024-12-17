@@ -5,6 +5,8 @@ import com.example.plan.member5.dto.response.MemberResponseDto;
 
 import java.util.List;
 
+// 6단계까지 완료
+
 public interface MemberService {
 
     /**
@@ -13,6 +15,7 @@ public interface MemberService {
      *
      * @param username : 사용자의 이름
      * @param email    : 사용자의 이메일
+     * @param password : 사용자의 비밀번호
      * @return MemberResponseDto
      */
     MemberResponseDto signUp(

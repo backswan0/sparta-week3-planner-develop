@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// 6단계까지 완료
+
 @RestController
 @RequestMapping("/plans")
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ public class PlanController {
 
     /**
      * 기능
-     * [1/5] CREATE - 일정 생성
+     * CREATE - 일정 생성
      *
      * @param requestDto : CreatePlanRequestDto
      * @return PlanResponseDto, HttpStatus 201 CREATED
@@ -41,7 +43,7 @@ public class PlanController {
 
     /**
      * 기능
-     * [2/5] READ - 일정 목록 조회
+     * READ - 일정 목록 조회
      *
      * @return List<PlanResponseDto>, HttpStatus 200 OK
      */
@@ -56,7 +58,7 @@ public class PlanController {
 
     /**
      * 기능
-     * [3/5] READ - 일정 단건 조회
+     * READ - 일정 단건 조회
      *
      * @param id : 조회하려는 일정의 식별자
      * @return PlanResponseDto, HttpStatus 200 OK
@@ -70,7 +72,7 @@ public class PlanController {
 
     /**
      * 기능
-     * [4/5] UPDATE (PATCH) - 일정 수정
+     * UPDATE (PATCH) - 일정 수정
      *
      * @param id         : 수정하려는 일정의 식별자
      * @param requestDto : UpdatePlanRequestDto
@@ -91,7 +93,7 @@ public class PlanController {
 
     /**
      * 기능
-     * [5/5] DELETE - 일정 단건 삭제
+     * DELETE - 일정 단건 삭제
      *
      * @param id : 삭제하려는 일정의 식별자
      * @return HttpStatus 200 OK

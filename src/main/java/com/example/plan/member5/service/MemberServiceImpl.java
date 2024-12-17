@@ -1,5 +1,6 @@
 package com.example.plan.member5.service;
 
+import com.example.plan.config.PasswordEncoder;
 import com.example.plan.member5.dto.response.LoginMemberResponseDto;
 import com.example.plan.member5.dto.response.MemberResponseDto;
 import com.example.plan.member5.entity.Member;
@@ -13,11 +14,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
+// 6단계까지 완료
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     // 속성
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 기능
@@ -25,6 +29,7 @@ public class MemberServiceImpl implements MemberService {
      *
      * @param username : 사용자의 이름
      * @param email    : 사용자의 이메일
+     * @param password : 사용자의 비밀번호
      * @return MemberResponseDto
      */
     @Transactional(readOnly = false)
@@ -34,10 +39,12 @@ public class MemberServiceImpl implements MemberService {
             , String email
             , String password
     ) {
+        String encodedPassword = passwordEncoder.encode(password);
+
         Member member = new Member(
                 username
                 , email
-                , password
+                , encodedPassword
         );
 
         Member savedMember = memberRepository.save(member);
@@ -47,14 +54,46 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 기능
+     * 사용자 로그인 처리, 즉 이메일과 비밀번호의 일치 여부 검증
+     *
+     * @param email    : 사용자가 로그인하려고 입력한 이메일
+     * @param password : 사용자가 로그인하려고 입력한 비밀번호
+     * @return LoginMemberResponseDto
+     */
+    @Override
+    public LoginMemberResponseDto login(
+            String email
+            , String password
+    ) {
+        Member foundMember = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.UNAUTHORIZED
+                                , "이메일이 일치하지 않습니다."
+                        )
+                );
+
+        boolean isPasswordDifferent = !passwordEncoder
+                .matches(
+                        password
+                        , foundMember.getPassword()
+                );
+
+        if (isPasswordDifferent) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED
+                    , "비밀번호가 일치하지 않습니다."
+            );
+        }
+        return new LoginMemberResponseDto(foundMember.getId());
+    }
+
+    /**
+     * 기능
      * 사용자 목록 찾기
      *
      * @return List<MemberResponseDto>
      */
     @Transactional(readOnly = true)
-    // 불필요한 스냅샷을 찍지 않으려고
-    // (스냅샷: 변경 확인하려고, 근데 조회할 땐 변경할 사항이 있는지 확인할 이유가 없으니까)
-    // 외부에서 변경이 이루어져도 디비에서 이루어지지 않음
     @Override
     public List<MemberResponseDto> findAll() {
 
@@ -119,30 +158,5 @@ public class MemberServiceImpl implements MemberService {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
         memberRepository.delete(foundMember);
-    }
-
-    /**
-     * 기능
-     * 사용자 로그인 처리, 즉 이메일과 비밀번호의 일치 여부 검증
-     *
-     * @param email    : 사용자가 로그인하려고 입력한 이메일
-     * @param password : 사용자가 로그인하려고 입력한 비밀번호
-     * @return LoginMemberResponseDto
-     */
-    @Override
-    public LoginMemberResponseDto login(
-            String email
-            , String password
-    ) {
-        Member foundMember = memberRepository.findByEmailAndPassword(
-                        email
-                        , password
-                )
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.UNAUTHORIZED
-                                , "이메일 또는 비밀번호가 일치하지 않습니다."
-                        )
-                );
-        return new LoginMemberResponseDto(foundMember.getId());
     }
 }

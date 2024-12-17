@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+// 6단계까지 완료
+
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     /**
      * 기능

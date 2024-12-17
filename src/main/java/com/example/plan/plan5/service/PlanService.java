@@ -4,11 +4,13 @@ import com.example.plan.plan5.dto.response.PlanResponseDto;
 
 import java.util.List;
 
+// 6단계까지 완료
+
 public interface PlanService {
 
     /**
      * 기능
-     * [1/5] 일정 저장
+     * 일정 저장
      *
      * @param title  : 일정 제목
      * @param task   : 일정 내용
@@ -23,7 +25,7 @@ public interface PlanService {
 
     /**
      * 기능
-     * [2/5] 일정 목록 찾기
+     * 일정 목록 찾기
      *
      * @return List<PlanResponseDto>
      */
@@ -31,7 +33,7 @@ public interface PlanService {
 
     /**
      * 기능
-     * [3/5] 일정 단건을 id로 찾기
+     * 일정 단건을 id로 찾기
      *
      * @param id : 조회하려는 일정의 식별자
      * @return PlanResponseDto
@@ -40,7 +42,7 @@ public interface PlanService {
 
     /**
      * 기능
-     * [4/5] 일정 단건 수정
+     * 일정 단건 수정
      *
      * @param id    : 수정하려는 일정의 식별자
      * @param title : 수정하려는 일정의 제목
@@ -55,7 +57,7 @@ public interface PlanService {
 
     /**
      * 기능
-     * [5/5] 일정 단건 삭제
+     * 일정 단건 삭제
      *
      * @param id : 삭제하려는 일정의 식별자
      */
