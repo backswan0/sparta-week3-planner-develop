@@ -4,6 +4,7 @@ import com.example.plan.plan5.dto.request.CreatePlanRequestDto;
 import com.example.plan.plan5.dto.request.UpdatePlanRequestDto;
 import com.example.plan.plan5.dto.response.PlanResponseDto;
 import com.example.plan.plan5.service.PlanServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class PlanController {
      */
     @PostMapping
     public ResponseEntity<PlanResponseDto> save(
-            @RequestBody CreatePlanRequestDto requestDto
+            @Valid @RequestBody CreatePlanRequestDto requestDto
     ) {
         PlanResponseDto savedPlan = planService.save(
                 requestDto.getTitle()
@@ -78,7 +79,7 @@ public class PlanController {
     @PatchMapping("/{id}")
     public ResponseEntity<PlanResponseDto> updatePlan(
             @PathVariable Long id,
-            @RequestBody UpdatePlanRequestDto requestDto
+            @Valid @RequestBody UpdatePlanRequestDto requestDto
     ) {
         PlanResponseDto responseDto = planService.updatePlan(
                 id

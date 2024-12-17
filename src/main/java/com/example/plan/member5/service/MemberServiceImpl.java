@@ -140,7 +140,7 @@ public class MemberServiceImpl implements MemberService {
                 )
                 .orElseThrow(() -> new ResponseStatusException(
                                 HttpStatus.UNAUTHORIZED
-                                , "Email or Password is incorrect. Please try again."
+                                , "이메일 또는 비밀번호가 일치하지 않습니다."
                         )
                 );
         return new LoginMemberResponseDto(foundMember.getId());

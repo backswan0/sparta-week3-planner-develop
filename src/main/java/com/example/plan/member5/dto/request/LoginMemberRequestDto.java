@@ -1,11 +1,15 @@
 package com.example.plan.member5.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
 public class LoginMemberRequestDto {
     // 속성
+    @NotBlank(message = "이메일 입력은 필수입니다.")
     private final String email;
+
+    @NotBlank(message = "비밀번호 입력은 필수입니다.")
     private final String password;
 
     /**

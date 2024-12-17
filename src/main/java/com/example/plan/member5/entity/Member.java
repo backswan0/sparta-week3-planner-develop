@@ -20,7 +20,7 @@ public class Member extends BaseEntity {
     @Column(
             name = "username"
             , nullable = false
-            , columnDefinition = "VARCHAR(16)"
+            , columnDefinition = "VARCHAR(32)"
     )
     private String username;
 

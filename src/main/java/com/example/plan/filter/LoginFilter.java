@@ -39,7 +39,9 @@ public class LoginFilter implements Filter {
             HttpSession session = httpRequest.getSession(false);
 
             if (session == null || session.getAttribute("member") == null) {
-                throw new RuntimeException("로그인 해주세요.");
+
+                httpResponse.sendError(401, "로그인 해주세요.");
+                return; // 다음 단계를 실행하지 못하도록 막아야 하므로.
             }
         }
         chain.doFilter(request, response);

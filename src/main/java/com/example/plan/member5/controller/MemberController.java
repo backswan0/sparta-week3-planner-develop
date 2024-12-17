@@ -51,7 +51,7 @@ public class MemberController {
      */
     @PostMapping("/signin")
     public String login(
-            @RequestBody LoginMemberRequestDto requestDto
+            @Valid @RequestBody LoginMemberRequestDto requestDto
             , HttpServletRequest request
     ) {
         LoginMemberResponseDto responseDto = memberService.login(
@@ -110,7 +110,7 @@ public class MemberController {
     @PutMapping("/{id}")
     public ResponseEntity<MemberResponseDto> updateMemberById(
             @PathVariable Long id,
-            @RequestBody UpdateMemberRequestDto requestDto
+            @Valid @RequestBody UpdateMemberRequestDto requestDto
     ) {
         MemberResponseDto responseDto = memberService.updateMember(
                 id
