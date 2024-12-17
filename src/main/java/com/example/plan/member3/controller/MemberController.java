@@ -1,12 +1,15 @@
 package com.example.plan.member3.controller;
 
-import com.example.plan.member3.dto.LoginMemberRequestDto;
+import com.example.plan.member3.dto.request.LoginMemberRequestDto;
 import com.example.plan.member3.dto.request.CreateMemberRequestDto;
 import com.example.plan.member3.dto.request.UpdateMemberRequestDto;
+import com.example.plan.member3.dto.response.LoginMemberResponseDto;
 import com.example.plan.member3.dto.response.MemberResponseDto;
 import com.example.plan.member3.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,26 +45,30 @@ public class MemberController {
     }
 
     // 인증 관련 - 나중에 따로 빼자
+    /*
+    쿠키와 세션 중에 세션을 선택한 이유: 보안 문제를 해결하고 싶어서
+    쿠키: 중요한 정보를 클라이언트가 갖고 있음
+    세션: 중요한 정보를 서버가 갖고 있음
+     */
     @PostMapping("/signin")
-
     public String login(
             @ModelAttribute LoginMemberRequestDto requestDto
             , HttpServletRequest request
     ) {
-        // 이메일 비교
+        LoginMemberResponseDto responseDto = memberService.login(
+                requestDto.getEmail()
+                , requestDto.getPassword()
+        );
 
-        // 비밀번호 비교
+        Long userId = responseDto.getId();
 
-        /*
-        세선 생성: 그래야 filter를 통과할 수 있다 (
-        session == null이 아니고(&&)
-        session.getAttribute("sessionKey")==null이 아니고
-        )
-         */
+        HttpSession session = request.getSession();
 
-        // 클래스를 처음 만들 때에도 어떤 문제를 해결하려고 클래스를 만들었는지 끝까지 잊지 말자...!
+        MemberResponseDto memberResponseDto = memberService.findById(userId);
 
-        return null;
+        session.setAttribute("member", memberResponseDto);
+
+        return "redirect:/home";
     }
 
     /**

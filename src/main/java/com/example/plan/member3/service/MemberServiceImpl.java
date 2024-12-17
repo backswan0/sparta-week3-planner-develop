@@ -1,5 +1,6 @@
 package com.example.plan.member3.service;
 
+import com.example.plan.member3.dto.response.LoginMemberResponseDto;
 import com.example.plan.member3.dto.response.MemberResponseDto;
 import com.example.plan.member3.entity.Member;
 import com.example.plan.member3.repository.MemberRepository;
@@ -97,11 +98,11 @@ public class MemberServiceImpl implements MemberService {
             , String username
             , String email
     ) {
-        Member memberToUpdate = memberRepository.findByIdOrElseThrow(id);
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
-        memberToUpdate.update(username, email);
+        foundMember.update(username, email);
 
-        return MemberResponseDto.toDto(memberToUpdate);
+        return MemberResponseDto.toDto(foundMember);
     }
 
     /**
@@ -116,5 +117,22 @@ public class MemberServiceImpl implements MemberService {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
         memberRepository.delete(foundMember);
+    }
+
+    @Override
+    public LoginMemberResponseDto login(
+            String email
+            , String password
+    ) {
+        Member foundMember = memberRepository.findByEmailAndPasswordOrElseThrow(
+                email
+                , password
+        );
+
+
+
+        Long id = foundMember.getId();
+
+        return new LoginMemberResponseDto(id);
     }
 }

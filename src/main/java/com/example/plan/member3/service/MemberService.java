@@ -1,5 +1,7 @@
 package com.example.plan.member3.service;
 
+import com.example.plan.member3.dto.request.LoginMemberRequestDto;
+import com.example.plan.member3.dto.response.LoginMemberResponseDto;
 import com.example.plan.member3.dto.response.MemberResponseDto;
 
 import java.util.List;
@@ -59,4 +61,9 @@ public interface MemberService {
      * @param id : 삭제하려는 사용자의 식별자
      */
     void delete(Long id);
+
+    LoginMemberResponseDto login(
+            String email
+            , String password
+    );
 }
