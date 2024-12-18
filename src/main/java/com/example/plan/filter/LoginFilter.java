@@ -8,6 +8,14 @@ import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
 
+/**
+ * 댓글 C 완료
+ *
+ *
+ *
+ *
+ */
+
 public class LoginFilter implements Filter {
     // 속성
     private static final String[] WHITE_LIST = {"/members/signup", "/members/signin"};

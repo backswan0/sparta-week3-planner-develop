@@ -2,6 +2,14 @@ package com.example.plan.config;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
+/**
+ * 댓글 C 완료
+ *
+ *
+ *
+ *
+ */
+
 @Component
 public class PasswordEncoder {
 

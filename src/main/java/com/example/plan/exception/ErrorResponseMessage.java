@@ -2,6 +2,14 @@ package com.example.plan.exception;
 
 import lombok.Getter;
 
+/**
+ * 댓글 C 완료
+ *
+ *
+ *
+ *
+ */
+
 @Getter
 public class ErrorResponseMessage {
     // 속성
