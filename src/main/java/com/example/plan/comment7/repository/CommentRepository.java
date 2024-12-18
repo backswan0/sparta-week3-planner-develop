@@ -8,7 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+
+    @Query("SELECT c FROM Comment c WHERE c.isDeleted IS NULL")
+    List<Comment> findAllExceptDeleted();
 
     /**
      * 기능

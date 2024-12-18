@@ -55,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<CommentResponseDto> allComments = new ArrayList<>();
 
-        allComments = commentRepository.findAll()
+        allComments = commentRepository.findAllExceptDeleted()
                 .stream()
                 .map(CommentResponseDto::toDto)
                 .toList();
