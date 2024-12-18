@@ -10,14 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     /**
@@ -37,14 +29,17 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     }
 
     /**
+     * 기능
      * 이메일로 사용자 조회
      *
-     * @param email    : 사용자가 입력한 이메일
+     * @param email : 사용자가 입력한 이메일
      * @return Optional<Member>
      */
     Optional<Member> findByEmail(String email);
 
     /**
+     * 기능
+     * 사용자 소프트 딜리트(soft delete)
      *
      * @param id : 소프트 딜리트를 하려고 하는 일정
      * @return int
@@ -53,9 +48,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Query(
             "UPDATE Member m " +
-            "SET m.isDeleted = TRUE, m.deletedAt = CURRENT_TIMESTAMP " +
-            "WHERE m.id = :id " +
-            "AND m.isDeleted IS NULL"
+                    "SET m.isDeleted = TRUE, m.deletedAt = CURRENT_TIMESTAMP " +
+                    "WHERE m.id = :id " +
+                    "AND m.isDeleted IS NULL"
     )
     int softDeleteById(Long id);
 }

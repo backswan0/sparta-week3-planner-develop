@@ -3,14 +3,6 @@ package com.example.plan.member7.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
 public class UpdateMemberRequestDto {
     // 속성

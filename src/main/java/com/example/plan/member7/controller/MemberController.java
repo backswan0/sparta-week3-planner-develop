@@ -1,7 +1,7 @@
 package com.example.plan.member7.controller;
 
 import com.example.plan.member7.dto.request.*;
-import com.example.plan.member7.dto.response.LoginMemberResponseDto;
+import com.example.plan.member7.dto.response.SignInMemberResponseDto;
 import com.example.plan.member7.dto.response.MemberResponseDto;
 import com.example.plan.member7.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,14 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
 
 @RestController
 @RequestMapping("/members")
@@ -58,11 +50,11 @@ public class MemberController {
      * @return 로그인 성공!
      */
     @PostMapping("/signin")
-    public String login(
-            @Valid @RequestBody LoginMemberRequestDto requestDto
+    public String signIn(
+            @Valid @RequestBody SignInMemberRequestDto requestDto
             , HttpServletRequest request
     ) {
-        LoginMemberResponseDto responseDto = memberService.login(
+        SignInMemberResponseDto responseDto = memberService.signIn(
                 requestDto.getEmail()
                 , requestDto.getPassword()
         );

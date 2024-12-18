@@ -5,14 +5,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
 public class CreateMemberRequestDto {
     // 속성

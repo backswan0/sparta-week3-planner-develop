@@ -3,14 +3,6 @@ package com.example.plan.member7.dto.response;
 import com.example.plan.member7.entity.Member;
 import lombok.Getter;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
 public class MemberResponseDto {
     // 속성

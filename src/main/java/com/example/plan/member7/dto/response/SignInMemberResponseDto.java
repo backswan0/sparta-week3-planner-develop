@@ -2,16 +2,8 @@ package com.example.plan.member7.dto.response;
 
 import lombok.Getter;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
-public class LoginMemberResponseDto {
+public class SignInMemberResponseDto {
     // 속성
     private final Long id;
 
@@ -19,7 +11,7 @@ public class LoginMemberResponseDto {
      * 생성자
      * @param id : 사용자의 식별자
      */
-    public LoginMemberResponseDto(Long id) {
+    public SignInMemberResponseDto(Long id) {
         this.id = id;
     }
 }

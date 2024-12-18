@@ -5,14 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
 @Entity
 @Table(name = "members7")
