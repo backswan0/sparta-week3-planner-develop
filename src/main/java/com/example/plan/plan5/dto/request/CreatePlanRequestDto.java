@@ -6,12 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
-/**
- * soft delete - member 완료
- * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
- *
- */
-
 @Getter
 public class CreatePlanRequestDto {
     // 속성

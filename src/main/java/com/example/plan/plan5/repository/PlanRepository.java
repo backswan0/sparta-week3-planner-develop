@@ -8,12 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * soft delete - member 완료
- * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
- *
- */
-
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     /**
      * 기능
@@ -33,7 +27,8 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Plan p " +
+    @Query(
+            "UPDATE Plan p " +
             "SET p.isDeleted = true, p.deletedAt = CURRENT_TIMESTAMP " +
             "WHERE p.id = :id " +
             "AND p.isDeleted IS NULL"
@@ -42,7 +37,8 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Plan p " +
+    @Query(
+            "UPDATE Plan p " +
             "SET p.isDeleted = TRUE, p.deletedAt = CURRENT_TIMESTAMP " +
             "WHERE p.member.id = :id " +
             "AND p.isDeleted IS NULL"

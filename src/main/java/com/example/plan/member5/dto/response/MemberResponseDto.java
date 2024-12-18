@@ -3,12 +3,6 @@ package com.example.plan.member5.dto.response;
 import com.example.plan.member5.entity.Member;
 import lombok.Getter;
 
-/**
- * soft delete - member 완료
- * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
- *
- */
-
 @Getter
 public class MemberResponseDto {
     // 속성

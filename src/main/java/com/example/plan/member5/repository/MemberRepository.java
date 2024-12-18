@@ -10,12 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
-/**
- * soft delete - member 완료
- * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
- *
- */
-
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     /**
@@ -42,12 +36,18 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      */
     Optional<Member> findByEmail(String email);
 
+    /**
+     *
+     * @param id : 소프트 딜리트를 하려고 하는 일정
+     * @return int
+     */
     @Transactional
     @Modifying
-    @Query("UPDATE Member m " +
+    @Query(
+            "UPDATE Member m " +
             "SET m.isDeleted = TRUE, m.deletedAt = CURRENT_TIMESTAMP " +
             "WHERE m.id = :id " +
             "AND m.isDeleted IS NULL"
     )
-    int softDelete(Long id);
+    int softDeleteById(Long id);
 }

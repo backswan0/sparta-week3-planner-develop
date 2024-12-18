@@ -10,12 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * soft delete - member 완료
- * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
- *
- */
-
 @RestControllerAdvice
 public class ControllerExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -47,16 +41,6 @@ public class ControllerExceptionHandler {
                 new ErrorResponseMessage(statusCode.value(), e.getReason()), statusCode
         );
     }
-
-//    @ExceptionHandler(RuntimeException.class)
-//    public ResponseEntity<ErrorResponseMessage> handleRuntimeException(RuntimeException e) {
-//
-//        HttpStatusCode statusCode = HttpStatusCode.valueOf(401);
-//
-//        return new ResponseEntity<>(
-//          new ErrorResponseMessage(statusCode.value(), "로그인을 해주세요"), statusCode
-//        );
-//    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseMessage> handleException(Exception e) {
