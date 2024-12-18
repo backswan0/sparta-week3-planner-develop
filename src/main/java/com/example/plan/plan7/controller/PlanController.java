@@ -6,6 +6,11 @@ import com.example.plan.plan7.dto.response.PlanResponseDto;
 import com.example.plan.plan7.service.PlanServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,10 +51,13 @@ public class PlanController {
      * @return List<PlanResponseDto>, HttpStatus 200 OK
      */
     @GetMapping
-    public ResponseEntity<List<PlanResponseDto>> findAll() {
-        List<PlanResponseDto> allPlans = new ArrayList<>();
-
-        allPlans = planService.findAll();
+    public ResponseEntity<List<PlanResponseDto>> findAll(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber()
+                , pageable.getPageSize()
+                , Sort.by("updatedAt").descending()
+        );
+        List<PlanResponseDto> allPlans = planService.findAll(sortedPageable);
 
         return new ResponseEntity<>(allPlans, HttpStatus.OK);
     }

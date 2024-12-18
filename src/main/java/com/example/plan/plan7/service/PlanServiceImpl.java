@@ -2,17 +2,18 @@ package com.example.plan.plan7.service;
 
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.MemberRepository;
-import com.example.plan.note7.repository.NoteRepository;
+import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.plan7.dto.response.PlanResponseDto;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public class PlanServiceImpl implements PlanService {
     // 속성
     private final PlanRepository planRepository;
     private final MemberRepository memberRepository;
-    private final NoteRepository noteRepository;
+    private final CommentRepository commentRepository;
 
     /**
      * 기능
@@ -61,16 +62,12 @@ public class PlanServiceImpl implements PlanService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<PlanResponseDto> findAll() {
+    public List<PlanResponseDto> findAll(Pageable pageable) {
 
-        List<PlanResponseDto> allPlans = new ArrayList<>();
+        Page<PlanResponseDto> allPlans = planRepository.findAll(pageable)
+                .map(PlanResponseDto::toDto);
 
-        allPlans = planRepository.findAll()
-                .stream()
-                .map(PlanResponseDto::toDto)
-                .toList();
-
-        return allPlans;
+        return allPlans.getContent();
     }
 
     /**
@@ -134,6 +131,6 @@ public class PlanServiceImpl implements PlanService {
         }
 
         // 일정이 삭제될 때 해당 일정에 있는 댓글도 모두 소프트 딜리트 진행
-        noteRepository.softDeleteByPlanId(id);
+        commentRepository.softDeleteByPlanId(id);
     }
 }
