@@ -1,4 +1,4 @@
-package com.example.plan.note7.dto.request;
+package com.example.plan.comment7.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
-public class CreateNoteRequestDto {
+public class CreateCommentRequestDto {
 
     @NotBlank(message = "댓글 내용 입력은 필수입니다.")
     @Length(max = 200)
@@ -20,7 +20,7 @@ public class CreateNoteRequestDto {
      * @param content : 댓글 내용
      * @param planId : 댓글이 작성되는 일정의 식별자
      */
-    public CreateNoteRequestDto(
+    public CreateCommentRequestDto(
             String content
             , Long planId
     ) {

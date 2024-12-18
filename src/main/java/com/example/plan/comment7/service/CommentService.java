@@ -1,10 +1,10 @@
-package com.example.plan.note7.service;
+package com.example.plan.comment7.service;
 
-import com.example.plan.note7.dto.response.NoteResponseDto;
+import com.example.plan.comment7.dto.response.CommentResponseDto;
 
 import java.util.List;
 
-public interface NoteService {
+public interface CommentService {
 
     /**
      * 기능
@@ -12,9 +12,9 @@ public interface NoteService {
      *
      * @param content : 댓글 내용
      * @param planId  : 해당 댓글이 작성된 일정의 식별자
-     * @return NoteResponseDto
+     * @return CommentResponseDto
      */
-    NoteResponseDto save(
+    CommentResponseDto save(
             String content
             , Long planId
     );
@@ -23,18 +23,18 @@ public interface NoteService {
      * 기능
      * 댓글 목록 찾기
      *
-     * @return List<NoteResponseDto>
+     * @return List<CommentResponseDto>
      */
-    List<NoteResponseDto> findAll();
+    List<CommentResponseDto> findAll();
 
     /**
      * 기능
      * 댓글 단건을 id로 찾기
      *
      * @param id : 조회하려는 댓글의 식별자
-     * @return NoteResponseDto
+     * @return CommentResponseDto
      */
-    NoteResponseDto findById(Long id);
+    CommentResponseDto findById(Long id);
 
     /**
      * 기능
@@ -42,9 +42,9 @@ public interface NoteService {
      *
      * @param id      : 수정하려는 댓글의 식별자
      * @param content : 수정하려는 댓글의 내용
-     * @return NoteResponseDto
+     * @return CommentResponseDto
      */
-    NoteResponseDto updateNote(
+    CommentResponseDto updateComment(
             Long id
             , String content
     );

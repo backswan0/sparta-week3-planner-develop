@@ -1,9 +1,9 @@
-package com.example.plan.note7.controller;
+package com.example.plan.comment7.controller;
 
-import com.example.plan.note7.dto.request.CreateNoteRequestDto;
-import com.example.plan.note7.dto.request.UpdateNoteRequestDto;
-import com.example.plan.note7.dto.response.NoteResponseDto;
-import com.example.plan.note7.service.NoteServiceImpl;
+import com.example.plan.comment7.dto.request.CreateCommentRequestDto;
+import com.example.plan.comment7.dto.request.UpdateCommentRequestDto;
+import com.example.plan.comment7.dto.response.CommentResponseDto;
+import com.example.plan.comment7.service.CommentServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,44 +14,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/notes")
+@RequestMapping("/comments")
 @RequiredArgsConstructor
-public class NoteController {
+public class CommentController {
     // 속성
-    private final NoteServiceImpl noteService;
+    private final CommentServiceImpl commentService;
 
     /**
      * 기능
      * CREATE - 댓글 생성
      *
-     * @param requestDto : CreateNoteRequestDto
-     * @return NoteResponseDto, HttpStatus 201 CREATED
+     * @param requestDto : CreateCommentRequestDto
+     * @return CommentResponseDto, HttpStatus 201 CREATED
      */
     @PostMapping
-    public ResponseEntity<NoteResponseDto> save(
-            @Valid @RequestBody CreateNoteRequestDto requestDto
+    public ResponseEntity<CommentResponseDto> save(
+            @Valid @RequestBody CreateCommentRequestDto requestDto
     ) {
-        NoteResponseDto savedNote = noteService.save
+        CommentResponseDto savedComment = commentService.save
                 (
                         requestDto.getContent()
                         , requestDto.getPlanId()
                 );
-        return new ResponseEntity<>(savedNote, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
     }
 
     /**
      * 기능
      * READ - 댓글 목록 조회
      *
-     * @return List<NoteResponseDto>, HttpStatus 200 OK
+     * @return List<CommentResponseDto>, HttpStatus 200 OK
      */
     @GetMapping
-    public ResponseEntity<List<NoteResponseDto>> findAll() {
-        List<NoteResponseDto> allNotes = new ArrayList<>();
+    public ResponseEntity<List<CommentResponseDto>> findAll() {
+        List<CommentResponseDto> allComments = new ArrayList<>();
 
-        allNotes = noteService.findAll();
+        allComments = commentService.findAll();
 
-        return new ResponseEntity<>(allNotes, HttpStatus.OK);
+        return new ResponseEntity<>(allComments, HttpStatus.OK);
     }
 
     /**
@@ -59,11 +59,11 @@ public class NoteController {
      * READ - 댓글 단건 조회
      *
      * @param id : 조회하려는 댓글의 식별자
-     * @return NoteResponseDto, HttpStatus 200 OK
+     * @return CommentResponseDto, HttpStatus 200 OK
      */
     @GetMapping("/{id}")
-    public ResponseEntity<NoteResponseDto> findById(@PathVariable Long id) {
-        NoteResponseDto responseDto = noteService.findById(id);
+    public ResponseEntity<CommentResponseDto> findById(@PathVariable Long id) {
+        CommentResponseDto responseDto = commentService.findById(id);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -71,6 +71,7 @@ public class NoteController {
     TODO 애플리케이션 실행은 잘 되었으나, 속도가 확실히 느려졌다.
      보통 11ms 내외였는데, 16ms - 20ms로 걸렸다.
      CRUD를 모두 생성한 다음 추가로 테스트해야겠다.
+     == 애플리케이션을 처음 실행하면 warm up이 되느라 늦는다고 한다:)
      */
 
     /**
@@ -78,15 +79,15 @@ public class NoteController {
      * 댓글 단건 수정
      *
      * @param id         : 수정하려는 댓글의 식별자
-     * @param requestDto : UpdateNoteRequestDto
-     * @return NoteResponseDto
+     * @param requestDto : UpdateCommentRequestDto
+     * @return CommentResponseDto
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<NoteResponseDto> updateNote(
+    public ResponseEntity<CommentResponseDto> updateComment(
             @PathVariable Long id
-            , @Valid @RequestBody UpdateNoteRequestDto requestDto
+            , @Valid @RequestBody UpdateCommentRequestDto requestDto
     ) {
-        NoteResponseDto responseDto = noteService.updateNote(
+        CommentResponseDto responseDto = commentService.updateComment(
                 id
                 , requestDto.getContent()
         );
@@ -102,7 +103,7 @@ public class NoteController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        noteService.delete(id);
+        commentService.delete(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

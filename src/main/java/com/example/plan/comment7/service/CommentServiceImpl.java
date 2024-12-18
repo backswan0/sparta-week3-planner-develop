@@ -1,8 +1,8 @@
-package com.example.plan.note7.service;
+package com.example.plan.comment7.service;
 
-import com.example.plan.note7.dto.response.NoteResponseDto;
-import com.example.plan.note7.entity.Note;
-import com.example.plan.note7.repository.NoteRepository;
+import com.example.plan.comment7.dto.response.CommentResponseDto;
+import com.example.plan.comment7.entity.Comment;
+import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class NoteServiceImpl implements NoteService {
+public class CommentServiceImpl implements CommentService {
     // 속성
     private final PlanRepository planRepository;
-    private final NoteRepository noteRepository;
+    private final CommentRepository commentRepository;
 
     /**
      * 기능
@@ -27,40 +27,40 @@ public class NoteServiceImpl implements NoteService {
      *
      * @param content : 댓글 내용
      * @param planId  : 해당 댓글이 작성된 일정의 식별자
-     * @return : NoteResponseDto
+     * @return : CommentResponseDto
      */
     @Override
-    public NoteResponseDto save(String content, Long planId) {
+    public CommentResponseDto save(String content, Long planId) {
         Plan foundplan = planRepository.findByIdOrElseThrow(planId);
 
-        Note noteToSave = new Note(content);
+        Comment commentToSave = new Comment(content);
 
-        noteToSave.setPlan(foundplan);
-        noteToSave.setMember(foundplan.getMember());
+        commentToSave.setPlan(foundplan);
+        commentToSave.setMember(foundplan.getMember());
 
-        Note savedNote = noteRepository.save(noteToSave);
+        Comment savedComment = commentRepository.save(commentToSave);
 
-        return NoteResponseDto.toDto(savedNote);
+        return CommentResponseDto.toDto(savedComment);
     }
 
     /**
      * 기능
      * 댓글 목록 조회
      *
-     * @return List<NoteResponseDto>
+     * @return List<CommentResponseDto>
      */
     @Transactional(readOnly = true)
     @Override
-    public List<NoteResponseDto> findAll() {
+    public List<CommentResponseDto> findAll() {
 
-        List<NoteResponseDto> allNotes = new ArrayList<>();
+        List<CommentResponseDto> allComments = new ArrayList<>();
 
-        allNotes = noteRepository.findAll()
+        allComments = commentRepository.findAll()
                 .stream()
-                .map(NoteResponseDto::toDto)
+                .map(CommentResponseDto::toDto)
                 .toList();
 
-        return allNotes;
+        return allComments;
     }
 
     /**
@@ -68,15 +68,15 @@ public class NoteServiceImpl implements NoteService {
      * 댓글 단건을 id로 찾기
      *
      * @param id : 조회하려는 댓글의 식별자
-     * @return NoteResponseDto
+     * @return CommentResponseDto
      */
     @Transactional(readOnly = true)
     @Override
-    public NoteResponseDto findById(Long id) {
+    public CommentResponseDto findById(Long id) {
 
-        Note foundNote = noteRepository.findByIdOrElseThrow(id);
+        Comment foundComment = commentRepository.findByIdOrElseThrow(id);
 
-        return NoteResponseDto.toDto(foundNote);
+        return CommentResponseDto.toDto(foundComment);
     }
 
     /**
@@ -85,20 +85,20 @@ public class NoteServiceImpl implements NoteService {
      *
      * @param id      : 수정하려는 댓글의 식별자
      * @param content : 수정하려는 댓글의 내용
-     * @return NoteResponseDto
+     * @return CommentResponseDto
      */
     @Override
-    public NoteResponseDto updateNote(
+    public CommentResponseDto updateComment(
             Long id
             , String content
     ) {
-        Note noteToUpdate = noteRepository.findByIdOrElseThrow(id);
+        Comment commentToUpdate = commentRepository.findByIdOrElseThrow(id);
 
-        noteToUpdate.update(content);
+        commentToUpdate.update(content);
 
-        Note updatedNote = noteRepository.save(noteToUpdate);
+        Comment updatedComment = commentRepository.save(commentToUpdate);
 
-        return NoteResponseDto.toDto(updatedNote);
+        return CommentResponseDto.toDto(updatedComment);
     }
 
     /**
@@ -109,7 +109,7 @@ public class NoteServiceImpl implements NoteService {
      */
     @Override
     public void delete(Long id) {
-        int rowsAffected = noteRepository.softDeleteById(id);
+        int rowsAffected = commentRepository.softDeleteById(id);
 
         if (rowsAffected == 0) {
             throw new ResponseStatusException(

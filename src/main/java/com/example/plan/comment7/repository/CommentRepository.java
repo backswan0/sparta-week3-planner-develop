@@ -1,6 +1,6 @@
-package com.example.plan.note7.repository;
+package com.example.plan.comment7.repository;
 
-import com.example.plan.note7.entity.Note;
+import com.example.plan.comment7.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,16 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-public interface NoteRepository extends JpaRepository<Note, Long> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     /**
      * 기능
      * 댓글의 식별자로 댓글 단건 조회
      *
      * @param id : 조회하려는 댓글의 식별자
-     * @return Note
+     * @return Comment
      */
-    default Note findByIdOrElseThrow(Long id) {
+    default Comment findByIdOrElseThrow(Long id) {
         return findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND
@@ -36,10 +36,10 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     @Transactional
     @Modifying
     @Query(
-            "UPDATE Note n " +
-                    "SET n.isDeleted = TRUE, n.deletedAt = CURRENT_TIMESTAMP " +
-                    "WHERE n.id = :id " +
-                    "AND n.isDeleted IS NULL"
+            "UPDATE Comment c " +
+                    "SET c.isDeleted = TRUE, c.deletedAt = CURRENT_TIMESTAMP " +
+                    "WHERE c.id = :id " +
+                    "AND c.isDeleted IS NULL"
     )
     int softDeleteById(Long id);
 
@@ -52,10 +52,10 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     @Transactional
     @Modifying
     @Query(
-            "UPDATE Note n " +
-                    "SET n.isDeleted = TRUE, n.deletedAt = CURRENT_TIMESTAMP " +
-                    "WHERE n.plan.id = :id " +
-                    "AND n.isDeleted IS NULL"
+            "UPDATE Comment c " +
+                    "SET c.isDeleted = TRUE, c.deletedAt = CURRENT_TIMESTAMP " +
+                    "WHERE c.plan.id = :id " +
+                    "AND c.isDeleted IS NULL"
     )
     void softDeleteByPlanId(Long id);
 
@@ -68,10 +68,10 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     @Transactional
     @Modifying
     @Query(
-            "UPDATE Note n " +
-                    "SET n.isDeleted = TRUE, n.deletedAt = CURRENT_TIMESTAMP " +
-                    "WHERE n.member.id = :id " +
-                    "AND n.isDeleted IS NULL"
+            "UPDATE Comment c " +
+                    "SET c.isDeleted = TRUE, c.deletedAt = CURRENT_TIMESTAMP " +
+                    "WHERE c.member.id = :id " +
+                    "AND c.isDeleted IS NULL"
     )
     void softDeleteByMemberId(Long id);
 }
