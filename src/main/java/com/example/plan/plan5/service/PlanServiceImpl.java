@@ -128,7 +128,7 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public void delete(Long id) {
-        int rowsAffected = planRepository.softDelete(id);
+        int rowsAffected = planRepository.softDeleteById(id);
 
         if (rowsAffected == 0) {
             throw new ResponseStatusException(

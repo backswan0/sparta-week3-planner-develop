@@ -5,6 +5,7 @@ import com.example.plan.member5.dto.response.LoginMemberResponseDto;
 import com.example.plan.member5.dto.response.MemberResponseDto;
 import com.example.plan.member5.entity.Member;
 import com.example.plan.member5.repository.MemberRepository;
+import com.example.plan.plan5.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import java.util.List;
 /**
  * soft delete - member 완료
  * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
- *
  */
 
 @Service
@@ -25,6 +25,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
     // 속성
     private final MemberRepository memberRepository;
+    private final PlanRepository planRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -161,11 +162,12 @@ public class MemberServiceImpl implements MemberService {
     public void delete(Long id) {
         int rowsAffected = memberRepository.softDelete(id);
 
-        if(rowsAffected == 0) {
+        if (rowsAffected == 0) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND
                     , "이미 삭제되었거나 존재하지 않는 id입니다."
             );
         }
+        planRepository.softDeleteByMemberId(id);
     }
 }

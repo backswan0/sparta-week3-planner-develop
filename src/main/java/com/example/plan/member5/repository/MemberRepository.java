@@ -44,6 +44,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Member m SET m.isDeleted = true, m.deletedAt = CURRENT_TIMESTAMP WHERE m.id = :id AND m.isDeleted IS NULL")
+    @Query("UPDATE Member m " +
+            "SET m.isDeleted = TRUE, m.deletedAt = CURRENT_TIMESTAMP " +
+            "WHERE m.id = :id " +
+            "AND m.isDeleted IS NULL"
+    )
     int softDelete(Long id);
 }
