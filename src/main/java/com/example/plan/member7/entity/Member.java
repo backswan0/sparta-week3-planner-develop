@@ -1,6 +1,6 @@
 package com.example.plan.member7.entity;
 
-import com.example.plan.common.entity.BaseEntity;
+import com.example.plan.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;

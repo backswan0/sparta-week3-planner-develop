@@ -1,6 +1,6 @@
 package com.example.plan.plan7.entity;
 
-import com.example.plan.common.entity.BaseEntity;
+import com.example.plan.base.BaseEntity;
 import com.example.plan.member7.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;

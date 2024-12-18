@@ -8,14 +8,6 @@ import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 public class LoginFilter implements Filter {
     // 속성
     private static final String[] WHITE_LIST = {"/members/signup", "/members/signin"};
@@ -49,7 +41,8 @@ public class LoginFilter implements Filter {
             if (session == null || session.getAttribute("member") == null) {
 
                 httpResponse.sendError(401, "로그인 해주세요.");
-                return; // 다음 단계를 실행하지 못하도록 막아야 하므로.
+                return;
+                // 다음 단계를 실행하지 못하도록 막음
             }
         }
         chain.doFilter(request, response);
