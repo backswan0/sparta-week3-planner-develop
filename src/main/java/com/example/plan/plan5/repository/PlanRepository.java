@@ -2,7 +2,10 @@ package com.example.plan.plan5.repository;
 
 import com.example.plan.plan5.entity.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -28,4 +31,8 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
         );
     }
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Plan p SET p.isDeleted = true, p.deletedAt = CURRENT_TIMESTAMP WHERE p.id = :id AND p.isDeleted IS NULL")
+    int softDelete(Long id);
 }
