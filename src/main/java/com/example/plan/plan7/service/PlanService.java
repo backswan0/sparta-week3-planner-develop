@@ -4,14 +4,6 @@ import com.example.plan.plan7.dto.response.PlanResponseDto;
 
 import java.util.List;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 public interface PlanService {
 
     /**

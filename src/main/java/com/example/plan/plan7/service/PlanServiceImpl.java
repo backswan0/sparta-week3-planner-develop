@@ -132,6 +132,8 @@ public class PlanServiceImpl implements PlanService {
                     , "이미 삭제되었거나 존재하지 않는 id입니다."
             );
         }
+
+        // 일정이 삭제될 때 해당 일정에 있는 댓글도 모두 소프트 딜리트 진행
         noteRepository.softDeleteByPlanId(id);
     }
 }

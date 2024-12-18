@@ -5,14 +5,6 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
 public class UpdatePlanRequestDto {
     // 속성

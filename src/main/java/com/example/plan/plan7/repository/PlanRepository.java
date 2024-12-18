@@ -8,14 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     /**
      * 기능
@@ -33,6 +25,12 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
         );
     }
 
+    /**
+     * 기능
+     * 일정 단건 소프트 딜리트
+     * @param id : 소프트 딜리트를 진행하려는 일정의 식별자
+     * @return int
+     */
     @Transactional
     @Modifying
     @Query(
@@ -43,6 +41,11 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     )
     int softDeleteById(Long id);
 
+    /**
+     * 기능
+     * 외래 키를 활용하여 사용자가 삭제될 때, 해당 사용자가 작성한 일정도 같이 소프트 딜리트 진행
+     * @param id : 일정을 작성한 사용자의 식별자
+     */
     @Transactional
     @Modifying
     @Query(

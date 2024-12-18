@@ -8,14 +8,6 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
 public class PlanResponseDto {
     // 속성
@@ -31,13 +23,12 @@ public class PlanResponseDto {
     private final LocalDateTime updatedAt;
 
     /**
-     *
-     * @param id : 일정 식별자
-     * @param title : 일정 제목
-     * @param task : 일정 내용
+     * @param id        : 일정 식별자
+     * @param title     : 일정 제목
+     * @param task      : 일정 내용
      * @param createdAt : 일정 생성일
      * @param updatedAt : 일정 수정일
-     * @param member : 해당 일정을 작성한 사용자의 정보 (이메일, 이름 포함)
+     * @param member    : 해당 일정을 작성한 사용자의 정보 (이메일, 이름 포함)
      */
     public PlanResponseDto(
             Long id

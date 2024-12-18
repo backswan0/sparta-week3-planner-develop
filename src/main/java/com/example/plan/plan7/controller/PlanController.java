@@ -13,14 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @RestController
 @RequestMapping("/plans")
 @RequiredArgsConstructor

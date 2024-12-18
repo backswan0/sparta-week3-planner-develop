@@ -7,14 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Getter
 @Entity
 @Table(name = "plans7")
