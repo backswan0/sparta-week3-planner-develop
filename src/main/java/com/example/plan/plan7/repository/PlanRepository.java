@@ -1,5 +1,6 @@
 package com.example.plan.plan7.repository;
 
+import com.example.plan.member7.entity.Member;
 import com.example.plan.plan7.entity.Plan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,10 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     @Query("SELECT p FROM Plan p WHERE p.isDeleted IS NULL")
     Page<Plan> findAllExceptDeleted(Pageable pageable);
+
+    @Query("SELECT p FROM Plan p WHERE p.id = :id AND p.isDeleted IS NULL")
+    Optional<Plan> findByIdExceptDeleted(Long id);
 
     /**
      * 기능
@@ -23,7 +29,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
      * @return Plan
      */
     default Plan findByIdOrElseThrow(Long id) {
-        return findById(id).orElseThrow(
+        return findByIdExceptDeleted(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND
                         , "입력된 id가 존재하지 않습니다. 다시 입력해 주세요."
