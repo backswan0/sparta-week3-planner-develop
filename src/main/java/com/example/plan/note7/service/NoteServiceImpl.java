@@ -6,8 +6,10 @@ import com.example.plan.note7.repository.NoteRepository;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,5 +104,23 @@ public class NoteServiceImpl implements NoteService {
         Note updatedNote = noteRepository.save(noteToUpdate);
 
         return NoteResponseDto.toDto(updatedNote);
+    }
+
+    /**
+     * 기능
+     * 댓글 단건 삭제
+     *
+     * @param id : 삭제하려는 댓글의 식별자
+     */
+    @Override
+    public void delete(Long id) {
+        int rowsAffected = noteRepository.softDeleteById(id);
+
+        if (rowsAffected == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+                    , "이미 삭제되었거나 존재하지 않는 id입니다."
+            );
+        }
     }
 }

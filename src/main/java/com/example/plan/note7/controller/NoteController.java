@@ -97,4 +97,17 @@ public class NoteController {
         );
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    /**
+     * 기능
+     * 댓글 단건 삭제
+     * @param id : 삭제하려는 댓글의 식별자
+     * @return HttpStatus 200 OK
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        noteService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

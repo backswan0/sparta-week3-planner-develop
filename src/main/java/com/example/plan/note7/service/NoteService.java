@@ -53,4 +53,12 @@ public interface NoteService {
             Long id
             , String content
     );
+
+    /**
+     * 기능
+     * 댓글 단건 삭제
+     *
+     * @param id : 삭제하려는 댓글의 식별자
+     */
+    void delete(Long id);
 }
