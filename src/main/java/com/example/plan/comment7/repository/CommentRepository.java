@@ -9,11 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("SELECT c FROM Comment c WHERE c.isDeleted IS NULL")
     List<Comment> findAllExceptDeleted();
+
+    @Query("SELECT c FROM Comment c WHERE c.id = :id AND c.isDeleted IS NULL")
+    Optional<Comment> findByIdExceptDeleted(Long id);
 
     /**
      * 기능
@@ -23,7 +27,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * @return Comment
      */
     default Comment findByIdOrElseThrow(Long id) {
-        return findById(id).orElseThrow(
+        return findByIdExceptDeleted(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND
                         , "입력된 id가 존재하지 않습니다. 다시 입력해 주세요."
