@@ -5,6 +5,7 @@ import com.example.plan.member7.dto.response.LoginMemberResponseDto;
 import com.example.plan.member7.dto.response.MemberResponseDto;
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.MemberRepository;
+import com.example.plan.note7.repository.NoteRepository;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,20 +16,13 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     // 속성
     private final MemberRepository memberRepository;
     private final PlanRepository planRepository;
+    private final NoteRepository noteRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -69,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
      * @return LoginMemberResponseDto
      */
     @Override
-    public LoginMemberResponseDto login(
+    public LoginMemberResponseDto signIn(
             String email
             , String password
     ) {
@@ -172,5 +166,7 @@ public class MemberServiceImpl implements MemberService {
             );
         }
         planRepository.softDeleteByMemberId(id);
+
+        noteRepository.softDeleteByMemberId(id);
     }
 }

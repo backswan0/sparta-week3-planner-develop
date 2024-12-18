@@ -2,6 +2,7 @@ package com.example.plan.plan7.service;
 
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.MemberRepository;
+import com.example.plan.note7.repository.NoteRepository;
 import com.example.plan.plan7.dto.response.PlanResponseDto;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
@@ -14,20 +15,13 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 댓글 C 완료
- *
- *
- *
- *
- */
-
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
     // 속성
     private final PlanRepository planRepository;
     private final MemberRepository memberRepository;
+    private final NoteRepository noteRepository;
 
     /**
      * 기능
@@ -138,5 +132,6 @@ public class PlanServiceImpl implements PlanService {
                     , "이미 삭제되었거나 존재하지 않는 id입니다."
             );
         }
+        noteRepository.softDeleteByPlanId(id);
     }
 }

@@ -8,14 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * 댓글 C 완료
- * 댓글 R 목록 조회 완료
- * 댓글 R 단건 조회 완료
- * 댓글 U 단건 수정 완료 (PATCH)
- * 댓글 D 단건 삭제 완료
- */
-
 public interface NoteRepository extends JpaRepository<Note, Long> {
 
     default Note findByIdOrElseThrow(Long id) {
@@ -31,9 +23,30 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     @Modifying
     @Query(
             "UPDATE Note n " +
-                    "SET n.isDeleted = true, n.deletedAt = CURRENT_TIMESTAMP " +
+                    "SET n.isDeleted = TRUE, n.deletedAt = CURRENT_TIMESTAMP " +
                     "WHERE n.id = :id " +
                     "AND n.isDeleted IS NULL"
     )
     int softDeleteById(Long id);
+
+    @Transactional
+    @Modifying
+    @Query(
+            "UPDATE Note n " +
+                    "SET n.isDeleted = TRUE, n.deletedAt = CURRENT_TIMESTAMP " +
+                    "WHERE n.plan.id = :id " +
+                    "AND n.isDeleted IS NULL"
+    )
+    void softDeleteByPlanId(Long id);
+
+
+    @Transactional
+    @Modifying
+    @Query(
+            "UPDATE Note n " +
+                    "SET n.isDeleted = TRUE, n.deletedAt = CURRENT_TIMESTAMP " +
+                    "WHERE n.member.id = :id " +
+                    "AND n.isDeleted IS NULL"
+    )
+    void softDeleteByMemberId(Long id);
 }
