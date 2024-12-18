@@ -3,6 +3,7 @@ package com.example.plan.plan7.service;
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.MemberRepository;
 import com.example.plan.comment7.repository.CommentRepository;
+import com.example.plan.plan7.dto.response.PlanReadResponseDto;
 import com.example.plan.plan7.dto.response.PlanResponseDto;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,12 +65,20 @@ public class PlanServiceImpl implements PlanService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<PlanResponseDto> findAll(Pageable pageable) {
+    public List<PlanReadResponseDto> findAll(Pageable pageable) {
 
-        Page<PlanResponseDto> allPlans = planRepository.findAll(pageable)
-                .map(PlanResponseDto::toDto);
+        List<PlanReadResponseDto> planList = new ArrayList<>();
 
-        return allPlans.getContent();
+        planList = planRepository.findAll(pageable)
+                .getContent()
+                .stream()
+                .map(plan -> {
+                    int totalComment = commentRepository.countByPlanId(plan.getId());
+
+                    return PlanReadResponseDto.toDto(plan, totalComment);
+                }).toList();
+
+        return planList;
     }
 
     /**

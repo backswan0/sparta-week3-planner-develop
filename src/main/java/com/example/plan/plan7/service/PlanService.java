@@ -1,5 +1,6 @@
 package com.example.plan.plan7.service;
 
+import com.example.plan.plan7.dto.response.PlanReadResponseDto;
 import com.example.plan.plan7.dto.response.PlanResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,9 +28,9 @@ public interface PlanService {
      * 기능
      * 일정 목록 찾기
      *
-     * @return List<PlanResponseDto>
+     * @return List<PlanReadResponseDto>
      */
-    List<PlanResponseDto> findAll(Pageable pageable);
+    List<PlanReadResponseDto> findAll(Pageable pageable);
 
     /**
      * 기능

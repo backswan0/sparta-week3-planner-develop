@@ -2,6 +2,7 @@ package com.example.plan.plan7.controller;
 
 import com.example.plan.plan7.dto.request.CreatePlanRequestDto;
 import com.example.plan.plan7.dto.request.UpdatePlanRequestDto;
+import com.example.plan.plan7.dto.response.PlanReadResponseDto;
 import com.example.plan.plan7.dto.response.PlanResponseDto;
 import com.example.plan.plan7.service.PlanServiceImpl;
 import jakarta.validation.Valid;
@@ -51,13 +52,13 @@ public class PlanController {
      * @return List<PlanResponseDto>, HttpStatus 200 OK
      */
     @GetMapping
-    public ResponseEntity<List<PlanResponseDto>> findAll(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public ResponseEntity<List<PlanReadResponseDto>> findAll(@PageableDefault(page = 0, size = 10) Pageable pageable) {
         Pageable sortedPageable = PageRequest.of(
                 pageable.getPageNumber()
                 , pageable.getPageSize()
                 , Sort.by("updatedAt").descending()
         );
-        List<PlanResponseDto> allPlans = planService.findAll(sortedPageable);
+        List<PlanReadResponseDto> allPlans = planService.findAll(sortedPageable);
 
         return new ResponseEntity<>(allPlans, HttpStatus.OK);
     }

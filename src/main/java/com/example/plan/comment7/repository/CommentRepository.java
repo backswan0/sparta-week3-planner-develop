@@ -27,6 +27,13 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     }
 
     /**
+     *
+     * @param planId : 댓글들이 달린 특정 일정의 식별자
+     * @return : 해당 일정의 총 댓글 개수
+     */
+    int countByPlanId(Long planId);
+
+    /**
      * 기능
      * 댓글 소프트 딜리트
      *
