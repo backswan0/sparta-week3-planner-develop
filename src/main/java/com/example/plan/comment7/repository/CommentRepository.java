@@ -13,9 +13,22 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
+    /**
+     * 기능
+     * 소프트 딜리트가 된 댓글을 제외한 목록 조회
+     *
+     * @return List<Comment>
+     */
     @Query("SELECT c FROM Comment c WHERE c.isDeleted IS NULL")
     List<Comment> findAllExceptDeleted();
 
+    /**
+     * 기능
+     * 소프트 딜리트가 된 댓글을 제외한 단건 조회용 메서드
+     *
+     * @param id : 조회하려는 일정의 식별자
+     * @return Optional<Comment>
+     */
     @Query("SELECT c FROM Comment c WHERE c.id = :id AND c.isDeleted IS NULL")
     Optional<Comment> findByIdExceptDeleted(Long id);
 
@@ -36,7 +49,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     }
 
     /**
-     *
      * @param planId : 댓글들이 달린 특정 일정의 식별자
      * @return : 해당 일정의 총 댓글 개수
      */

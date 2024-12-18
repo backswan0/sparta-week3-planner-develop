@@ -13,9 +13,22 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
+    /**
+     * 기능
+     * 소프트 딜리트가 된 사용자를 제외한 목록 조회
+     *
+     * @return List<Member>
+     */
     @Query("SELECT m FROM Member m WHERE m.isDeleted IS NULL")
     List<Member> findAllExceptDeleted();
 
+    /**
+     * 기능
+     * 소프트 딜리트가 된 사용자를 제외한 단건 조회용 메서드
+     *
+     * @param id : 조회하려는 사용자의 식별자
+     * @return Optional<Member>
+     */
     @Query("SELECT m FROM Member m WHERE m.id = :id AND m.isDeleted IS NULL")
     Optional<Member> findByIdExceptDeleted(Long id);
 
