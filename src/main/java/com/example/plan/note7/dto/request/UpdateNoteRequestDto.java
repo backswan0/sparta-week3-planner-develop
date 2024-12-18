@@ -11,6 +11,10 @@ public class UpdateNoteRequestDto {
     @Length(max = 200)
     private final String content;
 
+    /**
+     * 생성자
+     * @param content : 수정하려는 댓글의 내용
+     */
     public UpdateNoteRequestDto(String content) {
         this.content = content;
     }

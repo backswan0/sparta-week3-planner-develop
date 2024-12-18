@@ -14,11 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 댓글 C 완료
- * 댓글 R 완료 (전체 조회)
- */
-
 @RequiredArgsConstructor
 @Service
 public class NoteServiceImpl implements NoteService {

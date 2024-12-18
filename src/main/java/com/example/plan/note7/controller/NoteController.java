@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 댓글 C 완료
- * 댓글 R 완료 (전체 조회)
- */
-
 @RestController
 @RequestMapping("/notes")
 @RequiredArgsConstructor
@@ -73,7 +68,7 @@ public class NoteController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
     /*
-    todo 애플리케이션 실행은 잘 되었으나, 속도가 확실히 느려졌다.
+    TODO 애플리케이션 실행은 잘 되었으나, 속도가 확실히 느려졌다.
      보통 11ms 내외였는데, 16ms - 20ms로 걸렸다.
      CRUD를 모두 생성한 다음 추가로 테스트해야겠다.
      */
@@ -97,6 +92,7 @@ public class NoteController {
         );
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+    // TODO 나중에 댓글 제목이 추가될 수 있다고 가정해서 PatchMapping 사용
 
     /**
      * 기능

@@ -8,10 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
-/**
- * 댓글 C 완료
- */
-
 @Getter
 @Entity
 @Table(name = "notes7")
@@ -48,7 +44,6 @@ public class Note extends BaseEntity {
 
     // 기본 생성자
     public Note() {
-
     }
 
     /**
@@ -62,7 +57,7 @@ public class Note extends BaseEntity {
 
     /**
      * 기능
-     *
+     * 댓글 내용 수정
      * @param content : 수정하려는 댓글의 내용
      */
     public void update(String content) {
