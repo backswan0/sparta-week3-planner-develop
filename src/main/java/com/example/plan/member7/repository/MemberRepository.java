@@ -16,6 +16,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m WHERE m.isDeleted IS NULL")
     List<Member> findAllExceptDeleted();
 
+    @Query("SELECT m FROM Member m WHERE m.id = :id AND m.isDeleted IS NULL")
+    Optional<Member> findByIdExceptDeleted(Long id);
+
     /**
      * 기능
      * 사용자를 식별자(id)로 찾고 없을 시 예외 처리
@@ -24,7 +27,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @return Member
      */
     default Member findByIdOrElseThrow(Long id) {
-        return findById(id).orElseThrow(
+        return findByIdExceptDeleted(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND
                         , "입력된 id가 존재하지 않습니다. 다시 입력해 주세요."
