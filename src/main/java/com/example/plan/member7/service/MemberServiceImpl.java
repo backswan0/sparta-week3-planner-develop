@@ -5,7 +5,7 @@ import com.example.plan.member7.dto.response.SignInMemberResponseDto;
 import com.example.plan.member7.dto.response.MemberResponseDto;
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.MemberRepository;
-import com.example.plan.note7.repository.NoteRepository;
+import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
     // 속성
     private final MemberRepository memberRepository;
     private final PlanRepository planRepository;
-    private final NoteRepository noteRepository;
+    private final CommentRepository commentRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -101,7 +101,7 @@ public class MemberServiceImpl implements MemberService {
 
         List<MemberResponseDto> allMembers = new ArrayList<>();
 
-        allMembers = memberRepository.findAll()
+        allMembers = memberRepository.findAllExceptDeleted()
                 .stream()
                 .map(MemberResponseDto::toDto)
                 .toList();
@@ -169,6 +169,6 @@ public class MemberServiceImpl implements MemberService {
         planRepository.softDeleteByMemberId(id);
 
         // 해당 id의 사용자가 작성한 댓글도 함께 소프트 딜리트 진행
-        noteRepository.softDeleteByMemberId(id);
+        commentRepository.softDeleteByMemberId(id);
     }
 }
