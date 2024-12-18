@@ -12,7 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-// 6단계까지 완료
+/**
+ * soft delete - member 완료
+ * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
+ *
+ */
 
 @Service
 @RequiredArgsConstructor

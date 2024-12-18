@@ -2,12 +2,19 @@ package com.example.plan.member5.repository;
 
 import com.example.plan.member5.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
-// 6단계까지 완료
+/**
+ * soft delete - member 완료
+ * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
+ *
+ */
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
@@ -33,7 +40,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @param email    : 사용자가 입력한 이메일
      * @return Optional<Member>
      */
-    Optional<Member> findByEmail(
-            String email
-    );
+    Optional<Member> findByEmail(String email);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Member m SET m.isDeleted = true, m.deletedAt = CURRENT_TIMESTAMP WHERE m.id = :id")
+    int softDelete(Long id);
 }

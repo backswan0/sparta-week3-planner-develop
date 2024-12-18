@@ -14,7 +14,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-// 6단계까지 완료
+/**
+ * soft delete - member 완료
+ * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
+ *
+ */
 
 @Service
 @RequiredArgsConstructor
@@ -152,11 +156,16 @@ public class MemberServiceImpl implements MemberService {
      *
      * @param id : 삭제하려는 사용자의 식별자
      */
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public void delete(Long id) {
-        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+        int rowsAffected = memberRepository.softDelete(id);
 
-        memberRepository.delete(foundMember);
+        if(rowsAffected == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+                    , "이미 삭제되었거나 존재하지 않는 id입니다."
+            );
+        }
     }
 }

@@ -5,7 +5,11 @@ import com.example.plan.member5.dto.response.MemberResponseDto;
 
 import java.util.List;
 
-// 6단계까지 완료
+/**
+ * soft delete - member 완료
+ * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
+ *
+ */
 
 public interface MemberService {
 
@@ -21,6 +25,19 @@ public interface MemberService {
     MemberResponseDto signUp(
             String username
             , String email
+            , String password
+    );
+
+    /**
+     * 기능
+     * 사용자 로그인 처리, 즉 이메일과 비밀번호의 일치 여부 검증
+     *
+     * @param email    : 사용자가 로그인하려고 입력한 이메일
+     * @param password : 사용자가 로그인하려고 입력한 비밀번호
+     * @return LoginMemberResponseDto
+     */
+    LoginMemberResponseDto login(
+            String email
             , String password
     );
 
@@ -63,17 +80,4 @@ public interface MemberService {
      * @param id : 삭제하려는 사용자의 식별자
      */
     void delete(Long id);
-
-    /**
-     * 기능
-     * 사용자 로그인 처리, 즉 이메일과 비밀번호의 일치 여부 검증
-     *
-     * @param email    : 사용자가 로그인하려고 입력한 이메일
-     * @param password : 사용자가 로그인하려고 입력한 비밀번호
-     * @return LoginMemberResponseDto
-     */
-    LoginMemberResponseDto login(
-            String email
-            , String password
-    );
 }

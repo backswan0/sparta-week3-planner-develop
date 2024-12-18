@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
-// 6단계까지 완료
+/**
+ * soft delete - member 완료
+ * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
+ *
+ */
 
 @Getter
 @Entity
@@ -30,6 +34,7 @@ public class Member extends BaseEntity {
     @Column(
             name = "email"
             , nullable = false
+            , unique = true
             , columnDefinition = "VARCHAR(128)"
     )
     private String email;

@@ -10,7 +10,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-// 6단계까지 완료
+/**
+ * soft delete - member 완료
+ * 중복되는 이메일은 가입할 수 없도록 리팩토링 완료 (unique = true 추가하여)
+ *
+ */
 
 @Getter
 @MappedSuperclass
@@ -32,8 +36,21 @@ public abstract class BaseEntity {
     @Column(
             name = "updated_at"
             , nullable = false
-            , updatable = true
             , columnDefinition = "TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
     )
     private LocalDateTime updatedAt;
+
+    @Comment("삭제 여부")
+    @Column(
+            name = "is_deleted"
+            , columnDefinition = "TINYINT(0)"
+    )
+    private Boolean isDeleted;
+
+    @Comment("삭제일")
+    @Column(
+            name = "deleted_at"
+            , columnDefinition = "TIMESTAMP"
+    )
+    private LocalDateTime deletedAt;
 }
