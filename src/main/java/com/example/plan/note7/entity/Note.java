@@ -10,10 +10,6 @@ import org.hibernate.annotations.Comment;
 
 /**
  * 댓글 C 완료
- *
- *
- *
- *
  */
 
 @Getter
@@ -57,9 +53,19 @@ public class Note extends BaseEntity {
 
     /**
      * 생성자
+     *
      * @param content : 댓글 내용
      */
     public Note(String content) {
+        this.content = content;
+    }
+
+    /**
+     * 기능
+     *
+     * @param content : 수정하려는 댓글의 내용
+     */
+    public void update(String content) {
         this.content = content;
     }
 }
