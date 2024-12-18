@@ -8,7 +8,6 @@ import com.example.plan.plan7.dto.response.PlanResponseDto;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -69,7 +67,7 @@ public class PlanServiceImpl implements PlanService {
 
         List<PlanReadResponseDto> planList = new ArrayList<>();
 
-        planList = planRepository.findAll(pageable)
+        planList = planRepository.findAllExceptDeleted(pageable)
                 .getContent()
                 .stream()
                 .map(plan -> {

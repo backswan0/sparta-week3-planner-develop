@@ -1,6 +1,8 @@
 package com.example.plan.plan7.repository;
 
 import com.example.plan.plan7.entity.Plan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 public interface PlanRepository extends JpaRepository<Plan, Long> {
+
+    @Query("SELECT p FROM Plan p WHERE p.isDeleted IS NULL")
+    Page<Plan> findAllExceptDeleted(Pageable pageable);
+
     /**
      * 기능
      * 일정의 식별자로 일정 단건 조회

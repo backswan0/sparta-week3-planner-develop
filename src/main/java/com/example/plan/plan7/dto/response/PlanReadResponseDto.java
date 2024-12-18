@@ -11,10 +11,9 @@ import java.time.LocalDateTime;
 @Getter
 public class PlanReadResponseDto {
     // 속성
-    private final Long id;
     private final String title;
     private final String task;
-    private final MemberResponseDto member;
+    private final String username;
     private final int totalComment;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -24,29 +23,26 @@ public class PlanReadResponseDto {
     private final LocalDateTime updatedAt;
 
     /**
-     * @param id           : 일정 식별자
      * @param title        : 일정 제목
      * @param task         : 일정 내용
      * @param createdAt    : 일정 생성일
      * @param updatedAt    : 일정 수정일
-     * @param member       : 해당 일정을 작성한 사용자의 정보 (이메일, 이름 포함)
+     * @param username       : 해당 일정을 작성한 사용자의 이름
      * @param totalComment : 해당 일정에 있는 댓글 총 개수
      */
     public PlanReadResponseDto(
-            Long id
-            , String title
+            String title
             , String task
             , LocalDateTime createdAt
             , LocalDateTime updatedAt
-            , Member member
+            , String username
             , int totalComment
     ) {
-        this.id = id;
         this.title = title;
         this.task = task;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.member = MemberResponseDto.toDto(member);
+        this.username = username;
         this.totalComment = totalComment;
     }
 
@@ -60,12 +56,11 @@ public class PlanReadResponseDto {
      */
     public static PlanReadResponseDto toDto(Plan plan, int totalComment) {
         return new PlanReadResponseDto(
-                plan.getId()
-                , plan.getTitle()
+                plan.getTitle()
                 , plan.getTask()
                 , plan.getCreatedAt()
                 , plan.getUpdatedAt()
-                , plan.getMember()
+                , plan.getMember().getUsername()
                 , totalComment
         );
     }
