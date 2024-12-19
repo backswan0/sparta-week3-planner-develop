@@ -4,6 +4,7 @@ import com.example.plan.member3.dto.response.LoginMemberResponseDto;
 import com.example.plan.member3.dto.response.MemberResponseDto;
 import com.example.plan.member3.entity.Member;
 import com.example.plan.member3.repository.MemberRepository;
+import com.example.plan.plan3.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
     // 속성
     private final MemberRepository memberRepository;
+    private final PlanRepository planRepository;
 
     /**
      * 기능
@@ -27,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
      * @param email    : 사용자의 이메일
      * @return MemberResponseDto
      */
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public MemberResponseDto signUp(
             String username
@@ -60,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
 
         List<MemberResponseDto> allMembers = new ArrayList<>();
 
-        allMembers = memberRepository.findAll()
+        allMembers = memberRepository.findAllExceptDeleted()
                 .stream()
                 .map(MemberResponseDto::toDto)
                 .toList();
@@ -113,12 +115,19 @@ public class MemberServiceImpl implements MemberService {
      *
      * @param id : 삭제하려는 사용자의 식별자
      */
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public void delete(Long id) {
-        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+        int rowsAffected = memberRepository.softDeleteById(id);
 
-        memberRepository.delete(foundMember);
+        if (rowsAffected == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+                    , "이미 삭제되었거나 존재하지 않는 id입니다."
+            );
+        }
+        // 삭제된 사용자가 작성한 일정도 함께 삭제
+        planRepository.softDeleteByMemberId(id);
     }
 
     /**
