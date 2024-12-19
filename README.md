@@ -26,26 +26,33 @@ erDiagram
     MEMBERS ||--o{ COMMENTS : writes
     MEMBERS {
         id bigint PK
-        username varchar
-        email varchar
+        username varchar(32)
+        email varchar(128)
+        password varchar(255)
         created_at timestamp
         updated_at timestamp
+        is_deleted tinyint
+        deleted_at timestamp
     }
     PLANS {
         id bigint PK
-        title varchar
-        task varchar
+        title varchar(16)
+        task varchar(255)
         created_at timestamp
         updated_at timestamp
+        is_deleted tinyint
+        deleted_at timestamp
         member_id bigint FK
     }
     COMMENTS {
         id bigint PK
-        content varchar
-        plan_id bigint FK
-        member_id bigint FK
+        content varchar(255)
         created_at timestamp
         updated_at timestamp
+        is_deleted tinyint
+        deleted_at timestamp
+        plan_id bigint FK
+        member_id bigint FK
     }
 ```
 
@@ -64,32 +71,34 @@ erDiagram
 
 ### API List
 #### API Endpoints - Member
-| Method | URI             | Description          | Request Parameters        | Response Code |
-|--------|-----------------|----------------------|---------------------------|---------------|
-| POST   | /members/signup | Sign up member       | username, email, password | 201           |
-| POST   | /members/signin | Sign in member       | username, email, password | 200           |
-| GET    | /members        | Read all members     |                           | 200           |
-| GET    | /members/{id}   | Read specific member | id                        | 200           | 
-| PUT    | /members/{id}   | Update member        | id, username, email       | 200           |
-| DELETE | /members/{id}   | Delete member        | id                        | 200           |
+
+| Method | URI             | Description          | Request Body              | Request Parameters | Path Variables | Response Code |
+|--------|-----------------|----------------------|---------------------------|--------------------|----------------|---------------|
+| POST   | /members/signup | Sign up member       | username, email, password |                    |                | 201           |
+| POST   | /members/signin | Sign in member       | email, password           |                    |                | 200           |
+| GET    | /members        | Read all members     |                           |                    |                | 200           |
+| GET    | /members/{id}   | Read specific member |                           |                    | id             | 200           | 
+| PUT    | /members/{id}   | Update member        | username, email           |                    | id             | 200           |
+| DELETE | /members/{id}   | Delete member        |                           |                    | id             | 200           |
 
 #### API Endpoints - Plan
-| Method | URI         | Description        | Request Parameters  | Response Code |
-|--------|-------------|--------------------|---------------------|---------------|
-| POST   | /plans      | Create plan        | title, task, userId | 201           |
-| GET    | /plans      | Read all plans     |                     | 200           |
-| GET    | /plans/{id} | Read specific plan | id                  | 200           | 
-| PATCH  | /plans/{id} | Update plan        | id, title, task     | 200           |
-| DELETE | /plans/{id} | Delete plan        | id                  | 200           |
+| Method | URI         | Description        | Request Body        | Request Parameters | Path Variables   | Response Code |
+|--------|-------------|--------------------|---------------------|--------------------|------------------|---------------|
+| POST   | /plans      | Create plan        | title, task, userId |                    |                  | 201           |
+| GET    | /plans      | Read all plans     |                     | page, size         |                  | 200           |
+| GET    | /plans/{id} | Read specific plan |                     |                    | id               | 200           |
+| PATCH  | /plans/{id} | Update plan        | title, task         |                    | id               | 200           |
+| DELETE | /plans/{id} | Delete plan        |                     |                    | id               | 200           |
 
 #### API Endpoints - Comment
-| Method | URI            | Description           | Request Parameters | Response Code |
-|--------|----------------|-----------------------|--------------------|---------------|
-| POST   | /comments      | Create comment        | content, planId    | 201           |
-| GET    | /comments      | Read all comments     |                    | 200           |
-| GET    | /comments/{id} | Read specific comment | id                 | 200           | 
-| PATCH  | /comments/{id} | Update comment        | id, content        | 200           |
-| DELETE | /comments/{id} | Delete comment        | id                 | 200           |
+| Method | URI            | Description           | Request Body    | Request Parameters | Path Variables   | Response Code |
+|--------|----------------|-----------------------|-----------------|--------------------|------------------|---------------|
+| POST   | /comments      | Create comment        | content, planId |                    |                  | 201           |
+| GET    | /comments      | Read all comments     |                 |                    |                  | 200           |
+| GET    | /comments/{id} | Read specific comment |                 |                    | id               | 200           |
+| PATCH  | /comments/{id} | Update comment        | content         |                    | id               | 200           |
+| DELETE | /comments/{id} | Delete comment        |                 |                    | id               | 200           |
+
 
 ### API Details
 #### Request Body Details - Member
@@ -384,12 +393,12 @@ erDiagram
 | 500         | Internal Server Error | Returned when a server error occurs                                                                           |
 
 #### Examples
-| HTTP Status | Message Example                                                                                                                                                                                                  |
-|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 400         | "**<필드 이름(영어)>** 필드에서 오류가 발생했습니다. **<필드 이름(한글)>** 입력은 필수입니다." <br/> "길이가 2에서 20 사이여야 합니다." <br/> 이메일 형식이 틀렸습니다. 다시 입력해 주세요. <br/> "변경을 원하시지 않으면 가입 시 입력한 값을 입력해 주세요." <br/> "null과 빈값을 허용하지 않습니다. 공백으로 입력해 주세요." |
-| 401         | "로그인 해주세요." <br/> 비밀번호가 일치하지 않습니다. <br/> "이메일이 일치하지 않습니다."                                                                                                                                                       |
-| 404         | "입력된 id가 존재하지 않습니다. 다시 입력해 주세요." <br/> "이미 삭제되었거나 존재하지 않는 id입니다."                                                                                                                                                |
-| 500         | "오류가 발생했습니다."                                                                                                                                                                                                    |
+| HTTP Status | Message Example                                                                                                                                                                                                   |
+|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 400         | "**<필드 이름(영어)>** 필드에서 오류가 발생했습니다. **<필드 이름(한글)>** 입력은 필수입니다." <br/> "길이가 2에서 20 사이여야 합니다." <br/> 이메일 형식이 틀렸습니다. 다시 입력해 주세요. <br/> "변경을 원하시지 않으면 가입 시 입력한 값을 입력해 주세요." <br/> "null과 빈값을 허용하지 않습니다. 공백으로 입력해 주세요."  |
+| 401         | "로그인 해주세요." <br/> "비밀번호가 일치하지 않습니다." <br/> "이메일이 일치하지 않습니다."                                                                                                                                                      |
+| 404         | "입력된 id가 존재하지 않습니다. 다시 입력해 주세요." <br/> "이미 삭제되었거나 존재하지 않는 id입니다."                                                                                                                                                 |
+| 500         | "오류가 발생했습니다."                                                                                                                                                                                                     |
 
 #### Notes
 -  `<필드 이름(영어)>` is the English field name (e.g., "email", "password")
