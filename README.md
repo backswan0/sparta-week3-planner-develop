@@ -82,22 +82,22 @@ erDiagram
 | DELETE | /members/{id}   | Delete member        |                               |                    | `id`           | 200           |
 
 #### API Endpoints - Plan
-| Method | URI         | Description        | Request Body            | Request Parameters | Path Variables   | Response Code |
-|--------|-------------|--------------------|-------------------------|--------------------|------------------|---------------|
-| POST   | /plans      | Create plan        | `title` `task` `userId` |                    |                  | 201           |
-| GET    | /plans      | Read all plans     |                         | `page` `size`      |                  | 200           |
-| GET    | /plans/{id} | Read specific plan |                         |                    | id               | 200           |
-| PATCH  | /plans/{id} | Update plan        | `title` `task`          |                    | id               | 200           |
-| DELETE | /plans/{id} | Delete plan        |                         |                    | id               | 200           |
+| Method | URI         | Description        | Request Body            | Request Parameters | Path Variables | Response Code |
+|--------|-------------|--------------------|-------------------------|--------------------|----------------|---------------|
+| POST   | /plans      | Create plan        | `title` `task` `userId` |                    |                | 201           |
+| GET    | /plans      | Read all plans     |                         | `page` `size`      |                | 200           |
+| GET    | /plans/{id} | Read specific plan |                         |                    | `id`           | 200           |
+| PATCH  | /plans/{id} | Update plan        | `title` `task`          |                    | `id`           | 200           |
+| DELETE | /plans/{id} | Delete plan        |                         |                    | `id`           | 200           |
 
 #### API Endpoints - Comment
-| Method | URI            | Description           | Request Body       | Request Parameters | Path Variables   | Response Code |
-|--------|----------------|-----------------------|--------------------|--------------------|------------------|---------------|
-| POST   | /comments      | Create comment        | `content` `planId` |                    |                  | 201           |
-| GET    | /comments      | Read all comments     |                    |                    |                  | 200           |
-| GET    | /comments/{id} | Read specific comment |                    |                    | id               | 200           |
-| PATCH  | /comments/{id} | Update comment        | `content`          |                    | id               | 200           |
-| DELETE | /comments/{id} | Delete comment        |                    |                    | id               | 200           |
+| Method | URI            | Description           | Request Body       | Request Parameters | Path Variables | Response Code |
+|--------|----------------|-----------------------|--------------------|--------------------|----------------|---------------|
+| POST   | /comments      | Create comment        | `content` `planId` |                    |                | 201           |
+| GET    | /comments      | Read all comments     |                    |                    |                | 200           |
+| GET    | /comments/{id} | Read specific comment |                    |                    | `id`           | 200           |
+| PATCH  | /comments/{id} | Update comment        | `content`          |                    | `id`           | 200           |
+| DELETE | /comments/{id} | Delete comment        |                    |                    | `id`           | 200           |
 
 
 ### API Details
