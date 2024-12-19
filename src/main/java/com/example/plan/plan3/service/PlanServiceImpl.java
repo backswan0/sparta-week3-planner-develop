@@ -6,8 +6,10 @@ import com.example.plan.plan3.dto.response.PlanResponseDto;
 import com.example.plan.plan3.entity.Plan;
 import com.example.plan.plan3.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ public class PlanServiceImpl implements PlanService {
      * @param userId : 해당 일정을 작성한 사용자의 식별자
      * @return PlanResponseDto
      */
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public PlanResponseDto save(
             String title
@@ -37,10 +39,7 @@ public class PlanServiceImpl implements PlanService {
     ) {
         Member foundMember = memberRepository.findByIdOrElseThrow(userId);
 
-        Plan planToSave = new Plan(
-                title
-                , task
-        );
+        Plan planToSave = new Plan(title, task);
 
         planToSave.setMember(foundMember);
 
@@ -61,7 +60,7 @@ public class PlanServiceImpl implements PlanService {
 
         List<PlanResponseDto> allPlans = new ArrayList<>();
 
-        allPlans = planRepository.findAll()
+        allPlans = planRepository.findAllExceptDeleted()
                 .stream()
                 .map(PlanResponseDto::toDto)
                 .toList();
@@ -102,10 +101,7 @@ public class PlanServiceImpl implements PlanService {
     ) {
         Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
 
-        planToUpdate.update(
-                title
-                , task
-        );
+        planToUpdate.update(title, task);
 
         Plan updatedPlan = planRepository.save(planToUpdate);
 
@@ -120,8 +116,13 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public void delete(Long id) {
-        Plan foundPlan = planRepository.findByIdOrElseThrow(id);
+        int rowsAffected = planRepository.softDeleteById(id);
 
-        planRepository.delete(foundPlan);
+        if (rowsAffected == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+                    , "이미 삭제되었거나 존재하지 않는 id입니다."
+            );
+        }
     }
 }
