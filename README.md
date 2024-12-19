@@ -1,4 +1,4 @@
-# 🗓️ Developing a Planner Application Using Spring Boot and JPA
+# 🗓️ Developing a Planner Application Using Spring Boot and JPA (Level Three, Four)
 
 ## 💻 Introduction
 - This project is an assignment designed to evaluate students' understanding of the online lecture.
@@ -14,7 +14,6 @@
 - Spring Boot 3.4.0
 - Spring Data JPA
 - MySQL Driver
-- BCrypt 0.10.2
 - MySQL 9.1.0
 - Lombok
 
@@ -260,7 +259,7 @@ member_id bigint FK
 |-------------|-----------------------|-----------------------------------------------------|
 | 401         | Unauthorized          | "Email or Password is incorrect. Please try again." |
 | 404         | Not Found             | "Id does not exist. Input id = "                    |
-| 500         | Internal Server Error | "Internal Server Error occurred"                    |
+| 500         | Internal Server Error | "Please Login"                                      |
 
 ### Request Body Description
 #### Field Information - Member
@@ -329,9 +328,11 @@ CREATE TABLE plans3
 - Stores data in an SQL database using JPA.
 - Resolves name duplication issues by using the user’s unique identifier.
 - Provides soft delete functionality for `members` and `plans`.
+- Require users to input both email and password upon registration (password is not encrypted).
+- Implements login functionality by creating a login filter and registering configuration.
 
 ## 🔍 Characteristics
-- Separate the 3-layer architecture and DTOs into different packages by URL
+- Separates the 3-layer architecture and DTOs into different packages by URL
 
 ## 📜 More Information
 - [Visit Development Journal](https://writingforever162.tistory.com)
