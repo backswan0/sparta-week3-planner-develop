@@ -43,10 +43,7 @@ public class PlanServiceImpl implements PlanService {
     ) {
         Member foundMember = memberRepository.findByIdOrElseThrow(userId);
 
-        Plan planToSave = new Plan(
-                title
-                , task
-        );
+        Plan planToSave = new Plan(title, task);
 
         planToSave.setMember(foundMember);
 
@@ -72,7 +69,6 @@ public class PlanServiceImpl implements PlanService {
                 .stream()
                 .map(plan -> {
                     int totalComment = commentRepository.countByPlanId(plan.getId());
-
                     return PlanReadResponseDto.toDto(plan, totalComment);
                 }).toList();
 
@@ -112,10 +108,7 @@ public class PlanServiceImpl implements PlanService {
     ) {
         Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
 
-        planToUpdate.update(
-                title
-                , task
-        );
+        planToUpdate.update(title, task);
 
         Plan updatedPlan = planRepository.save(planToUpdate);
 
@@ -138,7 +131,6 @@ public class PlanServiceImpl implements PlanService {
                     , "이미 삭제되었거나 존재하지 않는 id입니다."
             );
         }
-
         // 일정이 삭제될 때 해당 일정에 있는 댓글도 모두 소프트 딜리트 진행
         commentRepository.softDeleteByPlanId(id);
     }
