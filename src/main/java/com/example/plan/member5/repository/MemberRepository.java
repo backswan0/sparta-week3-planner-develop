@@ -8,9 +8,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
+
+    /**
+     * 기능
+     * 소프트 딜리트가 된 사용자를 제외한 목록 조회
+     * @return List<Member>
+     */
+    @Query("SELECT m FROM Member m WHERE m.isDeleted IS NULL")
+    List<Member> findAllExceptDeleted();
+
+    /**
+     * 기능
+     * 소프트 딜리트가 된 사용자를 제외한 단건 조회용 메서드
+     * @param id : 조회하려는 사용자의 식별자
+     * @return Optional<Member>
+     */
+    @Query("SELECT m FROM Member m WHERE m.id = :id AND m.isDeleted IS NULL")
+    Optional<Member> findByIdExceptDeleted(Long id);
 
     /**
      * 기능
@@ -20,7 +38,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @return Member
      */
     default Member findByIdOrElseThrow(Long id) {
-        return findById(id).orElseThrow(
+        return findByIdExceptDeleted(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND
                         , "입력된 id가 존재하지 않습니다. 다시 입력해 주세요."

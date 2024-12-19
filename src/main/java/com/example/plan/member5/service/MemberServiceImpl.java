@@ -32,7 +32,7 @@ public class MemberServiceImpl implements MemberService {
      * @param password : 사용자의 비밀번호
      * @return MemberResponseDto
      */
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public MemberResponseDto signUp(
             String username
@@ -99,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
 
         List<MemberResponseDto> allMembers = new ArrayList<>();
 
-        allMembers = memberRepository.findAll()
+        allMembers = memberRepository.findAllExceptDeleted()
                 .stream()
                 .map(MemberResponseDto::toDto)
                 .toList();
