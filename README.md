@@ -1,15 +1,18 @@
 # 🗓️ Developing a Planner Application Using Spring Boot and JPA
 
 ## 💻 Introduction
+
 - This project is an assignment designed to evaluate students' understanding of the online lecture.
 - The application is developed as a personal project.
 - The application is designed with a console-based user interface.
 
 ## 📆 Development Period
+
 - **Study**: 08/12/2024 – 13/12/2024
 - **Development**: 13/12/2024 – 19/12/2024
 
 ## 🛠️ Tech Stack
+
 - Java 17
 - Spring Boot 3.4.0
 - Spring Data JPA
@@ -37,12 +40,16 @@ updated_at timestamp
 member_id bigint FK
 }
 ```
+
 ### ERD Note
+
 - The SQL database table name of `PLANS` is `plans2`.
 - The SQL database table name of `MEMBERS` is `members2`.
 
 ## 📜 API Specification
+
 ### Basic Information
+
 - Base URL (plan): /plans
 - Base URL (member): /members
 - Response Format: JSON
@@ -51,6 +58,7 @@ member_id bigint FK
 ### API List
 
 1. #### Member
+
 | Method | URI             | Description          | Request Parameters  | Response Code |
 |--------|-----------------|----------------------|---------------------|---------------|
 | POST   | /members/signup | Create member        | username, email     | 201           |
@@ -60,16 +68,19 @@ member_id bigint FK
 | DELETE | /members/{id}   | Delete member        | id                  | 200           |
 
 2. #### Plan
-| Method | URI           | Description           | Request Parameters  | Response Code |
-|--------|---------------|-----------------------|---------------------|---------------|
-| POST   | /plans        | Create plan           | title, task, userId | 201           |
-| GET    | /plans        | Read all plans        |                     | 200           |
-| GET    | /plans/{id}   | Read specific plan    | id                  | 200           | 
-| PATCH  | /plans/{id}   | Update plan partially | id, title, task     | 200           |
-| DELETE | /plans/{id}   | Delete plan           | id                  | 200           |
+
+| Method | URI         | Description           | Request Parameters  | Response Code |
+|--------|-------------|-----------------------|---------------------|---------------|
+| POST   | /plans      | Create plan           | title, task, userId | 201           |
+| GET    | /plans      | Read all plans        |                     | 200           |
+| GET    | /plans/{id} | Read specific plan    | id                  | 200           | 
+| PATCH  | /plans/{id} | Update plan partially | id, title, task     | 200           |
+| DELETE | /plans/{id} | Delete plan           | id                  | 200           |
 
 ### API Details
+
 #### Request Body Details - Member
+
 1. **`POST` Create Member**
     ```json
     {
@@ -77,7 +88,7 @@ member_id bigint FK
         "email" : "사용자 이메일"
     }
     ```
-   
+
 2. **`PUT` Update Member**
     ```json
     {
@@ -87,6 +98,7 @@ member_id bigint FK
     ```
 
 #### Request Body Details - Plan
+
 1. **`POST` Create Plan**
     ```json
     {
@@ -105,6 +117,7 @@ member_id bigint FK
     ```
 
 #### Response Body Details - Member
+
 1. **`GET` Read All Members**
     ```json
     [
@@ -140,6 +153,7 @@ member_id bigint FK
     ```
 
 #### Response Body Details - Plan
+
 1. **`CREATE` Create Plan**
     ```json
     {
@@ -155,7 +169,7 @@ member_id bigint FK
         }
     }
     ```
-   
+
 2. **`GET` Read All Plans**
     ```json
     [
@@ -231,13 +245,16 @@ member_id bigint FK
     ``` 
 
 ### Error Response Code
-| HTTP Status | Description              | Message Example                  |
-|-------------|--------------------------|----------------------------------|
-| 404         | Not Found                | "Id does not exist. Input id = " |
-| 500         | Internal Server Error    | "Internal Server Error occurred" |
+
+| HTTP Status | Description           | Message Example                  |
+|-------------|-----------------------|----------------------------------|
+| 404         | Not Found             | "Id does not exist. Input id = " |
+| 500         | Internal Server Error | "Internal Server Error occurred" |
 
 ### Request Body Description
+
 #### Field Information - Member
+
 | Field Name | Data Type     | Mandatory Status | Description                                                                                               |
 |------------|---------------|------------------|-----------------------------------------------------------------------------------------------------------|
 | id         | Long          | Optional         | Identifier for each member  <br/> Required for **GET**, **PUT**, or **DELETE** requests                   |
@@ -247,6 +264,7 @@ member_id bigint FK
 | updatedAt  | LocalDateTime | Not Included     | The timestamp when the plan is last updated  <br/> Automatically stored in the database upon modification |
 
 #### Field Information - Plan
+
 | Field Name | Data Type     | Mandatory Status | Description                                                                                               |
 |------------|---------------|------------------|-----------------------------------------------------------------------------------------------------------|
 | id         | Long          | Optional         | Identifier for each plan  <br/> Required for **GET**, **PATCH**, or **DELETE** requests                   |
@@ -256,43 +274,49 @@ member_id bigint FK
 | createdAt  | LocalDateTime | Not Included     | The timestamp when the plan is created  <br/> Automatically stored in the database upon creation          |
 | updatedAt  | LocalDateTime | Not Included     | The timestamp when the plan is last updated  <br/> Automatically stored in the database upon modification |
 
-##  📊 Database Schema
+## 📊 Database Schema
+
 ### 1. MEMBERS
+
 ```sql
 CREATE TABLE members2
 (
-   id BIGINT AUTO_INCREMENT COMMENT '사용자 식별자' PRIMARY KEY,
-   username VARCHAR(16) NOT NULL COMMENT '사용자 이름',
-   email VARCHAR(128) NOT NULL COMMENT '사용자 이메일',
-   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성일',
-   updated_at TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일'
+    id         BIGINT AUTO_INCREMENT COMMENT '사용자 식별자' PRIMARY KEY,
+    username   VARCHAR(16)                         NOT NULL COMMENT '사용자 이름',
+    email      VARCHAR(128)                        NOT NULL COMMENT '사용자 이메일',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성일',
+    updated_at TIMESTAMP                           NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일'
 );
 
 ```
 
 ### 2. PLANS
+
 ```sql
 CREATE TABLE plans2
 (
-   id BIGINT AUTO_INCREMENT COMMENT '일정 식별자' PRIMARY KEY,
-   member_id BIGINT NOT NULL,
-   title VARCHAR(16) NOT NULL COMMENT '일정 제목',
-   task VARCHAR(512) NULL COMMENT '일정 내용',
-   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성일',
-   updated_at TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
-   CONSTRAINT fk__plans2__member_id 
-       FOREIGN KEY (member_id) REFERENCES members2 (id)
+    id         BIGINT AUTO_INCREMENT COMMENT '일정 식별자' PRIMARY KEY,
+    member_id  BIGINT                              NOT NULL,
+    title      VARCHAR(16)                         NOT NULL COMMENT '일정 제목',
+    task       VARCHAR(512) NULL COMMENT '일정 내용',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성일',
+    updated_at TIMESTAMP                           NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
+    CONSTRAINT fk__plans2__member_id
+        FOREIGN KEY (member_id) REFERENCES members2 (id)
 );
 ```
 
 ## 🚀 Key Features
-- Implement CRUD functionality for plans and members.
-- Store data in an SQL database using JPA.
-- Resolve name duplication issues by using the user's identifier.
+
+- Implements CRUD functionality for plans and members.
+- Stores data in an SQL database using JPA.
+- Resolves name duplication issues by using the user's identifier.
 
 ## 🔍 Characteristics
+
 - Separate the 3-layer architecture and DTOs into different packages by URL
 
 ## 📜 More Information
+
 - [Visit Development Journal](https://writingforever162.tistory.com)
 - [Visit Troubleshooting Records](https://writingforever162.tistory.com/category/Troubleshooting%3A%20%EB%AC%B4%EC%97%87%EC%9D%B4%20%EB%AC%B8%EC%A0%9C%EC%98%80%EB%8A%94%EA%B0%80%3F)

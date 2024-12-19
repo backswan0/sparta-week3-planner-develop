@@ -6,8 +6,10 @@ import com.example.plan.plan2.dto.response.PlanResponseDto;
 import com.example.plan.plan2.entity.Plan;
 import com.example.plan.plan2.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +39,7 @@ public class PlanServiceImpl implements PlanService {
     ) {
         Member foundMember = memberRepository.findByIdOrElseThrow(userId);
 
-        Plan planToSave = new Plan(
-                title
-                , task
-        );
+        Plan planToSave = new Plan(title , task);
 
         planToSave.setMember(foundMember);
 
@@ -61,7 +60,7 @@ public class PlanServiceImpl implements PlanService {
 
         List<PlanResponseDto> allPlans = new ArrayList<>();
 
-        allPlans = planRepository.findAll()
+        allPlans = planRepository.findAllExceptDeleted()
                 .stream()
                 .map(PlanResponseDto::toDto)
                 .toList();
@@ -120,8 +119,13 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public void delete(Long id) {
-        Plan foundPlan = planRepository.findByIdOrElseThrow(id);
+        int rowsAffected = planRepository.softDeleteById(id);
 
-        planRepository.delete(foundPlan);
+        if (rowsAffected == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+                    , "이미 삭제되었거나 존재하지 않는 id입니다."
+            );
+        }
     }
 }
