@@ -30,7 +30,7 @@ public class PlanServiceImpl implements PlanService {
      * @param userId : 해당 일정을 작성한 사용자의 식별자
      * @return PlanResponseDto
      */
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public PlanResponseDto save(
             String title
@@ -63,7 +63,7 @@ public class PlanServiceImpl implements PlanService {
 
         List<PlanResponseDto> allPlans = new ArrayList<>();
 
-        allPlans = planRepository.findAll()
+        allPlans = planRepository.findAllExceptDeleted()
                 .stream()
                 .map(PlanResponseDto::toDto)
                 .toList();
@@ -104,10 +104,7 @@ public class PlanServiceImpl implements PlanService {
     ) {
         Plan planToUpdate = planRepository.findByIdOrElseThrow(id);
 
-        planToUpdate.update(
-                title
-                , task
-        );
+        planToUpdate.update(title, task);
 
         Plan updatedPlan = planRepository.save(planToUpdate);
 
