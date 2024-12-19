@@ -1,7 +1,7 @@
 package com.example.plan.member5.controller;
 
 import com.example.plan.member5.dto.request.*;
-import com.example.plan.member5.dto.response.LoginMemberResponseDto;
+import com.example.plan.member5.dto.response.SignInMemberResponseDto;
 import com.example.plan.member5.dto.response.MemberResponseDto;
 import com.example.plan.member5.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,11 +50,11 @@ public class MemberController {
      * @return 로그인 성공!
      */
     @PostMapping("/signin")
-    public String login(
-            @Valid @RequestBody LoginMemberRequestDto requestDto
+    public String signin(
+            @Valid @RequestBody SignInMemberRequestDto requestDto
             , HttpServletRequest request
     ) {
-        LoginMemberResponseDto responseDto = memberService.login(
+        SignInMemberResponseDto responseDto = memberService.signIn(
                 requestDto.getEmail()
                 , requestDto.getPassword()
         );

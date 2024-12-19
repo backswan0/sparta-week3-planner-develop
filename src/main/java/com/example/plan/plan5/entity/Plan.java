@@ -52,10 +52,7 @@ public class Plan extends BaseEntity {
      * @param title : 일정 제목
      * @param task  : 일정 내용
      */
-    public Plan(
-            String title
-            , String task
-    ) {
+    public Plan(String title, String task) {
         this.title = title;
         this.task = task;
     }
@@ -67,10 +64,7 @@ public class Plan extends BaseEntity {
      * @param title : 수정하려는 일정 제목
      * @param task  : 수정하려는 일정 내용
      */
-    public void update(
-            String title
-            , String task
-    ) {
+    public void update(String title, String task) {
         this.title = title;
         this.task = task;
     }

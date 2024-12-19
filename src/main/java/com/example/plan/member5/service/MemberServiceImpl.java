@@ -1,7 +1,7 @@
 package com.example.plan.member5.service;
 
 import com.example.plan.config.PasswordEncoder;
-import com.example.plan.member5.dto.response.LoginMemberResponseDto;
+import com.example.plan.member5.dto.response.SignInMemberResponseDto;
 import com.example.plan.member5.dto.response.MemberResponseDto;
 import com.example.plan.member5.entity.Member;
 import com.example.plan.member5.repository.MemberRepository;
@@ -61,7 +61,7 @@ public class MemberServiceImpl implements MemberService {
      * @return LoginMemberResponseDto
      */
     @Override
-    public LoginMemberResponseDto login(
+    public SignInMemberResponseDto signIn(
             String email
             , String password
     ) {
@@ -84,7 +84,7 @@ public class MemberServiceImpl implements MemberService {
                     , "비밀번호가 일치하지 않습니다."
             );
         }
-        return new LoginMemberResponseDto(foundMember.getId());
+        return new SignInMemberResponseDto(foundMember.getId());
     }
 
     /**
@@ -163,6 +163,7 @@ public class MemberServiceImpl implements MemberService {
                     , "이미 삭제되었거나 존재하지 않는 id입니다."
             );
         }
+        // 삭제된 사용자가 작성한 일정도 함께 삭제
         planRepository.softDeleteByMemberId(id);
     }
 }

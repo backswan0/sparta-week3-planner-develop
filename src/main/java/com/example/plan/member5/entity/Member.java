@@ -69,10 +69,7 @@ public class Member extends BaseEntity {
      * @param username : 수정하려는 사용자의 이름
      * @param email    : 수정하려는 사용자의 이메일
      */
-    public void update(
-            String username
-            , String email
-    ) {
+    public void update(String username, String email) {
         this.username = username;
         this.email = email;
     }

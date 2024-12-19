@@ -11,7 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class ControllerExceptionHandler {
+public class LayerExceptionHandler {
+
+    /**
+     * 기능
+     * 입력 값 검증 실패 시 예외 처리
+     *
+     * @param e : MethodArgumentNotValidException
+     * @return ErrorResponseMessage
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseMessage> handleValidationException(MethodArgumentNotValidException e) {
         HttpStatusCode statusCode = e.getStatusCode();
@@ -32,6 +40,13 @@ public class ControllerExceptionHandler {
         );
     }
 
+    /**
+     * 기능
+     * HTTP 요청에서 발생한 예외 처리
+     *
+     * @param e : ResponseStatusException
+     * @return ErrorResponseMessage
+     */
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErrorResponseMessage> handleResponseStatusException(ResponseStatusException e) {
 
@@ -42,6 +57,13 @@ public class ControllerExceptionHandler {
         );
     }
 
+    /**
+     * 기능
+     * MethodArgumentNotValidException, ResponseStatusException 외에 발생한 예외 처리
+     *
+     * @param e : Exception
+     * @return ErrorResponseMessage
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseMessage> handleException(Exception e) {
 

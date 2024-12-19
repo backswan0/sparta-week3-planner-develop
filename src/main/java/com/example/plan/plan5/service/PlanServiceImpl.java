@@ -39,10 +39,7 @@ public class PlanServiceImpl implements PlanService {
     ) {
         Member foundMember = memberRepository.findByIdOrElseThrow(userId);
 
-        Plan planToSave = new Plan(
-                title
-                , task
-        );
+        Plan planToSave = new Plan(title, task);
 
         planToSave.setMember(foundMember);
 

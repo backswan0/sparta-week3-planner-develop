@@ -1,6 +1,6 @@
 package com.example.plan.member5.service;
 
-import com.example.plan.member5.dto.response.LoginMemberResponseDto;
+import com.example.plan.member5.dto.response.SignInMemberResponseDto;
 import com.example.plan.member5.dto.response.MemberResponseDto;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public interface MemberService {
      * @param password : 사용자가 로그인하려고 입력한 비밀번호
      * @return LoginMemberResponseDto
      */
-    LoginMemberResponseDto login(
+    SignInMemberResponseDto signIn(
             String email
             , String password
     );
