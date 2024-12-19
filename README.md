@@ -1,4 +1,4 @@
-# 🗓️ Developing a Planner Application Using Spring Boot and JPA
+# 🗓️ Developing a Planner Application Using Spring Boot and JPA (Level Seven, Eight)
 
 ## 💻 Introduction
 - This project is an assignment designed to evaluate students' understanding of the online lecture.
@@ -412,7 +412,7 @@ erDiagram
 | id         | Long          | Optional         | Identifier for each member  <br/> Required for **GET**, **PUT**, or **DELETE** requests                     |
 | username   | String        | Mandatory        | User's name <br/> Must be between 2 and 20 characters                                                       |
 | email      | String        | Mandatory        | User's email address <br/> Must be in a valid email format                                                  |
-| password   | String        | Mandatory        | User's password <br/> Must be between 2 and 20 characters                                                   |
+| password   | String        | Mandatory        | User's password <br/> Must be between 8 and 20 characters                                                   |
 | createdAt  | LocalDateTime | Not Included     | The timestamp when the member is created  <br/> Automatically stored in the database upon creation          |
 | updatedAt  | LocalDateTime | Not Included     | The timestamp when the member is last updated  <br/> Automatically stored in the database upon modification |
 | isDeleted  | Boolean       | Not Included     | Deletion status of the member  <br/> Automatically stored in the database upon deletion                     |
@@ -507,9 +507,10 @@ CREATE TABLE comments7
 - Implements exception handling.
 - Prevents duplicate sign-ups with the same email during registration.
 - Encrypts passwords using BCrypt before storing them in the database.
+- Implements login functionality by creating a login filter and registering configuration.
 
 ## 🔍 Characteristics
-- Separate the 3-layer architecture and DTOs into different packages by URL
+- Separates the 3-layer architecture and DTOs into different packages by URL
 
 ## 📜 More Information
 
