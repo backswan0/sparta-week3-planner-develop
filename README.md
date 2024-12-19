@@ -56,23 +56,23 @@ member_id bigint FK
 
 ### API List
 #### API Endpoints - Member
-| Method | URI             | Description          | Request Body                          | Request Parameters | Path Variables | Response Code |
-|--------|-----------------|----------------------|---------------------------------------|--------------------|----------------|---------------|
-| POST   | /members/signup | Sign up member       | username, <br/> email, <br/> password |                    |                | 201           |
-| POST   | /members/signin | Sign in member       | email, <br/> password                 |                    |                | 200           |
-| GET    | /members        | Read all members     |                                       |                    |                | 200           |
-| GET    | /members/{id}   | Read specific member |                                       |                    | id             | 200           | 
-| PUT    | /members/{id}   | Update member        | username, <br/> email                 |                    | id             | 200           |
-| DELETE | /members/{id}   | Delete member        |                                       |                    | id             | 200           |
+| Method | URI             | Description          | Request Body                  | Request Parameters | Path Variables | Response Code |
+|--------|-----------------|----------------------|-------------------------------|--------------------|----------------|---------------|
+| POST   | /members/signup | Sign up member       | `username` `email` `password` |                    |                | 201           |
+| POST   | /members/signin | Sign in member       | `email` `password`            |                    |                | 200           |
+| GET    | /members        | Read all members     |                               |                    |                | 200           |
+| GET    | /members/{id}   | Read specific member |                               |                    | `id`           | 200           | 
+| PUT    | /members/{id}   | Update member        | `username` `email`            |                    | `id`           | 200           |
+| DELETE | /members/{id}   | Delete member        |                               |                    | `id`           | 200           |
 
 #### API Endpoints - Plan
-| Method | URI         | Description        | Request Body                    | Request Parameters | Path Variables   | Response Code |
-|--------|-------------|--------------------|---------------------------------|--------------------|------------------|---------------|
-| POST   | /plans      | Create plan        | title, <br/> task, <br/> userId |                    |                  | 201           |
-| GET    | /plans      | Read all plans     |                                 |                    |                  | 200           |
-| GET    | /plans/{id} | Read specific plan |                                 |                    | id               | 200           |
-| PATCH  | /plans/{id} | Update plan        | title, <br/> task               |                    | id               | 200           |
-| DELETE | /plans/{id} | Delete plan        |                                 |                    | id               | 200           |
+| Method | URI         | Description        | Request Body            | Request Parameters | Path Variables | Response Code |
+|--------|-------------|--------------------|-------------------------|--------------------|----------------|---------------|
+| POST   | /plans      | Create plan        | `title` `task` `userId` |                    |                | 201           |
+| GET    | /plans      | Read all plans     |                         |                    |                | 200           |
+| GET    | /plans/{id} | Read specific plan |                         |                    | `id`           | 200           |
+| PATCH  | /plans/{id} | Update plan        | `title` `task`          |                    | `id`           | 200           |
+| DELETE | /plans/{id} | Delete plan        |                         |                    | `id`           | 200           |
 
 ### API Details
 #### Request Body Details - Member
