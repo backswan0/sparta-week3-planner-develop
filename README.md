@@ -164,8 +164,8 @@ CREATE TABLE plans
 
 ## 🚀 Key Features
 
-- Implement CRUD functionality for plans.
-- Save data in an SQL database using JPA.
+- Implements CRUD functionality for `plans`.
+- Saves data in an SQL database using JPA.
 
 ## 📜 More Information
 
