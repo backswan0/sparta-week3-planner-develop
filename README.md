@@ -63,7 +63,7 @@ erDiagram
 - Character Encoding: UTF-8
 
 ### API List
-#### API List - Member
+#### API Endpoints - Member
 | Method | URI             | Description          | Request Parameters        | Response Code |
 |--------|-----------------|----------------------|---------------------------|---------------|
 | POST   | /members/signup | Sign up member       | username, email, password | 201           |
@@ -73,7 +73,7 @@ erDiagram
 | PUT    | /members/{id}   | Update member        | id, username, email       | 200           |
 | DELETE | /members/{id}   | Delete member        | id                        | 200           |
 
-#### API List - Plan
+#### API Endpoints - Plan
 | Method | URI         | Description        | Request Parameters  | Response Code |
 |--------|-------------|--------------------|---------------------|---------------|
 | POST   | /plans      | Create plan        | title, task, userId | 201           |
@@ -82,7 +82,7 @@ erDiagram
 | PATCH  | /plans/{id} | Update plan        | id, title, task     | 200           |
 | DELETE | /plans/{id} | Delete plan        | id                  | 200           |
 
-#### API List- Comment
+#### API Endpoints - Comment
 | Method | URI            | Description           | Request Parameters | Response Code |
 |--------|----------------|-----------------------|--------------------|---------------|
 | POST   | /comments      | Create comment        | content, planId    | 201           |
@@ -375,12 +375,25 @@ erDiagram
 ```
 
 ### Error Response Code
-| HTTP Status | Description           | Message Example                                                                                                                                                                                           | Additional Information                                                                                                               |
-|-------------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| 400         | Bad Request           | "<필드 이름(영어)> 필드에서 오류가 발생했습니다. <필드 이름(한글)> 입력은 필수입니다." <br/> "길이가 2에서 20 사이여야 합니다." </br> 이메일 형식이 틀렸습니다. 다시 입력해 주세요. </br> "변경을 원하시지 않으면 가입 시 입력한 값을 입력해 주세요." </br> "null과 빈값을 허용하지 않습니다. 공백으로 입력해 주세요."  | `<필드 이름(영어)>` is the English field name (e.g. "Email", "Password") <br/> `<필드 이름(한글)>` is the Korean field name (e.g. "이메일", "비밀번호") |
-| 401         | Unauthorized          | "로그인 해주세요." <br/> 비밀번호가 일치하지 않습니다." <br/> "이메일이 일치하지 않습니다."                                                                                                                                               | Returned when authentication fails or the user does not sign in                                                                      |
-| 404         | Not Found             | "입력된 id가 존재하지 않습니다. 다시 입력해 주세요." <br/> "이미 삭제되었거나 존재하지 않는 id입니다."                                                                                                                                         | Returned when the resource is not found                                                                                              |
-| 500         | Internal Server Error | "오류가 발생했습니다."                                                                                                                                                                                             | Returned when a server error occurs                                                                                                  |
+#### Description
+| HTTP Status | Description           | Message Example and Additional Information                                                                    |
+|-------------|-----------------------|---------------------------------------------------------------------------------------------------------------|
+| 400         | Bad Request           | Returned when required fields are missing, when the length or format is incorrect, or when `null` is provided |
+| 401         | Unauthorized          | Returned when authentication fails or the user is not signed in                                               |
+| 404         | Not Found             | Returned when the resource cannot be found                                                                    |
+| 500         | Internal Server Error | Returned when a server error occurs                                                                           |
+
+#### Examples
+| HTTP Status | Message Example                                                                                                                                                                                                  |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 400         | "**<필드 이름(영어)>** 필드에서 오류가 발생했습니다. **<필드 이름(한글)>** 입력은 필수입니다." <br/> "길이가 2에서 20 사이여야 합니다." <br/> 이메일 형식이 틀렸습니다. 다시 입력해 주세요. <br/> "변경을 원하시지 않으면 가입 시 입력한 값을 입력해 주세요." <br/> "null과 빈값을 허용하지 않습니다. 공백으로 입력해 주세요." |
+| 401         | "로그인 해주세요." <br/> 비밀번호가 일치하지 않습니다. <br/> "이메일이 일치하지 않습니다."                                                                                                                                                       |
+| 404         | "입력된 id가 존재하지 않습니다. 다시 입력해 주세요." <br/> "이미 삭제되었거나 존재하지 않는 id입니다."                                                                                                                                                |
+| 500         | "오류가 발생했습니다."                                                                                                                                                                                                    |
+
+#### Notes
+-  `<필드 이름(영어)>` is the English field name (e.g., "email", "password")
+-  `<필드 이름(한글)>` is the Korean field name (e.g., "이메일", "비밀번호")
 
 ### Request Body Description
 #### Field Information - Member
