@@ -1,4 +1,4 @@
-# 🗓️ Developing a Planner Application Using Spring Boot and JPA
+# 🗓️ Developing a Planner Application Using Spring Boot and JPA (Level Five, Six)
 
 ## 💻 Introduction
 - This project is an assignment designed to evaluate students' understanding of the online lecture.
@@ -346,9 +346,10 @@ CREATE TABLE plans5
 - Implements exception handling.
 - Prevents duplicate sign-ups with the same email during registration.
 - Encrypts passwords using BCrypt before storing them in the database.
+- Implements login functionality by creating a login filter and registering configuration.
 
 ## 🔍 Characteristics
-- Separate the 3-layer architecture and DTOs into different packages by URL
+- Separates the 3-layer architecture and DTOs into different packages by URL
 
 ## 📜 More Information
 - [Visit Development Journal](https://writingforever162.tistory.com)
