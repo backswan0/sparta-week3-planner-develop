@@ -1,4 +1,4 @@
-# 🗓️ Developing a Planner Application Using Spring Boot and JPA
+# 🗓️ Developing a Planner Application Using Spring Boot and JPA (Level Two)
 
 ## 💻 Introduction
 
@@ -18,6 +18,7 @@
 - Spring Data JPA
 - MySQL Driver
 - MySQL 9.1.0
+- Lombok
 
 ## 🔗 ERD
 
@@ -319,13 +320,13 @@ CREATE TABLE plans2
 
 ## 🚀 Key Features
 
-- Implements CRUD functionality for plans and members.
+- Implements CRUD functionality for `members` and `plans`.
 - Stores data in an SQL database using JPA.
 - Resolves name duplication issues by using the user's identifier.
 
 ## 🔍 Characteristics
 
-- Separate the 3-layer architecture and DTOs into different packages by URL
+- Separates the 3-layer architecture and DTOs into different packages by URL
 
 ## 📜 More Information
 
