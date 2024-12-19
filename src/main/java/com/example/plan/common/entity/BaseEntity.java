@@ -30,8 +30,21 @@ public abstract class BaseEntity {
     @Column(
             name = "updated_at"
             , nullable = false
-            , updatable = true
             , columnDefinition = "TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
     )
     private LocalDateTime updatedAt;
+
+    @Comment("삭제 여부")
+    @Column(
+            name = "is_deleted"
+            , columnDefinition = "TINYINT(0)"
+    )
+    private Boolean isDeleted;
+
+    @Comment("삭제일")
+    @Column(
+            name = "deleted_at"
+            , columnDefinition = "TIMESTAMP"
+    )
+    private LocalDateTime deletedAt;
 }
