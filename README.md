@@ -30,6 +30,8 @@ username varchar
 email varchar
 created_at timestamp
 updated_at timestamp
+is_deleted tinyint
+deleted_at timestamp
 }
 PLANS {
 id bigint PK
@@ -37,6 +39,8 @@ title varchar
 task varchar
 created_at timestamp
 updated_at timestamp
+is_deleted tinyint
+deleted_at timestamp
 member_id bigint FK
 }
 ```
@@ -258,21 +262,25 @@ member_id bigint FK
 | Field Name | Data Type     | Mandatory Status | Description                                                                                               |
 |------------|---------------|------------------|-----------------------------------------------------------------------------------------------------------|
 | id         | Long          | Optional         | Identifier for each member  <br/> Required for **GET**, **PUT**, or **DELETE** requests                   |
-| username   | String        | Mandatory        | User's name <br/> must be less than 4 characters                                                          |
+| username   | String        | Mandatory        | User's name                                                                                               |
 | email      | String        | Mandatory        | User's email account                                                                                      |
 | createdAt  | LocalDateTime | Not Included     | The timestamp when the plan is created  <br/> Automatically stored in the database upon creation          |
 | updatedAt  | LocalDateTime | Not Included     | The timestamp when the plan is last updated  <br/> Automatically stored in the database upon modification |
+| isDeleted  | Boolean       | Not Included     | Deletion status of the member  <br/> Automatically stored in the database upon deletion                   |
+| deletedAt  | LocalDateTime | Not Included     | The timestamp when the member is deleted  <br/> Automatically stored in the database upon deletion        |
 
 #### Field Information - Plan
 
 | Field Name | Data Type     | Mandatory Status | Description                                                                                               |
 |------------|---------------|------------------|-----------------------------------------------------------------------------------------------------------|
 | id         | Long          | Optional         | Identifier for each plan  <br/> Required for **GET**, **PATCH**, or **DELETE** requests                   |
-| title      | String        | Mandatory        | Title of the plan <br/> must be less than 10 characters                                                   |
+| title      | String        | Mandatory        | Title of the plan                                                                                         |
 | task       | String        | Optional         | Detailed description of the plan  <br/> Should be an empty String(`""`) when the value is null            |
 | userId     | Long          | Mandatory        | Identifier of user <br/> Required for **CREATE** request                                                  |
 | createdAt  | LocalDateTime | Not Included     | The timestamp when the plan is created  <br/> Automatically stored in the database upon creation          |
 | updatedAt  | LocalDateTime | Not Included     | The timestamp when the plan is last updated  <br/> Automatically stored in the database upon modification |
+| isDeleted  | Boolean       | Not Included     | Deletion status of the member  <br/> Automatically stored in the database upon deletion                   |
+| deletedAt  | LocalDateTime | Not Included     | The timestamp when the member is deleted  <br/> Automatically stored in the database upon deletion        |
 
 ## 📊 Database Schema
 
@@ -285,9 +293,10 @@ CREATE TABLE members2
     username   VARCHAR(16)                         NOT NULL COMMENT '사용자 이름',
     email      VARCHAR(128)                        NOT NULL COMMENT '사용자 이메일',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성일',
-    updated_at TIMESTAMP                           NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일'
+    updated_at TIMESTAMP                           NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
+    is_deleted TINYINT NULL COMMENT '삭제 여부',
+    deleted_at TIMESTAMP NULL COMMENT '삭제일',
 );
-
 ```
 
 ### 2. PLANS
@@ -301,6 +310,8 @@ CREATE TABLE plans2
     task       VARCHAR(512) NULL COMMENT '일정 내용',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성일',
     updated_at TIMESTAMP                           NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
+    is_deleted TINYINT NULL COMMENT '삭제 여부',
+    deleted_at TIMESTAMP NULL COMMENT '삭제일',
     CONSTRAINT fk__plans2__member_id
         FOREIGN KEY (member_id) REFERENCES members2 (id)
 );
