@@ -53,15 +53,25 @@ public class PlanController {
      */
     @GetMapping
     public ResponseEntity<List<PlanReadResponseDto>> findAll(@PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Pageable sortedPageable = PageRequest.of(
-                pageable.getPageNumber()
+        int pageNumber = pageable.getPageNumber();
+
+        Pageable adjustedPageable = PageRequest.of(
+                Math.max(pageNumber - 1, 0)
                 , pageable.getPageSize()
                 , Sort.by("updatedAt").descending()
         );
-        List<PlanReadResponseDto> allPlans = planService.findAll(sortedPageable);
+        List<PlanReadResponseDto> allPlans = planService.findAll(adjustedPageable);
 
         return new ResponseEntity<>(allPlans, HttpStatus.OK);
     }
+    /*
+    TODO
+     클라이언트의 1과 컴퓨터의 1이 다르다는 점을 해설 특강에서 들어서 -1을 추가했다.
+     또한 저 상태로 프로그램을 돌리면 0일 때 문제가 생겨서 코드를 수정해야 했다.
+     코딩 테스트 연습 때 종종 마주친  Math.max(pageNumber - 1, 0)를 활용했다.
+     앞으로는 좀 더 사용자와 클라이언트 관점에서 코드 개선점을 찾는 연습을 해야겠다.
+     새로운 메서드를 쓸 때마다 문서를 보고 구조를 파악하는 일이 생각보다 재미있다.
+     */
 
     /**
      * 기능
