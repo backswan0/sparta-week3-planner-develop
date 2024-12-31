@@ -1,5 +1,6 @@
 package com.example.plan.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestControllerAdvice
 public class LayerExceptionHandler {
     /**
@@ -65,6 +67,8 @@ public class LayerExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseMessage> handleException(Exception e) {
+
+        log.error(e.getMessage(), e);
 
         HttpStatusCode statusCode = HttpStatusCode.valueOf(500);
 
