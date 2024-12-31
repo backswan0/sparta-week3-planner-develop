@@ -65,14 +65,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponseDto readCommentById(Long commentId) {
 
-        Comments foundComment = commentRepository
-                .findByIdAndIsDeletedFalse(commentId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Comments foundComment = findCommentById(commentId);
 
         return CommentResponseDto.toDto(foundComment);
     }
@@ -83,14 +76,7 @@ public class CommentServiceImpl implements CommentService {
             Long commentId
             , String content
     ) {
-        Comments foundComment = commentRepository
-                .findByIdAndIsDeletedFalse(commentId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Comments foundComment = findCommentById(commentId);
 
         foundComment.updateContent(content);
 
@@ -102,14 +88,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public void deleteComment(Long commentId) {
-        Comments foundComment = commentRepository
-                .findByIdAndIsDeletedFalse(commentId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Comments foundComment = findCommentById(commentId);
 
         if (foundComment.getIsDeleted()) {
             throw new ResponseStatusException(
@@ -119,5 +98,16 @@ public class CommentServiceImpl implements CommentService {
         } // todo
 
         foundComment.markAsDeleted();
+    }
+
+    private Comments findCommentById(Long commentId) {
+        return commentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Id does not exist"
+                        )
+                );
     }
 }

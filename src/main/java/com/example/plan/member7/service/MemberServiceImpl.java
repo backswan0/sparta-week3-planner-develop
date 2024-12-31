@@ -93,14 +93,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto readMemberById(Long memberId) {
 
-        Member foundMember = memberRepository
-                .findByIdAndIsDeletedFalse(memberId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Member foundMember = findMemberById(memberId);
 
         return MemberResponseDto.toDto(foundMember);
     }
@@ -112,14 +105,7 @@ public class MemberServiceImpl implements MemberService {
             String username,
             String email
     ) {
-        Member foundMember = memberRepository
-                .findByIdAndIsDeletedFalse(memberId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Member foundMember = findMemberById(memberId);
 
         foundMember.update(username, email);
 
@@ -129,14 +115,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public void deleteMember(Long memberId) {
-        Member foundMember = memberRepository
-                .findByIdAndIsDeletedFalse(memberId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id doest not exist"
-                        )
-                ); // todo
+        Member foundMember = findMemberById(memberId);
 
         if (foundMember.getIsDeleted()) {
             throw new ResponseStatusException(
@@ -161,6 +140,17 @@ public class MemberServiceImpl implements MemberService {
                                     );
                             commentsList.forEach(BaseEntity::markAsDeleted);
                         }
+                );
+    }
+
+    private Member findMemberById(Long memberId) {
+        return memberRepository
+                .findByIdAndIsDeletedFalse(memberId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Id doest not exist"
+                        )
                 );
     }
 }

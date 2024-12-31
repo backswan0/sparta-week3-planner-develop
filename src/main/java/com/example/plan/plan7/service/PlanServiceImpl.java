@@ -75,14 +75,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public PlanResponseDto readPlanById(Long planId) {
 
-        Plan foundPlan = planRepository
-                .findByIdAndIsDeletedFalse(planId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Plan foundPlan = findPlanById(planId);
 
         return PlanResponseDto.toDto(foundPlan);
     }
@@ -94,14 +87,7 @@ public class PlanServiceImpl implements PlanService {
             String title,
             String task
     ) {
-        Plan foundPlan = planRepository
-                .findByIdAndIsDeletedFalse(planId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Plan foundPlan = findPlanById(planId);
 
         foundPlan.updatePlan(title, task);
 
@@ -111,14 +97,7 @@ public class PlanServiceImpl implements PlanService {
     @Transactional
     @Override
     public void deletePlan(Long planId) {
-        Plan foundPlan = planRepository
-                .findByIdAndIsDeletedFalse(planId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+        Plan foundPlan = findPlanById(planId);
 
         if (foundPlan.getIsDeleted()) {
             throw new ResponseStatusException(
@@ -140,4 +119,15 @@ public class PlanServiceImpl implements PlanService {
                         }
                 );
     }
+
+    private Plan findPlanById(Long planId) {
+        return planRepository
+                .findByIdAndIsDeletedFalse(planId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Id does not exist"
+                        )
+                );
+    } // todo
 }
