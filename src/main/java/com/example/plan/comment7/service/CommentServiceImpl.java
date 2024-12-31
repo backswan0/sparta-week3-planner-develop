@@ -37,7 +37,10 @@ public class CommentServiceImpl implements CommentService {
 
         Comments commentToSave = new Comments(content);
 
-//        commentToSave.setPlan(foundplan);
+        commentToSave.updatePlan(foundPlan);
+
+        commentToSave.updateMember(foundPlan.getMember());
+
 //        commentToSave.setMember(foundplan.getMember());
 
         Comments savedComment = commentRepository.save(commentToSave);
@@ -91,7 +94,7 @@ public class CommentServiceImpl implements CommentService {
                         )
                 ); // todo
 
-        foundComment.update(content);
+        foundComment.updateContent(content);
 
         Comments updatedComment = commentRepository.save(foundComment);
 

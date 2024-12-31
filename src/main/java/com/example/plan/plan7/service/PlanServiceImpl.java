@@ -1,5 +1,7 @@
 package com.example.plan.plan7.service;
 
+import com.example.plan.base.BaseEntity;
+import com.example.plan.comment7.entity.Comments;
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.MemberRepository;
 import com.example.plan.comment7.repository.CommentRepository;
@@ -41,7 +43,7 @@ public class PlanServiceImpl implements PlanService {
 
         Plan planToSave = new Plan(title, task);
 
-        planToSave.update(foundMember);
+        planToSave.updateMember(foundMember);
 
         Plan savedPlan = planRepository.save(planToSave);
 
@@ -101,7 +103,7 @@ public class PlanServiceImpl implements PlanService {
                         )
                 ); // todo
 
-        foundPlan.update(title, task);
+        foundPlan.updatePlan(title, task);
 
         return PlanResponseDto.toDto(foundPlan);
     }
@@ -127,6 +129,15 @@ public class PlanServiceImpl implements PlanService {
 
         foundPlan.markAsDeleted();
 
-        commentRepository.softDeleteByPlanId(planId);
+        List<Comments> commentList = new ArrayList<>();
+
+        commentList = commentRepository
+                .findAllByPlanIdAndIsDeletedFalse(planId);
+
+        commentList.stream()
+                .peek(BaseEntity::markAsDeleted)
+                .forEach(comments -> {
+                        }
+                );
     }
 }

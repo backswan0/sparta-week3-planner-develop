@@ -1,10 +1,13 @@
 package com.example.plan.member7.service;
 
+import com.example.plan.base.BaseEntity;
+import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.config.PasswordEncoder;
 import com.example.plan.member7.dto.response.*;
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.*;
+import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -144,8 +147,20 @@ public class MemberServiceImpl implements MemberService {
 
         foundMember.markAsDeleted();
 
-        planRepository.softDeleteByMemberId(memberId);
+        List<Plan> planList = new ArrayList<>();
 
-        commentRepository.softDeleteByMemberId(memberId);
+        planList = planRepository
+                .findAllByMemberIdAndIsDeletedFalse(memberId);
+
+        planList.stream()
+                .peek(BaseEntity::markAsDeleted)
+                .forEach(plan -> {
+                            List<Comments> commentsList = commentRepository
+                                    .findAllByPlanIdAndIsDeletedFalse(
+                                            plan.getId()
+                                    );
+                            commentsList.forEach(BaseEntity::markAsDeleted);
+                        }
+                );
     }
 }

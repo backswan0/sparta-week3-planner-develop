@@ -11,7 +11,6 @@ import org.hibernate.annotations.Comment;
 @Entity
 @Table(name = "comments7")
 public class Comments extends BaseEntity {
-    // 속성
     @Comment("댓글 식별자")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +45,15 @@ public class Comments extends BaseEntity {
         this.content = content;
     }
 
-    public void update(String content) {
+    public void updatePlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public void updateMember(Member member) {
+        this.member = member;
+    }
+
+    public void updateContent(String content) {
         this.content = content;
     }
 }

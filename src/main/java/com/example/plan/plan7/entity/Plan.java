@@ -49,7 +49,7 @@ public class Plan extends BaseEntity {
         this.task = task;
     }
 
-    public void update(
+    public void updatePlan(
             String title,
             String task
     ) {
@@ -57,7 +57,7 @@ public class Plan extends BaseEntity {
         this.task = task;
     }
 
-    public void update(Member member) {
+    public void updateMember(Member member) {
         this.member = member;
     }
 }
