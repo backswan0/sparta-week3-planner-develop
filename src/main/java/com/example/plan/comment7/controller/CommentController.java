@@ -67,12 +67,6 @@ public class CommentController {
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
-    /*
-    TODO 애플리케이션 실행은 잘 되었으나, 속도가 확실히 느려졌다.
-     보통 11ms 내외였는데, 16ms - 20ms로 걸렸다.
-     CRUD를 모두 생성한 다음 추가로 테스트해야겠다.
-     == 애플리케이션을 처음 실행하면 warm up이 되느라 늦는다고 한다:)
-     */
 
     /**
      * 기능
