@@ -1,11 +1,10 @@
 package com.example.plan.member7.service;
 
-import com.example.plan.config.PasswordEncoder;
-import com.example.plan.member7.dto.response.SignInMemberResponseDto;
-import com.example.plan.member7.dto.response.MemberResponseDto;
-import com.example.plan.member7.entity.Member;
-import com.example.plan.member7.repository.MemberRepository;
 import com.example.plan.comment7.repository.CommentRepository;
+import com.example.plan.config.PasswordEncoder;
+import com.example.plan.member7.dto.response.*;
+import com.example.plan.member7.entity.Member;
+import com.example.plan.member7.repository.*;
 import com.example.plan.plan7.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,21 +18,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
-    // 속성
     private final MemberRepository memberRepository;
     private final PlanRepository planRepository;
     private final CommentRepository commentRepository;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * 기능
-     * 사용자 저장
-     *
-     * @param username : 사용자의 이름
-     * @param email    : 사용자의 이메일
-     * @param password : 사용자의 비밀번호
-     * @return MemberResponseDto
-     */
     @Transactional
     @Override
     public MemberResponseDto signUp(
@@ -54,14 +43,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberResponseDto.toDto(savedMember);
     }
 
-    /**
-     * 기능
-     * 사용자 로그인 처리, 즉 이메일과 비밀번호의 일치 여부 검증
-     *
-     * @param email    : 사용자가 로그인하려고 입력한 이메일
-     * @param password : 사용자가 로그인하려고 입력한 비밀번호
-     * @return LoginMemberResponseDto
-     */
+    @Transactional
     @Override
     public SignInMemberResponseDto signIn(
             String email
@@ -70,9 +52,9 @@ public class MemberServiceImpl implements MemberService {
         Member foundMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(
                                 HttpStatus.UNAUTHORIZED
-                                , "이메일이 일치하지 않습니다."
+                                , "Email does not Match"
                         )
-                );
+                ); // todo
 
         boolean isPasswordDifferent = !passwordEncoder
                 .matches(
@@ -83,92 +65,87 @@ public class MemberServiceImpl implements MemberService {
         if (isPasswordDifferent) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED
-                    , "비밀번호가 일치하지 않습니다."
+                    , "Password does not match"
             );
-        }
+        } // todo
+
         return new SignInMemberResponseDto(foundMember.getId());
     }
 
-    /**
-     * 기능
-     * 사용자 목록 찾기
-     *
-     * @return List<MemberResponseDto>
-     */
     @Transactional(readOnly = true)
     @Override
-    public List<MemberResponseDto> findAll() {
+    public List<MemberResponseDto> readAllMembers() {
 
-        List<MemberResponseDto> allMembers = new ArrayList<>();
+        List<MemberResponseDto> memberList = new ArrayList<>();
 
-        allMembers = memberRepository.findAllExceptDeleted()
+        memberList = memberRepository.findAllByIsDeletedFalse()
                 .stream()
                 .map(MemberResponseDto::toDto)
                 .toList();
 
-        return allMembers;
+        return memberList;
     }
 
-    /**
-     * 기능
-     * 사용자 단건 조회
-     *
-     * @param id : 조회하려는 사용자의 식별자
-     * @return MemberResponseDto
-     */
     @Transactional(readOnly = true)
     @Override
-    public MemberResponseDto findById(Long id) {
+    public MemberResponseDto readMemberById(Long memberId) {
 
-        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+        Member foundMember = memberRepository
+                .findByIdAndIsDeletedFalse(memberId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Id does not exist"
+                        )
+                ); // todo
 
         return MemberResponseDto.toDto(foundMember);
     }
 
-    /**
-     * 기능
-     * 사용자 단건 수정
-     *
-     * @param id       : 수정하려는 사용자의 식별자
-     * @param username : 수정하려는 사용자의 이름
-     * @param email    : 수정하려는 사용자의 이메일
-     * @return MemberResponseDto
-     */
     @Transactional
     @Override
     public MemberResponseDto updateMember(
-            Long id
+            Long memberId
             , String username
             , String email
     ) {
-        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+        Member foundMember = memberRepository
+                .findByIdAndIsDeletedFalse(memberId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Id does not exist"
+                        )
+                ); // todo
 
         foundMember.update(username, email);
 
         return MemberResponseDto.toDto(foundMember);
     }
 
-    /**
-     * 기능
-     * 사용자 단건 삭제
-     *
-     * @param id : 삭제하려는 사용자의 식별자
-     */
     @Transactional
     @Override
-    public void delete(Long id) {
-        int rowsAffected = memberRepository.softDeleteById(id);
+    public void deleteMember(Long memberId) {
+        Member foundMember = memberRepository
+                .findByIdAndIsDeletedFalse(memberId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Id doest not exist"
+                        )
+                ); // todo
 
-        if (rowsAffected == 0) {
+        if (foundMember.getIsDeleted()) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND
-                    , "이미 삭제되었거나 존재하지 않는 id입니다."
+                    HttpStatus.CONFLICT,
+                    "The requested Data has already been deleted"
             );
-        }
-        // 해당 id의 사용자가 작성한 일정도 함께 소프트 딜리트 진행
-        planRepository.softDeleteByMemberId(id);
+        } // todo
 
-        // 해당 id의 사용자가 작성한 댓글도 함께 소프트 딜리트 진행
-        commentRepository.softDeleteByMemberId(id);
+        foundMember.markAsDeleted();
+
+        planRepository.softDeleteByMemberId(memberId);
+
+        commentRepository.softDeleteByMemberId(memberId);
     }
 }

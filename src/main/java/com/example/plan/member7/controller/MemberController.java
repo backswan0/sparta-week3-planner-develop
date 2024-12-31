@@ -1,8 +1,7 @@
 package com.example.plan.member7.controller;
 
 import com.example.plan.member7.dto.request.*;
-import com.example.plan.member7.dto.response.SignInMemberResponseDto;
-import com.example.plan.member7.dto.response.MemberResponseDto;
+import com.example.plan.member7.dto.response.*;
 import com.example.plan.member7.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,117 +18,82 @@ import java.util.List;
 @RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
-    // 속성
     private final MemberServiceImpl memberService;
 
-    /**
-     * 기능
-     * CREATE - 사용자 생성, 즉 회원가입
-     *
-     * @param requestDto : CreateMemberRequestDto
-     * @return MemberResponseDto, HttpStatus 201 CREATED
-     */
     @PostMapping("/signup")
     public ResponseEntity<MemberResponseDto> signUp(
-            @Valid @RequestBody CreateMemberRequestDto requestDto
+            @Valid @RequestBody SignUpMemberRequestDto requestDto
     ) {
-        MemberResponseDto responseDto = memberService.signUp(
-                requestDto.getUsername()
-                , requestDto.getEmail()
-                , requestDto.getPassword()
-        );
+        MemberResponseDto responseDto = memberService
+                .signUp(
+                        requestDto.username()
+                        , requestDto.email()
+                        , requestDto.password()
+                );
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-    /**
-     * 기능
-     * POST - 로그인 기능 구현
-     *
-     * @param requestDto : LoginMemberRequestDto
-     * @param request    : HttpServletRequest
-     * @return 로그인 성공!
-     */
     @PostMapping("/signin")
     public String signIn(
             @Valid @RequestBody SignInMemberRequestDto requestDto
             , HttpServletRequest request
     ) {
-        SignInMemberResponseDto responseDto = memberService.signIn(
-                requestDto.getEmail()
-                , requestDto.getPassword()
-        );
+        SignInMemberResponseDto dto = memberService
+                .signIn(
+                        requestDto.email()
+                        , requestDto.password()
+                );
 
-        Long userId = responseDto.getId();
+        Long memberId = dto.id();
 
         HttpSession session = request.getSession();
 
-        MemberResponseDto memberResponseDto = memberService.findById(userId);
+        MemberResponseDto responseDto = memberService
+                .readMemberById(memberId);
 
-        session.setAttribute("member", memberResponseDto);
+        session.setAttribute("member", responseDto);
 
         return "로그인 성공!";
     }
 
-    /**
-     * 기능
-     * READ - 사용자 목록 조회
-     *
-     * @return List<MemberResponseDto>, HttpStatus 200 OK
-     */
     @GetMapping
-    public ResponseEntity<List<MemberResponseDto>> findAll() {
-        List<MemberResponseDto> allMembers = new ArrayList<>();
+    public ResponseEntity<List<MemberResponseDto>> readAllMembers() {
+        List<MemberResponseDto> memberList = new ArrayList<>();
 
-        allMembers = memberService.findAll();
+        memberList = memberService.readAllMembers();
 
-        return new ResponseEntity<>(allMembers, HttpStatus.OK);
+        return new ResponseEntity<>(memberList, HttpStatus.OK);
     }
 
-    /**
-     * 기능
-     * READ - 사용자 단건 조회
-     *
-     * @param id : 조회하려는 작성자의 식별자
-     * @return MemberResponseDto, HttpStatus 200 OK
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
-        MemberResponseDto memberResponseDto = memberService.findById(id);
-
-        return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
-    }
-
-    /**
-     * 기능
-     * UPDATE (PUT) - 사용자 수정
-     *
-     * @param id         : 수정하려는 사용자의 식별자
-     * @param requestDto : UpdateMemberRequestDto
-     * @return MemberResponseDto
-     */
-    @PutMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> updateMemberById(
-            @PathVariable Long id,
-            @Valid @RequestBody UpdateMemberRequestDto requestDto
+    @GetMapping("/{memberId}")
+    public ResponseEntity<MemberResponseDto> readMemberById(
+            @PathVariable Long memberId
     ) {
-        MemberResponseDto responseDto = memberService.updateMember(
-                id
-                , requestDto.getUsername()
-                , requestDto.getEmail()
-        );
+        MemberResponseDto responseDto = memberService
+                .readMemberById(memberId);
+
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    /**
-     * 기능
-     * DELETE - 사용자 단건 삭제
-     *
-     * @param id : 삭제하려는 사용자의 식별자
-     * @return HttpStatus 200 OK
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        memberService.delete(id);
+    @PutMapping("/{memberId}")
+    public ResponseEntity<MemberResponseDto> updateMember(
+            @PathVariable Long memberId,
+            @Valid @RequestBody UpdateMemberRequestDto requestDto
+    ) {
+        MemberResponseDto responseDto = memberService
+                .updateMember(
+                        memberId
+                        , requestDto.username()
+                        , requestDto.email()
+                );
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<Void> deleteMember(
+            @PathVariable Long memberId
+    ) {
+        memberService.deleteMember(memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

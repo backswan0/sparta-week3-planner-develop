@@ -44,13 +44,6 @@ public class Member extends BaseEntity {
     protected Member() {
     }
 
-    /**
-     * 생성자
-     *
-     * @param username : 사용자의 이름
-     * @param email    : 사용자의 이메일
-     * @param password : 사용자의 비밀번호
-     */
     public Member(
             String username
             , String email
@@ -61,13 +54,6 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
-    /**
-     * 기능
-     * 사용자의 이름과 이메일 수정 (UPDATE - PUT)
-     *
-     * @param username : 수정하려는 사용자의 이름
-     * @param email    : 수정하려는 사용자의 이메일
-     */
     public void update(
             String username
             , String email
