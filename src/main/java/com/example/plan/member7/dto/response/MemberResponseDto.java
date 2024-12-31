@@ -12,9 +12,9 @@ public record MemberResponseDto(
             Member member
     ) {
         return new MemberResponseDto(
-                member.getId()
-                , member.getUsername()
-                , member.getEmail()
+                member.getId(),
+                member.getUsername(),
+                member.getEmail()
         );
     }
 }

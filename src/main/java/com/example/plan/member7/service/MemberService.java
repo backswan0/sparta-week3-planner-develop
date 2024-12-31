@@ -7,14 +7,14 @@ import java.util.List;
 public interface MemberService {
 
     MemberResponseDto signUp(
-            String username
-            , String email
-            , String password
+            String username,
+            String email,
+            String password
     );
 
     SignInMemberResponseDto signIn(
-            String email
-            , String password
+            String email,
+            String password
     );
 
     List<MemberResponseDto> readAllMembers();
@@ -22,9 +22,9 @@ public interface MemberService {
     MemberResponseDto readMemberById(Long memberId);
 
     MemberResponseDto updateMember(
-            Long memberId
-            , String username
-            , String email
+            Long memberId,
+            String username,
+            String email
     );
 
     void deleteMember(Long memberId);

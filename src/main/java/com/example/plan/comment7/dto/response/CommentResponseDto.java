@@ -12,7 +12,6 @@ public record CommentResponseDto(
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime createdAt
-
 ) {
     public static CommentResponseDto toDto(
             Comments comments

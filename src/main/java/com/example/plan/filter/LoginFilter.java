@@ -9,19 +9,8 @@ import org.springframework.util.PatternMatchUtils;
 import java.io.IOException;
 
 public class LoginFilter implements Filter {
-    // 속성
     private static final String[] WHITE_LIST = {"/members/signup", "/members/signin"};
 
-    /**
-     * 기능
-     * 로그인 필터로, 회원가입 및 로그인 요청에서는 작동하지 않는다.
-     *
-     * @param request  :  ServletRequest
-     * @param response : ServletResponse
-     * @param chain    :    FilterChain
-     * @throws IOException      : 입력/출력 처리 중 발생할 수 있는 예외
-     * @throws ServletException : servlet 요청 처리 중 발생할 수 있는 예외
-     */
     @Override
     public void doFilter(
             ServletRequest request
@@ -42,19 +31,11 @@ public class LoginFilter implements Filter {
 
                 httpResponse.sendError(401, "로그인 해주세요.");
                 return;
-                // 다음 단계를 실행하지 못하도록 막음
             }
         }
         chain.doFilter(request, response);
     }
 
-    /**
-     * 기능
-     * WHITE_LIST에 포함된 URL인지 검사하는 메서드
-     *
-     * @param requestURI : requestURI, 데이터 타입은 String
-     * @return true 또는 false
-     */
     private boolean isWhiteList(String requestURI) {
         return PatternMatchUtils.simpleMatch(WHITE_LIST, requestURI);
     }

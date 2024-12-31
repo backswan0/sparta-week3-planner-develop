@@ -28,6 +28,7 @@ public class CommentController {
                                 requestDto.content(),
                                 requestDto.planId()
                         );
+
         return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
     }
 
@@ -52,14 +53,15 @@ public class CommentController {
 
     @PatchMapping("/{commentId}")
     public ResponseEntity<CommentResponseDto> updateComment(
-            @PathVariable Long commentId
-            , @Valid @RequestBody UpdateCommentRequestDto requestDto
+            @PathVariable Long commentId,
+            @Valid @RequestBody UpdateCommentRequestDto requestDto
     ) {
         CommentResponseDto responseDto = commentService
                 .updateComment(
-                        commentId
-                        , requestDto.content()
+                        commentId,
+                        requestDto.content()
                 );
+
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 

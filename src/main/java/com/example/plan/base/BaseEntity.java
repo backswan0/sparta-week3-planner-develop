@@ -18,33 +18,33 @@ public abstract class BaseEntity {
     @CreatedDate
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(
-            name = "created_at"
-            , nullable = false
-            , updatable = false
-            , columnDefinition = "TIMESTAMP"
+            name = "created_at",
+            nullable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP"
     )
     private LocalDateTime createdAt;
 
     @Comment("수정일")
     @LastModifiedDate
     @Column(
-            name = "updated_at"
-            , nullable = false
-            , columnDefinition = "TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+            name = "updated_at",
+            nullable = false,
+            columnDefinition = "TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
     )
     private LocalDateTime updatedAt;
 
     @Comment("삭제 여부")
     @Column(
-            name = "is_deleted"
-            , columnDefinition = "TINYINT(0)"
+            name = "is_deleted",
+            columnDefinition = "TINYINT(0)"
     )
     private Boolean isDeleted = false;
 
     @Comment("삭제일")
     @Column(
-            name = "deleted_at"
-            , columnDefinition = "TIMESTAMP"
+            name = "deleted_at",
+            columnDefinition = "TIMESTAMP"
     )
     private LocalDateTime deletedAt;
 

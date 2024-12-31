@@ -26,9 +26,9 @@ public class MemberController {
     ) {
         MemberResponseDto responseDto = memberService
                 .signUp(
-                        requestDto.username()
-                        , requestDto.email()
-                        , requestDto.password()
+                        requestDto.username(),
+                        requestDto.email(),
+                        requestDto.password()
                 );
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -40,8 +40,8 @@ public class MemberController {
     ) {
         SignInMemberResponseDto dto = memberService
                 .signIn(
-                        requestDto.email()
-                        , requestDto.password()
+                        requestDto.email(),
+                        requestDto.password()
                 );
 
         Long memberId = dto.id();
@@ -82,9 +82,9 @@ public class MemberController {
     ) {
         MemberResponseDto responseDto = memberService
                 .updateMember(
-                        memberId
-                        , requestDto.username()
-                        , requestDto.email()
+                        memberId,
+                        requestDto.username(),
+                        requestDto.email()
                 );
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

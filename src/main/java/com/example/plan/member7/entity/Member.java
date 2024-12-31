@@ -18,26 +18,26 @@ public class Member extends BaseEntity {
 
     @Comment("사용자 이름")
     @Column(
-            name = "username"
-            , nullable = false
-            , length = 32
+            name = "username",
+            nullable = false,
+            length = 32
     )
     private String username;
 
     @Comment("사용자 이메일")
     @Column(
-            name = "email"
-            , nullable = false
-            , unique = true
-            , length = 128
+            name = "email",
+            nullable = false,
+            unique = true,
+            length = 128
     )
     private String email;
 
     @Comment("사용자 비밀번호")
     @Column(
-            name = "password"
-            , nullable = false
-            , length = 255
+            name = "password",
+            nullable = false,
+            length = 255
     )
     private String password;
 
@@ -45,9 +45,9 @@ public class Member extends BaseEntity {
     }
 
     public Member(
-            String username
-            , String email
-            , String password
+            String username,
+            String email,
+            String password
     ) {
         this.username = username;
         this.email = email;
@@ -55,8 +55,8 @@ public class Member extends BaseEntity {
     }
 
     public void update(
-            String username
-            , String email
+            String username,
+            String email
     ) {
         this.username = username;
         this.email = email;

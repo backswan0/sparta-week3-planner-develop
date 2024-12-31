@@ -29,16 +29,16 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public MemberResponseDto signUp(
-            String username
-            , String email
-            , String password
+            String username,
+            String email,
+            String password
     ) {
         String encodedPassword = passwordEncoder.encode(password);
 
         Member member = new Member(
-                username
-                , email
-                , encodedPassword
+                username,
+                email,
+                encodedPassword
         );
 
         Member savedMember = memberRepository.save(member);
@@ -49,8 +49,8 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public SignInMemberResponseDto signIn(
-            String email
-            , String password
+            String email,
+            String password
     ) {
         Member foundMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -108,9 +108,9 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public MemberResponseDto updateMember(
-            Long memberId
-            , String username
-            , String email
+            Long memberId,
+            String username,
+            String email
     ) {
         Member foundMember = memberRepository
                 .findByIdAndIsDeletedFalse(memberId)
@@ -141,7 +141,7 @@ public class MemberServiceImpl implements MemberService {
         if (foundMember.getIsDeleted()) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "The requested Data has already been deleted"
+                    "The requested data has already been deleted"
             );
         } // todo
 

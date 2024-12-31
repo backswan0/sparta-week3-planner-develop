@@ -114,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
         if (foundComment.getIsDeleted()) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "The requested Data has already been deleted"
+                    "The requested data has already been deleted"
             );
         } // todo
 

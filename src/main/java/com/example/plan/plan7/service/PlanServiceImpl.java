@@ -123,7 +123,7 @@ public class PlanServiceImpl implements PlanService {
         if (foundPlan.getIsDeleted()) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "The requested Data has already been deleted"
+                    "The requested data has already been deleted"
             );
         } // todo
 
