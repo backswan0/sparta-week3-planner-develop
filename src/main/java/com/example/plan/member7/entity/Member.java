@@ -20,7 +20,7 @@ public class Member extends BaseEntity {
     @Column(
             name = "username"
             , nullable = false
-            , columnDefinition = "VARCHAR(32)"
+            , length = 32
     )
     private String username;
 
@@ -29,7 +29,7 @@ public class Member extends BaseEntity {
             name = "email"
             , nullable = false
             , unique = true
-            , columnDefinition = "VARCHAR(128)"
+            , length = 128
     )
     private String email;
 
@@ -37,12 +37,11 @@ public class Member extends BaseEntity {
     @Column(
             name = "password"
             , nullable = false
-            , columnDefinition = "VARCHAR(255)"
+            , length = 255
     )
     private String password;
 
-    // 기본 생성자
-    public Member() {
+    protected Member() {
     }
 
     /**

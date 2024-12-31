@@ -5,27 +5,26 @@ import com.example.plan.member7.entity.Member;
 import com.example.plan.plan7.entity.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity
 @Table(name = "comments7")
-public class Comment extends BaseEntity {
+public class Comments extends BaseEntity {
     // 속성
-    @org.hibernate.annotations.Comment("댓글 식별자")
+    @Comment("댓글 식별자")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "BIGINT")
     private Long id;
 
-    @org.hibernate.annotations.Comment("댓글 내용")
+    @Comment("댓글 내용")
     @Column(
             name = "content"
-            , columnDefinition = "VARCHAR(255)"
+            , length = 255
     )
     private String content;
 
-    @Setter
     @ManyToOne
     @JoinColumn(
             name = "plan_id"
@@ -33,7 +32,6 @@ public class Comment extends BaseEntity {
     )
     private Plan plan;
 
-    @Setter
     @ManyToOne
     @JoinColumn(
             name = "member_id"
@@ -42,7 +40,7 @@ public class Comment extends BaseEntity {
     private Member member;
 
     // 기본 생성자
-    public Comment() {
+    protected Comments() {
     }
 
     /**
@@ -50,7 +48,7 @@ public class Comment extends BaseEntity {
      *
      * @param content : 댓글 내용
      */
-    public Comment(String content) {
+    public Comments(String content) {
         this.content = content;
     }
 

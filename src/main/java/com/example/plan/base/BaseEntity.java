@@ -39,7 +39,7 @@ public abstract class BaseEntity {
             name = "is_deleted"
             , columnDefinition = "TINYINT(0)"
     )
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Comment("삭제일")
     @Column(
@@ -47,4 +47,9 @@ public abstract class BaseEntity {
             , columnDefinition = "TIMESTAMP"
     )
     private LocalDateTime deletedAt;
+
+    public void markAsDeleted() {
+        this.isDeleted = true; // 삭제 여부를 true로 설정
+        this.deletedAt = LocalDateTime.now(); // 삭제일을 현재로 설정
+    }
 }

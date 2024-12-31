@@ -65,7 +65,7 @@ erDiagram
 ### Basic Information
 - Base URL (member): /members
 - Base URL (plan): /plans
-- Base URL (comment): /comments
+- Base URL (comments): /comments
 - Response Format: JSON
 - Character Encoding: UTF-8
 
@@ -93,11 +93,11 @@ erDiagram
 #### API Endpoints - Comment
 | Method | URI            | Description           | Request Body       | Request Parameters | Path Variables | Response Code |
 |--------|----------------|-----------------------|--------------------|--------------------|----------------|---------------|
-| POST   | /comments      | Create comment        | `content` `planId` |                    |                | 201           |
+| POST   | /comments      | Create comments        | `content` `planId` |                    |                | 201           |
 | GET    | /comments      | Read all comments     |                    |                    |                | 200           |
-| GET    | /comments/{id} | Read specific comment |                    |                    | `id`           | 200           |
-| PATCH  | /comments/{id} | Update comment        | `content`          |                    | `id`           | 200           |
-| DELETE | /comments/{id} | Delete comment        |                    |                    | `id`           | 200           |
+| GET    | /comments/{id} | Read specific comments |                    |                    | `id`           | 200           |
+| PATCH  | /comments/{id} | Update comments        | `content`          |                    | `id`           | 200           |
+| DELETE | /comments/{id} | Delete comments        |                    |                    | `id`           | 200           |
 
 
 ### API Details
@@ -431,15 +431,15 @@ erDiagram
 | deletedAt  | LocalDateTime | Not Included     | The timestamp when the plan is deleted  <br/> Automatically stored in the database upon deletion                                     |
 
 #### Field Information - Comment
-| Field Name | Data Type     | Mandatory Status | Description                                                                                                  |
-|------------|---------------|------------------|--------------------------------------------------------------------------------------------------------------|
-| id         | Long          | Optional         | Identifier for each comment <br/> Required for **GET**, **PATCH**, or **DELETE** requests                    |
-| content    | String        | Mandatory        | Content of comment <br/> Must be less than 200 characters                                                    |
-| planId     | Long          | Mandatory        | Identifier of plan <br/> Required for **CREATE** request                                                     |
-| createdAt  | LocalDateTime | Not Included     | The timestamp when the comment is created  <br/> Automatically stored in the database upon creation          |
-| updatedAt  | LocalDateTime | Not Included     | The timestamp when the comment is last updated  <br/> Automatically stored in the database upon modification |
-| isDeleted  | Boolean       | Not Included     | Deletion status of the comment <br/> Automatically stored in the database upon deletion                      |
-| deletedAt  | LocalDateTime | Not Included     | The timestamp when the comment is deleted <br/> Automatically stored in the database upon deletion           |
+| Field Name | Data Type     | Mandatory Status | Description                                                                                                   |
+|------------|---------------|------------------|---------------------------------------------------------------------------------------------------------------|
+| id         | Long          | Optional         | Identifier for each comments <br/> Required for **GET**, **PATCH**, or **DELETE** requests                    |
+| content    | String        | Mandatory        | Content of comments <br/> Must be less than 200 characters                                                    |
+| planId     | Long          | Mandatory        | Identifier of plan <br/> Required for **CREATE** request                                                      |
+| createdAt  | LocalDateTime | Not Included     | The timestamp when the comments is created  <br/> Automatically stored in the database upon creation          |
+| updatedAt  | LocalDateTime | Not Included     | The timestamp when the comments is last updated  <br/> Automatically stored in the database upon modification |
+| isDeleted  | Boolean       | Not Included     | Deletion status of the comments <br/> Automatically stored in the database upon deletion                      |
+| deletedAt  | LocalDateTime | Not Included     | The timestamp when the comments is deleted <br/> Automatically stored in the database upon deletion           |
 
 ## 📊 Database Schema
 ### 1. MEMBERS

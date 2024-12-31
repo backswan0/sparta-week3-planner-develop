@@ -4,7 +4,6 @@ import com.example.plan.base.BaseEntity;
 import com.example.plan.member7.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
 @Getter
@@ -22,14 +21,14 @@ public class Plan extends BaseEntity {
     @Column(
             name = "title"
             , nullable = false
-            , columnDefinition = "VARCHAR(16)"
+            , length = 16
     )
     private String title;
 
     @Comment("일정 내용")
     @Column(
             name = "task"
-            , columnDefinition = "VARCHAR(255)"
+            , length = 255
     )
     private String task;
 
@@ -40,8 +39,7 @@ public class Plan extends BaseEntity {
     )
     private Member member;
 
-    // 기본 생성자
-    public Plan() {
+    protected Plan() {
     }
 
     /**
@@ -73,15 +71,7 @@ public class Plan extends BaseEntity {
         this.task = task;
     }
 
-    @SuppressWarnings("unused")
-    public void setMember(Member member) {
+    public void update(Member member) {
         this.member = member;
     }
-    /*
-    TODO
-     Setter 어노테이션을 쓰기 싫어서 직접 메서드를 구현했다.
-     문제는 노란 줄이 아주 짙게 그어져서 @Setter를 썼다.
-     그러다 해설 특강 때 최대한 '지양하는 편이 좋다'는 설명에 메서드를 다시 구현했다.
-     그다음 노란 줄이 뜨지 않도록 @SuppressWarnings("unused")을 추가했다.
-     */
 }
