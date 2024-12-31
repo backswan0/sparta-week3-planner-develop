@@ -41,8 +41,6 @@ public class CommentServiceImpl implements CommentService {
 
         commentToSave.updateMember(foundPlan.getMember());
 
-//        commentToSave.setMember(foundplan.getMember());
-
         Comments savedComment = commentRepository.save(commentToSave);
 
         return CommentResponseDto.toDto(savedComment);
