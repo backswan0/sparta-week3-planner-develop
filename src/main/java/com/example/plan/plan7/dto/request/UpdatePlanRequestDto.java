@@ -5,12 +5,20 @@ import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 public record UpdatePlanRequestDto(
-        @NotBlank(message = "일정의 제목 입력은 필수입니다.")
-        @Length(min = 1, max = 20)
-        String title,
+    @NotBlank(message = "Title input is required")
+    @Length(
+        min = 1,
+        max = 20,
+        message = "Title must be between 1 and 20 characters"
+    )
+    String title,
 
-        @NotEmpty(message = "null과 빈값을 허용하지 않습니다. 공백으로 입력해 주세요.")
-        @Length(max = 200)
-        String task
+    @NotEmpty(message = "Null and empty values are forbidden")
+    @Length(
+        max = 200,
+        message = "Task must be less than 200 characters"
+    )
+    String task
 ) {
+
 }

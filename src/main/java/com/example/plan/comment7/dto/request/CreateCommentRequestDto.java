@@ -5,11 +5,15 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 public record CreateCommentRequestDto(
-        @NotBlank(message = "댓글 내용 입력은 필수입니다.")
-        @Length(max = 200)
-        String content,
+    @NotBlank(message = "Comment input is required")
+    @Length(
+        max = 200,
+        message = "Comment must be less than 200 characters"
+    )
+    String content,
 
-        @NotNull(message = "댓글을 생성할 일정의 id 입력은 필수입니다.")
-        Long planId
+    @NotNull(message = "Id input is required")
+    Long planId
 ) {
+
 }
