@@ -3,6 +3,7 @@ package com.example.plan.plan7.service;
 import com.example.plan.base.BaseEntity;
 import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
+import com.example.plan.exception.AlreadyDeletedException;
 import com.example.plan.exception.ErrorMessage;
 import com.example.plan.exception.MemberNotFoundException;
 import com.example.plan.exception.PlanNotFoundException;
@@ -16,10 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -97,11 +96,10 @@ public class PlanServiceImpl implements PlanService {
     Plan foundPlan = findPlanById(planId);
 
     if (foundPlan.getIsDeleted()) {
-      throw new ResponseStatusException(
-          HttpStatus.CONFLICT,
-          "The requested data has already been deleted"
+      throw new AlreadyDeletedException(
+          ErrorMessage.DATA_ALREADY_DELETED
       );
-    } // todo
+    }
 
     foundPlan.markAsDeleted();
 
@@ -120,14 +118,18 @@ public class PlanServiceImpl implements PlanService {
   private Member findMemberById(Long memberId) {
     return memberRepository.findByIdAndIsDeletedFalse(memberId)
         .orElseThrow(
-            () -> new MemberNotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
+            () -> new MemberNotFoundException(
+                ErrorMessage.MEMBER_NOT_FOUND
+            )
         );
   }
 
   private Plan findPlanById(Long planId) {
     return planRepository.findByIdAndIsDeletedFalse(planId)
         .orElseThrow(
-            () -> new PlanNotFoundException(ErrorMessage.PLAN_NOT_FOUND)
+            () -> new PlanNotFoundException(
+                ErrorMessage.PLAN_NOT_FOUND
+            )
         );
   }
 }

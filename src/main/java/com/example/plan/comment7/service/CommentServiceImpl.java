@@ -3,6 +3,7 @@ package com.example.plan.comment7.service;
 import com.example.plan.comment7.dto.response.CommentResponseDto;
 import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
+import com.example.plan.exception.AlreadyDeletedException;
 import com.example.plan.exception.CommentNotFoundException;
 import com.example.plan.exception.ErrorMessage;
 import com.example.plan.exception.PlanNotFoundException;
@@ -11,10 +12,8 @@ import com.example.plan.plan7.repository.PlanRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
@@ -87,11 +86,10 @@ public class CommentServiceImpl implements CommentService {
     Comments foundComment = findCommentById(commentId);
 
     if (foundComment.getIsDeleted()) {
-      throw new ResponseStatusException(
-          HttpStatus.CONFLICT,
-          "The requested data has already been deleted"
+      throw new AlreadyDeletedException(
+          ErrorMessage.DATA_ALREADY_DELETED
       );
-    } // todo
+    }
 
     foundComment.markAsDeleted();
   }
@@ -99,14 +97,18 @@ public class CommentServiceImpl implements CommentService {
   private Plan findPlanById(Long planId) {
     return planRepository.findByIdAndIsDeletedFalse(planId)
         .orElseThrow(
-            () -> new PlanNotFoundException(ErrorMessage.PLAN_NOT_FOUND)
+            () -> new PlanNotFoundException(
+                ErrorMessage.PLAN_NOT_FOUND
+            )
         );
   }
 
   private Comments findCommentById(Long commentId) {
     return commentRepository.findByIdAndIsDeletedFalse(commentId)
         .orElseThrow(
-            () -> new CommentNotFoundException(ErrorMessage.COMMENT_NOT_FOUND)
+            () -> new CommentNotFoundException(
+                ErrorMessage.COMMENT_NOT_FOUND
+            )
         );
   }
 }

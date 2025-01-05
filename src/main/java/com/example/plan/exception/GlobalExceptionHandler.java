@@ -4,56 +4,42 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponseMessage> handleValidationException(
+  public ResponseEntity<Map<String, Object>> handleValidationException(
       MethodArgumentNotValidException e
   ) {
-    HttpStatusCode statusCode = e.getStatusCode();
 
     List<String> errors = new ArrayList<>();
 
     errors = e.getFieldErrors()
         .stream()
-        .map(error ->
-            error.getField()
-                + error.getDefaultMessage()
+        .map(DefaultMessageSourceResolvable::getDefaultMessage
         )
         .toList();
 
-    return new ResponseEntity<>(
-        new ErrorResponseMessage(statusCode.value(), String.join(", ", errors)), statusCode
-    );
-  }
-
-  @ExceptionHandler(ResponseStatusException.class)
-  public ResponseEntity<ErrorResponseMessage> handleResponseStatusException(
-      ResponseStatusException e
-  ) {
-    HttpStatusCode statusCode = e.getStatusCode();
-
-    return new ResponseEntity<>(
-        new ErrorResponseMessage(statusCode.value(), e.getReason()), statusCode
+    return handleException(
+        new Exception(String.join(". ", errors)),
+        ErrorMessage.ERROR_INVALID_INPUT,
+        HttpStatus.BAD_REQUEST
     );
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponseMessage> handleException(Exception e) {
-
-    HttpStatusCode statusCode = HttpStatusCode.valueOf(500);
-
-    return new ResponseEntity<>(
-        new ErrorResponseMessage(statusCode.value(), "오류가 발생했습니다."), statusCode
+  public ResponseEntity<Map<String, Object>> handleOtherException() {
+    return handleException(
+        new Exception(ErrorMessage.INVALID_PATH),
+        ErrorMessage.ERROR_INVALID_PATH,
+        HttpStatus.NOT_FOUND
     );
   }
 
@@ -109,6 +95,17 @@ public class GlobalExceptionHandler {
         ex,
         ErrorMessage.ERROR_COMMENT_NOT_FOUND,
         HttpStatus.NOT_FOUND
+    );
+  }
+
+  @ExceptionHandler(AlreadyDeletedException.class)
+  public ResponseEntity<Map<String, Object>> handleAlreadyDeletedException(
+      AlreadyDeletedException ex
+  ) {
+    return handleException(
+        ex,
+        ErrorMessage.ERROR_DATA_ALREADY_DELETED,
+        HttpStatus.CONFLICT
     );
   }
 

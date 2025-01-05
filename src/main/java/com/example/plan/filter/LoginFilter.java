@@ -33,7 +33,15 @@ public class LoginFilter implements Filter {
 
       if (session == null || session.getAttribute("member") == null) {
 
-        httpResponse.sendError(401, "로그인 해주세요.");
+        httpResponse.setContentType("application/json");
+        httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+        String errorResponse = "{"
+            + "\"errorCode\": \"ERROR_LOGIN_REQUIRED\", "
+            + "\"errorMessage\": \"Please login\""
+            + "}";
+
+        httpResponse.getWriter().write(errorResponse);
         return;
       }
     }

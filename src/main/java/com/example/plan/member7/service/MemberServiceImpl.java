@@ -4,6 +4,7 @@ import com.example.plan.base.BaseEntity;
 import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.config.PasswordEncoder;
+import com.example.plan.exception.AlreadyDeletedException;
 import com.example.plan.exception.EmailMistmatchException;
 import com.example.plan.exception.ErrorMessage;
 import com.example.plan.exception.MemberNotFoundException;
@@ -17,10 +18,8 @@ import com.example.plan.plan7.repository.PlanRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -116,18 +115,16 @@ public class MemberServiceImpl implements MemberService {
     Member foundMember = findMemberById(memberId);
 
     if (foundMember.getIsDeleted()) {
-      throw new ResponseStatusException(
-          HttpStatus.CONFLICT,
-          "The requested data has already been deleted"
+      throw new AlreadyDeletedException(
+          ErrorMessage.DATA_ALREADY_DELETED
       );
-    } // todo
+    }
 
     foundMember.markAsDeleted();
 
     List<Plan> planList = new ArrayList<>();
 
-    planList = planRepository
-        .findAllByMemberIdAndIsDeletedFalse(memberId);
+    planList = planRepository.findAllByMemberIdAndIsDeletedFalse(memberId);
 
     planList.stream()
         .peek(BaseEntity::markAsDeleted)
@@ -144,14 +141,18 @@ public class MemberServiceImpl implements MemberService {
   private Member findMemberById(Long memberId) {
     return memberRepository.findByIdAndIsDeletedFalse(memberId)
         .orElseThrow(
-            () -> new MemberNotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
+            () -> new MemberNotFoundException(
+                ErrorMessage.MEMBER_NOT_FOUND
+            )
         );
   }
 
   private Member findMemberByEmail(String email) {
     return memberRepository.findByEmail(email)
         .orElseThrow(
-            () -> new EmailMistmatchException(ErrorMessage.EMAIL_NOT_MATCH)
+            () -> new EmailMistmatchException(
+                ErrorMessage.EMAIL_NOT_MATCH
+            )
         );
   }
 }
