@@ -1,7 +1,12 @@
 package com.example.plan.member7.entity;
 
 import com.example.plan.base.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
@@ -9,56 +14,57 @@ import org.hibernate.annotations.Comment;
 @Entity
 @Table(name = "members7")
 public class Member extends BaseEntity {
-    // 속성
-    @Comment("사용자 식별자")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "BIGINT")
-    private Long id;
 
-    @Comment("사용자 이름")
-    @Column(
-            name = "username",
-            nullable = false,
-            length = 32
-    )
-    private String username;
+  // 속성
+  @Comment("사용자 식별자")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "BIGINT")
+  private Long id;
 
-    @Comment("사용자 이메일")
-    @Column(
-            name = "email",
-            nullable = false,
-            unique = true,
-            length = 128
-    )
-    private String email;
+  @Comment("사용자 이름")
+  @Column(
+      name = "username",
+      nullable = false,
+      length = 32
+  )
+  private String username;
 
-    @Comment("사용자 비밀번호")
-    @Column(
-            name = "password",
-            nullable = false,
-            length = 255
-    )
-    private String password;
+  @Comment("사용자 이메일")
+  @Column(
+      name = "email",
+      nullable = false,
+      unique = true,
+      length = 128
+  )
+  private String email;
 
-    protected Member() {
-    }
+  @Comment("사용자 비밀번호")
+  @Column(
+      name = "password",
+      nullable = false,
+      length = 255
+  )
+  private String password;
 
-    public Member(
-            String username,
-            String email,
-            String password
-    ) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+  protected Member() {
+  }
 
-    public void update(
-            String username,
-            String email
-    ) {
-        this.username = username;
-        this.email = email;
-    }
+  public Member(
+      String username,
+      String email,
+      String password
+  ) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+  }
+
+  public void update(
+      String username,
+      String email
+  ) {
+    this.username = username;
+    this.email = email;
+  }
 }

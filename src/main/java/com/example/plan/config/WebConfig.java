@@ -10,13 +10,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Bean
-    public FilterRegistrationBean<Filter> loginFilter() {
-        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new LoginFilter());
-        filterRegistrationBean.setOrder(1);
-        filterRegistrationBean.addUrlPatterns("/*");
+  @Bean
+  public FilterRegistrationBean<Filter> loginFilter() {
+    FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+    filterRegistrationBean.setFilter(new LoginFilter());
+    filterRegistrationBean.setOrder(1);
+    filterRegistrationBean.addUrlPatterns("/*");
 
-        return filterRegistrationBean;
-    }
+    return filterRegistrationBean;
+  }
 }
