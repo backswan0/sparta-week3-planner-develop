@@ -43,9 +43,9 @@ public class GlobalExceptionHandler {
     );
   }
 
-  @ExceptionHandler(EmailMistmatchException.class)
+  @ExceptionHandler(EmailMismatchException.class)
   public ResponseEntity<Map<String, Object>> handleEmailMismatchException(
-      EmailMistmatchException ex
+      EmailMismatchException ex
   ) {
     return handleException(
         ex,

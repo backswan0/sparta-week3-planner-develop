@@ -5,7 +5,7 @@ import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.config.PasswordEncoder;
 import com.example.plan.exception.AlreadyDeletedException;
-import com.example.plan.exception.EmailMistmatchException;
+import com.example.plan.exception.EmailMismatchException;
 import com.example.plan.exception.ErrorMessage;
 import com.example.plan.exception.MemberNotFoundException;
 import com.example.plan.exception.PasswordMismatchException;
@@ -150,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
   private Member findMemberByEmail(String email) {
     return memberRepository.findByEmail(email)
         .orElseThrow(
-            () -> new EmailMistmatchException(
+            () -> new EmailMismatchException(
                 ErrorMessage.EMAIL_NOT_MATCH
             )
         );
