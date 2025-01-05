@@ -4,8 +4,10 @@ import com.example.plan.base.BaseEntity;
 import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.config.PasswordEncoder;
+import com.example.plan.exception.EmailMistmatchException;
 import com.example.plan.exception.ErrorMessage;
 import com.example.plan.exception.MemberNotFoundException;
+import com.example.plan.exception.PasswordMismatchException;
 import com.example.plan.member7.dto.response.MemberResponseDto;
 import com.example.plan.member7.dto.response.SignInMemberResponseDto;
 import com.example.plan.member7.entity.Member;
@@ -55,25 +57,18 @@ public class MemberServiceImpl implements MemberService {
       String email,
       String password
   ) {
-    Member foundMember = memberRepository.findByEmail(email)
-        .orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.UNAUTHORIZED
-                , "Email does not Match"
-            )
-        ); // todo
+    Member foundMember = findMemberByEmail(email);
 
-    boolean isPasswordDifferent = !passwordEncoder
-        .matches(
-            password
-            , foundMember.getPassword()
-        );
+    boolean isPasswordDifferent = !passwordEncoder.matches(
+        password,
+        foundMember.getPassword()
+    );
 
     if (isPasswordDifferent) {
-      throw new ResponseStatusException(
-          HttpStatus.UNAUTHORIZED
-          , "Password does not match"
+      throw new PasswordMismatchException(
+          ErrorMessage.PASSWORD_NOT_MATCH
       );
-    } // todo
+    }
 
     return new SignInMemberResponseDto(foundMember.getId());
   }
@@ -150,6 +145,13 @@ public class MemberServiceImpl implements MemberService {
     return memberRepository.findByIdAndIsDeletedFalse(memberId)
         .orElseThrow(
             () -> new MemberNotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
+        );
+  }
+
+  private Member findMemberByEmail(String email) {
+    return memberRepository.findByEmail(email)
+        .orElseThrow(
+            () -> new EmailMistmatchException(ErrorMessage.EMAIL_NOT_MATCH)
         );
   }
 }

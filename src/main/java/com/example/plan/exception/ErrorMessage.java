@@ -14,8 +14,8 @@ public class ErrorMessage {
   public static final String ERROR_MEMBER_NOT_FOUND = "ERROR_MEMBER_NOT_FOUND";
   public static final String ERROR_PLAN_NOT_FOUND = "ERROR_PLAN_NOT_FOUND";
   public static final String ERROR_COMMENT_NOT_FOUND = "ERROR_COMMENT_NOT_FOUND";
-  public static final String ERROR_CODE_EMAIL_NOT_MATCH = "ERR_EMAIL_NOT_MATCH";
-  public static final String ERROR_CODE_PASSWORD_NOT_MATCH = "ERR_PASSWORD_NOT_MATCH";
-  public static final String ERROR_CODE_DATA_ALREADY_DELETED = "ERR_DATA_ALREADY_DELETED";
-  public static final String ERROR_CODE_GENERAL_ERROR = "ERR_GENERAL_ERROR";
+  public static final String ERROR_EMAIL_NOT_MATCH = "ERROR_EMAIL_NOT_MATCH";
+  public static final String ERROR_PASSWORD_NOT_MATCH = "ERROR_PASSWORD_NOT_MATCH";
+  public static final String ERROR_DATA_ALREADY_DELETED = "ERROR_DATA_ALREADY_DELETED";
+  public static final String ERROR_GENERAL_ERROR = "ERROR_GENERAL_ERROR";
 }

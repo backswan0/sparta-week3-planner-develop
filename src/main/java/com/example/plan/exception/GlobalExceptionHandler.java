@@ -57,6 +57,28 @@ public class GlobalExceptionHandler {
     );
   }
 
+  @ExceptionHandler(EmailMistmatchException.class)
+  public ResponseEntity<Map<String, Object>> handleEmailMismatchException(
+      EmailMistmatchException ex
+  ) {
+    return handleException(
+        ex,
+        ErrorMessage.ERROR_EMAIL_NOT_MATCH,
+        HttpStatus.UNAUTHORIZED
+    );
+  }
+
+  @ExceptionHandler(PasswordMismatchException.class)
+  public ResponseEntity<Map<String, Object>> handlePasswordMismatchException(
+      PasswordMismatchException ex
+  ) {
+    return handleException(
+        ex,
+        ErrorMessage.ERROR_PASSWORD_NOT_MATCH,
+        HttpStatus.UNAUTHORIZED
+    );
+  }
+
   @ExceptionHandler(MemberNotFoundException.class)
   public ResponseEntity<Map<String, Object>> handleMemberNotFoundException(
       MemberNotFoundException ex
@@ -85,7 +107,7 @@ public class GlobalExceptionHandler {
   ) {
     return handleException(
         ex,
-        ErrorMessage.COMMENT_NOT_FOUND,
+        ErrorMessage.ERROR_COMMENT_NOT_FOUND,
         HttpStatus.NOT_FOUND
     );
   }
