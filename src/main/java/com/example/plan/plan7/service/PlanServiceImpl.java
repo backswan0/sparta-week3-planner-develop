@@ -2,12 +2,18 @@ package com.example.plan.plan7.service;
 
 import com.example.plan.base.BaseEntity;
 import com.example.plan.comment7.entity.Comments;
+import com.example.plan.comment7.repository.CommentRepository;
+import com.example.plan.exception.ErrorMessage;
+import com.example.plan.exception.MemberNotFoundException;
+import com.example.plan.exception.PlanNotFoundException;
 import com.example.plan.member7.entity.Member;
 import com.example.plan.member7.repository.MemberRepository;
-import com.example.plan.comment7.repository.CommentRepository;
-import com.example.plan.plan7.dto.response.*;
+import com.example.plan.plan7.dto.response.PlanResponseDto;
+import com.example.plan.plan7.dto.response.ReadPlanResponseDto;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,119 +21,113 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
-    private final PlanRepository planRepository;
-    private final MemberRepository memberRepository;
-    private final CommentRepository commentRepository;
 
-    @Transactional
-    @Override
-    public PlanResponseDto createPlan(
-            String title,
-            String task,
-            Long memberId
-    ) {
-        Member foundMember = memberRepository
-                .findByIdAndIsDeletedFalse(memberId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+  private final PlanRepository planRepository;
+  private final MemberRepository memberRepository;
+  private final CommentRepository commentRepository;
 
-        Plan planToSave = new Plan(title, task);
+  @Transactional
+  @Override
+  public PlanResponseDto createPlan(
+      String title,
+      String task,
+      Long memberId
+  ) {
+    Member foundMember = findMemberById(memberId);
 
-        planToSave.updateMember(foundMember);
+    Plan planToSave = new Plan(title, task);
 
-        Plan savedPlan = planRepository.save(planToSave);
+    planToSave.updateMember(foundMember);
 
-        return PlanResponseDto.toDto(savedPlan);
-    }
+    Plan savedPlan = planRepository.save(planToSave);
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<ReadPlanResponseDto> readAllPlans(Pageable pageable) {
+    return PlanResponseDto.toDto(savedPlan);
+  }
 
-        List<ReadPlanResponseDto> planList = new ArrayList<>();
+  @Transactional(readOnly = true)
+  @Override
+  public List<ReadPlanResponseDto> readAllPlans(Pageable pageable) {
 
-        planList = planRepository
-                .findAllByIsDeletedFalse(pageable)
-                .getContent()
-                .stream()
-                .map(plan -> {
-                            int totalComment = commentRepository
-                                    .countByPlanId(plan.getId());
-                            return ReadPlanResponseDto
-                                    .toDto(plan, totalComment);
-                        }
-                ).toList();
+    List<ReadPlanResponseDto> planList = new ArrayList<>();
 
-        return planList;
-    }
+    planList = planRepository
+        .findAllByIsDeletedFalse(pageable)
+        .getContent()
+        .stream()
+        .map(plan -> {
+              int totalComment = commentRepository
+                  .countByPlanId(plan.getId());
+              return ReadPlanResponseDto
+                  .toDto(plan, totalComment);
+            }
+        ).toList();
 
-    @Transactional(readOnly = true)
-    @Override
-    public PlanResponseDto readPlanById(Long planId) {
+    return planList;
+  }
 
-        Plan foundPlan = findPlanById(planId);
+  @Transactional(readOnly = true)
+  @Override
+  public PlanResponseDto readPlanById(Long planId) {
 
-        return PlanResponseDto.toDto(foundPlan);
-    }
+    Plan foundPlan = findPlanById(planId);
 
-    @Transactional
-    @Override
-    public PlanResponseDto updatePlan(
-            Long planId,
-            String title,
-            String task
-    ) {
-        Plan foundPlan = findPlanById(planId);
+    return PlanResponseDto.toDto(foundPlan);
+  }
 
-        foundPlan.updatePlan(title, task);
+  @Transactional
+  @Override
+  public PlanResponseDto updatePlan(
+      Long planId,
+      String title,
+      String task
+  ) {
+    Plan foundPlan = findPlanById(planId);
 
-        return PlanResponseDto.toDto(foundPlan);
-    }
+    foundPlan.updatePlan(title, task);
 
-    @Transactional
-    @Override
-    public void deletePlan(Long planId) {
-        Plan foundPlan = findPlanById(planId);
+    return PlanResponseDto.toDto(foundPlan);
+  }
 
-        if (foundPlan.getIsDeleted()) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "The requested data has already been deleted"
-            );
-        } // todo
+  @Transactional
+  @Override
+  public void deletePlan(Long planId) {
+    Plan foundPlan = findPlanById(planId);
 
-        foundPlan.markAsDeleted();
-
-        List<Comments> commentList = new ArrayList<>();
-
-        commentList = commentRepository
-                .findAllByPlanIdAndIsDeletedFalse(planId);
-
-        commentList.stream()
-                .peek(BaseEntity::markAsDeleted)
-                .forEach(comments -> {
-                        }
-                );
-    }
-
-    private Plan findPlanById(Long planId) {
-        return planRepository
-                .findByIdAndIsDeletedFalse(planId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                );
+    if (foundPlan.getIsDeleted()) {
+      throw new ResponseStatusException(
+          HttpStatus.CONFLICT,
+          "The requested data has already been deleted"
+      );
     } // todo
+
+    foundPlan.markAsDeleted();
+
+    List<Comments> commentList = new ArrayList<>();
+
+    commentList = commentRepository
+        .findAllByPlanIdAndIsDeletedFalse(planId);
+
+    commentList.stream()
+        .peek(BaseEntity::markAsDeleted)
+        .forEach(comments -> {
+            }
+        );
+  }
+
+  private Member findMemberById(Long memberId) {
+    return memberRepository.findByIdAndIsDeletedFalse(memberId)
+        .orElseThrow(
+            () -> new MemberNotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
+        );
+  }
+
+  private Plan findPlanById(Long planId) {
+    return planRepository.findByIdAndIsDeletedFalse(planId)
+        .orElseThrow(
+            () -> new PlanNotFoundException(ErrorMessage.PLAN_NOT_FOUND)
+        );
+  }
 }

@@ -4,153 +4,152 @@ import com.example.plan.base.BaseEntity;
 import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.config.PasswordEncoder;
-import com.example.plan.member7.dto.response.*;
+import com.example.plan.exception.ErrorMessage;
+import com.example.plan.exception.MemberNotFoundException;
+import com.example.plan.member7.dto.response.MemberResponseDto;
+import com.example.plan.member7.dto.response.SignInMemberResponseDto;
 import com.example.plan.member7.entity.Member;
-import com.example.plan.member7.repository.*;
+import com.example.plan.member7.repository.MemberRepository;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
-    private final MemberRepository memberRepository;
-    private final PlanRepository planRepository;
-    private final CommentRepository commentRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    @Transactional
-    @Override
-    public MemberResponseDto signUp(
-            String username,
-            String email,
-            String password
-    ) {
-        String encodedPassword = passwordEncoder.encode(password);
+  private final MemberRepository memberRepository;
+  private final PlanRepository planRepository;
+  private final CommentRepository commentRepository;
+  private final PasswordEncoder passwordEncoder;
 
-        Member member = new Member(
-                username,
-                email,
-                encodedPassword
+  @Transactional
+  @Override
+  public MemberResponseDto signUp(
+      String username,
+      String email,
+      String password
+  ) {
+    String encodedPassword = passwordEncoder.encode(password);
+
+    Member member = new Member(
+        username,
+        email,
+        encodedPassword
+    );
+
+    Member savedMember = memberRepository.save(member);
+
+    return MemberResponseDto.toDto(savedMember);
+  }
+
+  @Transactional
+  @Override
+  public SignInMemberResponseDto signIn(
+      String email,
+      String password
+  ) {
+    Member foundMember = memberRepository.findByEmail(email)
+        .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED
+                , "Email does not Match"
+            )
+        ); // todo
+
+    boolean isPasswordDifferent = !passwordEncoder
+        .matches(
+            password
+            , foundMember.getPassword()
         );
 
-        Member savedMember = memberRepository.save(member);
+    if (isPasswordDifferent) {
+      throw new ResponseStatusException(
+          HttpStatus.UNAUTHORIZED
+          , "Password does not match"
+      );
+    } // todo
 
-        return MemberResponseDto.toDto(savedMember);
-    }
+    return new SignInMemberResponseDto(foundMember.getId());
+  }
 
-    @Transactional
-    @Override
-    public SignInMemberResponseDto signIn(
-            String email,
-            String password
-    ) {
-        Member foundMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.UNAUTHORIZED
-                                , "Email does not Match"
-                        )
-                ); // todo
+  @Transactional(readOnly = true)
+  @Override
+  public List<MemberResponseDto> readAllMembers() {
 
-        boolean isPasswordDifferent = !passwordEncoder
-                .matches(
-                        password
-                        , foundMember.getPassword()
-                );
+    List<MemberResponseDto> memberList = new ArrayList<>();
 
-        if (isPasswordDifferent) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED
-                    , "Password does not match"
-            );
-        } // todo
+    memberList = memberRepository.findAllByIsDeletedFalse()
+        .stream()
+        .map(MemberResponseDto::toDto)
+        .toList();
 
-        return new SignInMemberResponseDto(foundMember.getId());
-    }
+    return memberList;
+  }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<MemberResponseDto> readAllMembers() {
+  @Transactional(readOnly = true)
+  @Override
+  public MemberResponseDto readMemberById(Long memberId) {
 
-        List<MemberResponseDto> memberList = new ArrayList<>();
+    Member foundMember = findMemberById(memberId);
 
-        memberList = memberRepository.findAllByIsDeletedFalse()
-                .stream()
-                .map(MemberResponseDto::toDto)
-                .toList();
+    return MemberResponseDto.toDto(foundMember);
+  }
 
-        return memberList;
-    }
+  @Transactional
+  @Override
+  public MemberResponseDto updateMember(
+      Long memberId,
+      String username,
+      String email
+  ) {
+    Member foundMember = findMemberById(memberId);
 
-    @Transactional(readOnly = true)
-    @Override
-    public MemberResponseDto readMemberById(Long memberId) {
+    foundMember.update(username, email);
 
-        Member foundMember = findMemberById(memberId);
+    return MemberResponseDto.toDto(foundMember);
+  }
 
-        return MemberResponseDto.toDto(foundMember);
-    }
+  @Transactional
+  @Override
+  public void deleteMember(Long memberId) {
+    Member foundMember = findMemberById(memberId);
 
-    @Transactional
-    @Override
-    public MemberResponseDto updateMember(
-            Long memberId,
-            String username,
-            String email
-    ) {
-        Member foundMember = findMemberById(memberId);
+    if (foundMember.getIsDeleted()) {
+      throw new ResponseStatusException(
+          HttpStatus.CONFLICT,
+          "The requested data has already been deleted"
+      );
+    } // todo
 
-        foundMember.update(username, email);
+    foundMember.markAsDeleted();
 
-        return MemberResponseDto.toDto(foundMember);
-    }
+    List<Plan> planList = new ArrayList<>();
 
-    @Transactional
-    @Override
-    public void deleteMember(Long memberId) {
-        Member foundMember = findMemberById(memberId);
+    planList = planRepository
+        .findAllByMemberIdAndIsDeletedFalse(memberId);
 
-        if (foundMember.getIsDeleted()) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "The requested data has already been deleted"
-            );
-        } // todo
+    planList.stream()
+        .peek(BaseEntity::markAsDeleted)
+        .forEach(plan -> {
+              List<Comments> commentsList = commentRepository
+                  .findAllByPlanIdAndIsDeletedFalse(
+                      plan.getId()
+                  );
+              commentsList.forEach(BaseEntity::markAsDeleted);
+            }
+        );
+  }
 
-        foundMember.markAsDeleted();
-
-        List<Plan> planList = new ArrayList<>();
-
-        planList = planRepository
-                .findAllByMemberIdAndIsDeletedFalse(memberId);
-
-        planList.stream()
-                .peek(BaseEntity::markAsDeleted)
-                .forEach(plan -> {
-                            List<Comments> commentsList = commentRepository
-                                    .findAllByPlanIdAndIsDeletedFalse(
-                                            plan.getId()
-                                    );
-                            commentsList.forEach(BaseEntity::markAsDeleted);
-                        }
-                );
-    }
-
-    private Member findMemberById(Long memberId) {
-        return memberRepository
-                .findByIdAndIsDeletedFalse(memberId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id doest not exist"
-                        )
-                );
-    }
+  private Member findMemberById(Long memberId) {
+    return memberRepository.findByIdAndIsDeletedFalse(memberId)
+        .orElseThrow(
+            () -> new MemberNotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
+        );
+  }
 }

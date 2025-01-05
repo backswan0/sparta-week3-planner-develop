@@ -3,111 +3,110 @@ package com.example.plan.comment7.service;
 import com.example.plan.comment7.dto.response.CommentResponseDto;
 import com.example.plan.comment7.entity.Comments;
 import com.example.plan.comment7.repository.CommentRepository;
+import com.example.plan.exception.CommentNotFoundException;
+import com.example.plan.exception.ErrorMessage;
+import com.example.plan.exception.PlanNotFoundException;
 import com.example.plan.plan7.entity.Plan;
 import com.example.plan.plan7.repository.PlanRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
-    private final PlanRepository planRepository;
-    private final CommentRepository commentRepository;
 
-    @Transactional
-    @Override
-    public CommentResponseDto createComment(
-            String content,
-            Long planId
-    ) {
-        Plan foundPlan = planRepository
-                .findByIdAndIsDeletedFalse(planId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                ); // todo
+  private final PlanRepository planRepository;
+  private final CommentRepository commentRepository;
 
-        Comments commentToSave = new Comments(content);
+  @Transactional
+  @Override
+  public CommentResponseDto createComment(
+      String content,
+      Long planId
+  ) {
+    Plan foundPlan = findPlanById(planId);
 
-        commentToSave.updatePlan(foundPlan);
+    Comments commentToSave = new Comments(content);
 
-        commentToSave.updateMember(foundPlan.getMember());
+    commentToSave.updatePlan(foundPlan);
 
-        Comments savedComment = commentRepository.save(commentToSave);
+    commentToSave.updateMember(foundPlan.getMember());
 
-        return CommentResponseDto.toDto(savedComment);
-    }
+    Comments savedComment = commentRepository.save(commentToSave);
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<CommentResponseDto> readAllComments() {
+    return CommentResponseDto.toDto(savedComment);
+  }
 
-        List<CommentResponseDto> allComments = new ArrayList<>();
+  @Transactional(readOnly = true)
+  @Override
+  public List<CommentResponseDto> readAllComments() {
 
-        allComments = commentRepository
-                .findAllByIsDeletedFalse()
-                .stream()
-                .map(CommentResponseDto::toDto)
-                .toList();
+    List<CommentResponseDto> allComments = new ArrayList<>();
 
-        return allComments;
-    }
+    allComments = commentRepository
+        .findAllByIsDeletedFalse()
+        .stream()
+        .map(CommentResponseDto::toDto)
+        .toList();
 
-    @Transactional(readOnly = true)
-    @Override
-    public CommentResponseDto readCommentById(Long commentId) {
+    return allComments;
+  }
 
-        Comments foundComment = findCommentById(commentId);
+  @Transactional(readOnly = true)
+  @Override
+  public CommentResponseDto readCommentById(Long commentId) {
 
-        return CommentResponseDto.toDto(foundComment);
-    }
+    Comments foundComment = findCommentById(commentId);
 
-    @Transactional
-    @Override
-    public CommentResponseDto updateComment(
-            Long commentId
-            , String content
-    ) {
-        Comments foundComment = findCommentById(commentId);
+    return CommentResponseDto.toDto(foundComment);
+  }
 
-        foundComment.updateContent(content);
+  @Transactional
+  @Override
+  public CommentResponseDto updateComment(
+      Long commentId
+      , String content
+  ) {
+    Comments foundComment = findCommentById(commentId);
 
-        Comments updatedComment = commentRepository.save(foundComment);
+    foundComment.updateContent(content);
 
-        return CommentResponseDto.toDto(updatedComment);
-    }
+    Comments updatedComment = commentRepository.save(foundComment);
 
-    @Transactional
-    @Override
-    public void deleteComment(Long commentId) {
-        Comments foundComment = findCommentById(commentId);
+    return CommentResponseDto.toDto(updatedComment);
+  }
 
-        if (foundComment.getIsDeleted()) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "The requested data has already been deleted"
-            );
-        } // todo
+  @Transactional
+  @Override
+  public void deleteComment(Long commentId) {
+    Comments foundComment = findCommentById(commentId);
 
-        foundComment.markAsDeleted();
-    }
+    if (foundComment.getIsDeleted()) {
+      throw new ResponseStatusException(
+          HttpStatus.CONFLICT,
+          "The requested data has already been deleted"
+      );
+    } // todo
 
-    private Comments findCommentById(Long commentId) {
-        return commentRepository
-                .findByIdAndIsDeletedFalse(commentId)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Id does not exist"
-                        )
-                );
-    }
+    foundComment.markAsDeleted();
+  }
+
+  private Plan findPlanById(Long planId) {
+    return planRepository.findByIdAndIsDeletedFalse(planId)
+        .orElseThrow(
+            () -> new PlanNotFoundException(ErrorMessage.PLAN_NOT_FOUND)
+        );
+  }
+
+  private Comments findCommentById(Long commentId) {
+    return commentRepository.findByIdAndIsDeletedFalse(commentId)
+        .orElseThrow(
+            () -> new CommentNotFoundException(ErrorMessage.COMMENT_NOT_FOUND)
+        );
+  }
 }
