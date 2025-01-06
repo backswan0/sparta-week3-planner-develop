@@ -2,7 +2,7 @@ package com.example.plan.exception;
 
 public class PasswordMismatchException extends RuntimeException {
 
-  public PasswordMismatchException(String message) {
-    super(message);
+  public PasswordMismatchException() {
+    super(ErrorMessage.PASSWORD_NOT_MATCH);
   }
 }

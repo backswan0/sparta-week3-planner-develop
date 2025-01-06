@@ -6,7 +6,6 @@ import com.example.plan.comment7.repository.CommentRepository;
 import com.example.plan.config.PasswordEncoder;
 import com.example.plan.exception.AlreadyDeletedException;
 import com.example.plan.exception.EmailMismatchException;
-import com.example.plan.exception.ErrorMessage;
 import com.example.plan.exception.MemberNotFoundException;
 import com.example.plan.exception.PasswordMismatchException;
 import com.example.plan.member7.dto.response.MemberResponseDto;
@@ -64,9 +63,7 @@ public class MemberServiceImpl implements MemberService {
     );
 
     if (isPasswordDifferent) {
-      throw new PasswordMismatchException(
-          ErrorMessage.PASSWORD_NOT_MATCH
-      );
+      throw new PasswordMismatchException();
     }
 
     return new SignInMemberResponseDto(foundMember.getId());
@@ -115,9 +112,7 @@ public class MemberServiceImpl implements MemberService {
     Member foundMember = findMemberById(memberId);
 
     if (foundMember.getIsDeleted()) {
-      throw new AlreadyDeletedException(
-          ErrorMessage.DATA_ALREADY_DELETED
-      );
+      throw new AlreadyDeletedException();
     }
 
     foundMember.markAsDeleted();
@@ -141,18 +136,14 @@ public class MemberServiceImpl implements MemberService {
   private Member findMemberById(Long memberId) {
     return memberRepository.findByIdAndIsDeletedFalse(memberId)
         .orElseThrow(
-            () -> new MemberNotFoundException(
-                ErrorMessage.MEMBER_NOT_FOUND
-            )
+            MemberNotFoundException::new
         );
   }
 
   private Member findMemberByEmail(String email) {
     return memberRepository.findByEmail(email)
         .orElseThrow(
-            () -> new EmailMismatchException(
-                ErrorMessage.EMAIL_NOT_MATCH
-            )
+            EmailMismatchException::new
         );
   }
 }
