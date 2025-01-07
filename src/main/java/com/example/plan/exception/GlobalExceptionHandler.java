@@ -1,5 +1,7 @@
 package com.example.plan.exception;
 
+import com.example.plan.exception.mismatch.MismatchException;
+import com.example.plan.exception.notfound.NotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,7 +31,7 @@ public class GlobalExceptionHandler {
 
     return handleException(
         new Exception(String.join(". ", errors)),
-        ErrorMessage.ERROR_INVALID_INPUT,
+        "ERROR_INVALID_INPUT",
         HttpStatus.BAD_REQUEST
     );
   }
@@ -38,63 +40,30 @@ public class GlobalExceptionHandler {
   public ResponseEntity<Map<String, Object>> handleOtherException() {
     return handleException(
         new Exception(ErrorMessage.INVALID_PATH),
-        ErrorMessage.ERROR_INVALID_PATH,
+        "ERROR_INVALID_PATH",
         HttpStatus.NOT_FOUND
     );
   }
 
-  @ExceptionHandler(EmailMismatchException.class)
-  public ResponseEntity<Map<String, Object>> handleEmailMismatchException(
-      EmailMismatchException ex
+  @ExceptionHandler(MismatchException.class)
+  public ResponseEntity<Map<String, Object>> handleUnAuthorizedException(
+      MismatchException ex
   ) {
     return handleException(
         ex,
-        ErrorMessage.ERROR_EMAIL_NOT_MATCH,
-        HttpStatus.UNAUTHORIZED
+        ex.getErrorCode(),
+        ex.getHttpStatus()
     );
   }
 
-  @ExceptionHandler(PasswordMismatchException.class)
-  public ResponseEntity<Map<String, Object>> handlePasswordMismatchException(
-      PasswordMismatchException ex
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<Map<String, Object>> handleNotFoundException(
+      NotFoundException ex
   ) {
     return handleException(
         ex,
-        ErrorMessage.ERROR_PASSWORD_NOT_MATCH,
-        HttpStatus.UNAUTHORIZED
-    );
-  }
-
-  @ExceptionHandler(MemberNotFoundException.class)
-  public ResponseEntity<Map<String, Object>> handleMemberNotFoundException(
-      MemberNotFoundException ex
-  ) {
-    return handleException(
-        ex,
-        ErrorMessage.ERROR_MEMBER_NOT_FOUND,
-        HttpStatus.NOT_FOUND
-    );
-  }
-
-  @ExceptionHandler(PlanNotFoundException.class)
-  public ResponseEntity<Map<String, Object>> handlePlanNotFoundException(
-      PlanNotFoundException ex
-  ) {
-    return handleException(
-        ex,
-        ErrorMessage.ERROR_PLAN_NOT_FOUND,
-        HttpStatus.NOT_FOUND
-    );
-  }
-
-  @ExceptionHandler(CommentNotFoundException.class)
-  public ResponseEntity<Map<String, Object>> handleCommentNotFoundException(
-      CommentNotFoundException ex
-  ) {
-    return handleException(
-        ex,
-        ErrorMessage.ERROR_COMMENT_NOT_FOUND,
-        HttpStatus.NOT_FOUND
+        ex.getErrorCode(),
+        ex.getHttpStatus()
     );
   }
 
@@ -104,8 +73,8 @@ public class GlobalExceptionHandler {
   ) {
     return handleException(
         ex,
-        ErrorMessage.ERROR_DATA_ALREADY_DELETED,
-        HttpStatus.CONFLICT
+        ex.getErrorCode(),
+        ex.getHttpStatus()
     );
   }
 
